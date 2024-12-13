@@ -396,13 +396,12 @@ int restore_slices(FILE* handle, const slice_t* slices, int slice_count) {
 	return result;
 }
 
-int main(int argc, char** argv) {
+int run(int argc, char** argv) {
 	printf("WarCraft: Refurbished v%s\n", APP_VERSION);
 	FILE* handle = fopen("WAR.EXE", "rb+");
 	if (handle == NULL) {
 		printf("Expected to be able to open file \"WAR.EXE\" for reading and writing!\n");
-		printf("Program did not complete successfully!\n");
-		return 1;
+		return 0;
 	}
 	fseek(handle, 0, SEEK_END);
 	int file_size = ftell(handle);
@@ -410,8 +409,7 @@ int main(int argc, char** argv) {
 	if (file_size != EXPECTED_SIZE) {
 		printf("Expected \"WAR.EXE\" to have size %i!\n", EXPECTED_SIZE);
 		fclose(handle);
-		printf("Program did not complete successfully!\n");
-		return 1;
+		return 0;
 	}
 	printf("Applying patches...\n");
 	int result = 1;
@@ -420,6 +418,11 @@ int main(int argc, char** argv) {
 		result &= apply_slices(handle, patch->slices, patch->slice_count);
 	}
 	fclose(handle);
+	return result;
+}
+
+int main(int argc, char** argv) {
+	int result = run(argc, argv);
 	if (result) {
 		printf("Program completed successfully.\n");
 		return 0;
