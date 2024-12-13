@@ -20,6 +20,13 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Change the range of spearmen to match the range of archers.
 * Change the damage of spearmen to match the damage of archers.
 
+## Installation
+
+* Download the latest release package from https://github.com/joelek/wc-refurbished/tags and unpack it.
+* Copy the executable `wcrpatch.exe` from the `dist` folder to the installation folder for WarCraft: Orcs & Humans version 1.21.
+* Run the executable `wcrpatch.exe` in MS-DOS or DOSBox.
+* Launch the game as normal through `WAR.EXE`.
+
 ## Sponsorship
 
 The continued development of this software depends on your sponsorship. Please consider sponsoring this project if you find that the software creates value for you and your organization.
