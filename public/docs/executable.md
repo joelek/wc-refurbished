@@ -1,18 +1,23 @@
 # Executable
 
+```
 file size: 320639
 page size: 4096
+```
 
 ## Page Mapping
 
+```
 0x00010000-0x00043000: 51 pages of code
 0x00050000-0x00059000: 09 pages of initialized data
 0x00059000-0x00066000: 13 pages of uninitialized data
+```
 
 ## Segments
 
 ### Code Segment
 
+```
 disk offset start: 0x12E00 (77312)
 disk offset end: 0x44F97 (282519)
 virtual offset start: 0x00010000
@@ -20,9 +25,11 @@ virtual offset end: 0x00042197
 length: 0x32197 (205207)
 paged length: 0x33000 (51*4096=208896)
 extra bytes in last segment: 3689
+```
 
 ### Data Segment
 
+```
 disk offset start: 0x45E00 (286208)
 disk offset end: 0x4E47F (320639)
 virtual offset start: 0x00050000
@@ -30,6 +37,7 @@ virtual offset end: 0x00065730
 length: 0x15730 (87856)
 paged length: 0x16000 (22*4096=90112)
 extra bytes in last segment: 2256 (uninitialized!)
+```
 
 ## MZ Header
 
