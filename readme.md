@@ -29,7 +29,9 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ## Development
 
-The original executable is disassembled using IDA - The Interactive Disassembler. New code is written in IA-32 assembler and converted to binary patches using the [genpatch](./public/tools/genpatch.js) utility. The [wcrpatch](./source/wcrpatch.c) utility itself is written in C99 and compiled for the MS-DOS target using [Open Watcom C/C++](https://en.wikipedia.org/wiki/Watcom_C/C%2B%2B).
+The original executable is disassembled using [IDA - The Interactive Disassembler](https://en.wikipedia.org/wiki/Interactive_Disassembler). The disassembly is not bundled together with this project as it contains the original executable which is copyrighted by Blizzard Entertainment.
+
+New code is written in [IA-32](https://en.wikipedia.org/wiki/IA-32) assembler and converted to binary patches using the [genpatch](./public/tools/genpatch.js) utility. The [wcrpatch](./source/wcrpatch.c) utility itself is written in [C99](https://en.wikipedia.org/wiki/C99) and compiled for the [MS-DOS](https://en.wikipedia.org/wiki/MS-DOS) target using the [Open Watcom C/C++](https://en.wikipedia.org/wiki/Watcom_C/C%2B%2B) compiler.
 
 ## Sponsorship
 
