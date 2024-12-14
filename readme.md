@@ -27,6 +27,10 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Run the executable `wcrpatch.exe` in MS-DOS or DOSBox.
 * Launch the game as normal through `WAR.EXE`.
 
+## Development
+
+The original executable is disassembled using IDA - The Interactive Disassembler. New code is written in IA-32 assembler and converted to binary patches using the [genpatch](./public/tools/genpatch.js) utility. The [wcrpatch](./source/wcrpatch.c) utility itself is written in C99 and compiled for the MS-DOS target using [Open Watcom C/C++](https://en.wikipedia.org/wiki/Watcom_C/C%2B%2B).
+
 ## Sponsorship
 
 The continued development of this software depends on your sponsorship. Please consider sponsoring this project if you find that the software creates value for you and your organization.
