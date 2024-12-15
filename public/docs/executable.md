@@ -157,7 +157,9 @@ The Relocation Page Table starts at file offset 0x2FFC (12284) and contains 60+1
 
 ### Relocation Record Table
 
-The Relocation Record Table starts at file offset 0x30F0 (12528) and contains N records. The record format is determined by the `address type` and `relocation type` values. Records with an `address type` of 7 and a `relocation type` of 0 will have the following record format.
+The Relocation Record Table starts at file offset 0x30F0 (12528) and contains N records. The record format is determined by the `address type` and `relocation type` values.
+
+Records with an `address type` of 7 and a `relocation type` of 0 will have the following record format.
 
 | Offset | Description                         | Bytes    | Type | Value       |
 | ------ | ----------------------------------- | -------- | ---- | ----------- |
@@ -166,6 +168,16 @@ The Relocation Record Table starts at file offset 0x30F0 (12528) and contains N 
 |      2 | Relative offset within page         | AB09     | ui16 | 2475        |
 |      4 | Target segment number               | 02       | ui08 | 2           |
 |      5 | Bytes at offset                     | 9486     | data | -           |
+
+Records with an `address type` of 7 and a `relocation type` of 16 will have the following record format.
+
+| Offset | Description                         | Bytes    | Type | Value       |
+| ------ | ----------------------------------- | -------- | ---- | ----------- |
+|      0 | Address type                        | 07       | ui08 | 7           |
+|      1 | Relocation type                     | 10       | ui08 | 16          |
+|      2 | Relative offset within page         | D602     | ui16 | 726         |
+|      4 | Target segment number               | 01       | ui08 | 1           |
+|      5 | Bytes at offset                     | 80F40100 | data | -           |
 
 ## References
 
