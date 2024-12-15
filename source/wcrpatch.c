@@ -36,6 +36,12 @@ const slice_t LEFT_MOUSE_BUTTON_DRAG_SELECT[] = {
 		1,
 		"\x75",
 		"\xEB"
+	},
+	{
+		119002,
+		7,
+		"\xBB\x06\x00\x00\x00\xEB\x20",
+		"\xE8\x9D\xB9\x00\x00\xEB\x1E"
 	}
 };
 
