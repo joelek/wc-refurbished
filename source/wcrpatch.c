@@ -350,6 +350,291 @@ const slice_t RENDER_ACTION_BUTTON_HOTKEYS[] = {
 	}
 };
 
+const slice_t BETTER_HOTKEYS[] = {
+	{
+		300282,
+		16,
+		"build ch@1u@2rch",
+		"build @1c@2hurch"
+	},
+	{
+		300299,
+		16,
+		"build t@1e@2mple",
+		"build @1a@2ltar\0"
+	},
+	{
+		300376,
+		20,
+		"summon sc@1o@2rpions",
+		"summon scorpions\0\0\0\0"
+	},
+	{
+		300441,
+		18,
+		"summon spide@1r@2s",
+		"summon spiders\0\0\0\0"
+	},
+	{
+		300590,
+		18,
+		"build ca@1t@2apult",
+		"build @1c@2atapult"
+	},
+	{
+		300712,
+		17,
+		"@1t@2rain warlock",
+		"train @1w@2arlock"
+	},
+	{
+		300730,
+		16,
+		"@1t@2rain cleric",
+		"train @1c@2leric"
+	},
+	{
+		300747,
+		19,
+		"@1t@2rain necrolyte",
+		"train @1n@2ecrolyte"
+	},
+	{
+		300767,
+		18,
+		"@1t@2rain conjurer",
+		"train @1c@2onjurer"
+	},
+	{
+		300786,
+		15,
+		"train gr@1u@2nt",
+		"train @1g@2runt"
+	},
+	{
+		300820,
+		23,
+		"@1b@2reed faster horses",
+		"breed faster @1h@2orses"
+	},
+	{
+		300844,
+		23,
+		"@1b@2reed faster wolves",
+		"breed faster @1w@2olves"
+	},
+	{
+		300868,
+		26,
+		"upgrade s@1w@2ord strength",
+		"upgrade sword @1d@2amage\0\0"
+	},
+	{
+		300895,
+		26,
+		"@1u@2pgrade spear strength",
+		"upgrade spear @1d@2amage\0\0"
+	},
+	{
+		300922,
+		24,
+		"upgrade @1a@2xe strength",
+		"upgrade axe @1d@2amage\0\0"
+	},
+	{
+		300947,
+		26,
+		"@1u@2pgrade arrow strength",
+		"upgrade arrow @1d@2amage\0\0"
+	},
+	{
+		300974,
+		27,
+		"upgrade s@1h@2ield strength",
+		"upgrade shield @1a@2rmor\0\0\0"
+	},
+	{
+		301002,
+		27,
+		"upgrade @1s@2hield strength",
+		"upgrade shield @1a@2rmor\0\0\0"
+	},
+	{
+		301143,
+		25,
+		"research @1r@2aising dead",
+		"research @1r@2aise dead\0\0"
+	},
+	{
+		302544,
+		1,
+		"\x16",
+		"\x2E"
+	},
+	{
+		302664,
+		1,
+		"\x12",
+		"\x1E"
+	},
+	{
+		302824,
+		1,
+		"\x18",
+		"\x26"
+	},
+	{
+		302944,
+		1,
+		"\x13",
+		"\x26"
+	},
+	{
+		303244,
+		1,
+		"\x16",
+		"\x20"
+	},
+	{
+		303264,
+		1,
+		"\x16",
+		"\x20"
+	},
+	{
+		303324,
+		1,
+		"\x16",
+		"\x20"
+	},
+	{
+		303344,
+		1,
+		"\x16",
+		"\x20"
+	},
+	{
+		303404,
+		1,
+		"\x11",
+		"\x20"
+	},
+	{
+		303424,
+		1,
+		"\x11",
+		"\x20"
+	},
+	{
+		303444,
+		1,
+		"\x23",
+		"\x1E"
+	},
+	{
+		303464,
+		1,
+		"\x23",
+		"\x1E"
+	},
+	{
+		303524,
+		1,
+		"\x1E",
+		"\x20"
+	},
+	{
+		303544,
+		1,
+		"\x1E",
+		"\x20"
+	},
+	{
+		303564,
+		1,
+		"\x1F",
+		"\x1E"
+	},
+	{
+		303584,
+		1,
+		"\x1F",
+		"\x1E"
+	},
+	{
+		303884,
+		1,
+		"\x30",
+		"\x23"
+	},
+	{
+		303904,
+		1,
+		"\x30",
+		"\x23"
+	},
+	{
+		303964,
+		1,
+		"\x30",
+		"\x11"
+	},
+	{
+		303984,
+		1,
+		"\x30",
+		"\x11"
+	},
+	{
+		304084,
+		1,
+		"\x14",
+		"\x2E"
+	},
+	{
+		304164,
+		1,
+		"\x16",
+		"\x22"
+	},
+	{
+		304204,
+		1,
+		"\x14",
+		"\x2E"
+	},
+	{
+		304284,
+		1,
+		"\x14",
+		"\x2E"
+	},
+	{
+		304424,
+		1,
+		"\x14",
+		"\x11"
+	},
+	{
+		304564,
+		1,
+		"\x14",
+		"\x2E"
+	},
+	{
+		304704,
+		1,
+		"\x14",
+		"\x31"
+	},
+	{
+		306066,
+		6,
+		"Temple",
+		"Altar\0"
+	}
+};
+
 struct patch_t {
 	const slice_t* slices;
 	int slice_count;
@@ -367,6 +652,7 @@ const patch_t PATCHES[] = {
 	{ BALANCE_SPEARMAN, sizeof(BALANCE_SPEARMAN) / sizeof(*BALANCE_SPEARMAN) },
 	{ CONSISTENT_CANCEL_BUTTONS, sizeof(CONSISTENT_CANCEL_BUTTONS) / sizeof(*CONSISTENT_CANCEL_BUTTONS) },
 	{ RENDER_ACTION_BUTTON_HOTKEYS, sizeof(RENDER_ACTION_BUTTON_HOTKEYS) / sizeof(*RENDER_ACTION_BUTTON_HOTKEYS) },
+	{ BETTER_HOTKEYS, sizeof(BETTER_HOTKEYS) / sizeof(*BETTER_HOTKEYS) },
 };
 
 int apply_slice(FILE* handle, const slice_t* slice) {
