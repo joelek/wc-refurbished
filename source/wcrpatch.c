@@ -54,6 +54,7 @@ const slice_t HOVER_BORDER_SCROLL[] = {
 	}
 };
 
+// Updates relocation table.
 const slice_t SHOW_BUILDING_GRID_WITH_TAB[] = {
 	{
 		24973,
