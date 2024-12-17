@@ -7,15 +7,15 @@
 
 		call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
 
-	0x00031D02: c_sprintf(target_buffer: [esp+0], format_string: [esp+4], ...args: [esp+8]:[esp+N]) [file offset 0x34B02]
+	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
 
-	0x00031EDC: wc_ui_draw_text(x eax, y edx, string ebx) [file offset 0x34CDC]
+	0x00031EDC: wc_ui_draw_text(x eax, y edx, string* ebx) [file offset 0x34CDC]
 
 	0x00032120: wc_ui_set_text_colors(color al) [file offset 0x34F20]
 
 	0x00033AF0: wc_ui_draw_image(???) [file offset 0x368F0]
 
-	0x000421A0: wc_refurbished_draw_action_button_hotkey(wc_action_button [ecx]) [file offset 0x44FA0]
+	0x000421A0: wc_refurbished_draw_action_button_hotkey(wc_action_button* ecx, button_press_state esi) [file offset 0x44FA0]
 
 		call 0x00033AF0						# call wc_ui_draw_image
 
