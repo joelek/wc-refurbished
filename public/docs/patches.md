@@ -5,7 +5,7 @@
 ```
 	0x0002B4A3: (wc_ui_draw_action_button) [file offset 0x2E2A3]
 
-		E8 F8 9A 01 00	 					# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
+		call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
 
 	0x00031EDC: wc_ui_draw_text(x eax, y edx, string ebx) [file offset 0x34CDC]
 
@@ -22,7 +22,11 @@
 		push ecx
 		push edx
 
-		sub esp, 10							# borrow stack space
+		sub esp, 12							# borrow stack space
+
+		# [esp+0]: hotkey characters
+		# [esp+4]: relocated data segment offset
+		# [esp+8]: button press state
 
 		mov dword ptr [esp+8], esi			# save button press state
 
@@ -68,17 +72,17 @@
 		add ebx, edx						# ebx is now offset of button slot
 
 		xor eax, eax						# zero eax
-		mov ax, word ptr [ebx + 0x00]		# load min_x from button slot
+		mov ax, word ptr [ebx+0x00]			# load min_x from button slot
 		add eax, 3							# add text x offset
 		xor edx, edx						# zero edx
 		mov dl, byte ptr [esp+8]			# adjust by button press
-		add dx, word ptr [ebx + 0x02]		# load min_y from button slot
+		add dx, word ptr [ebx+0x02]			# load min_y from button slot
 		add edx, 3							# add text y offset
 		sub edx, 72							# adjust to action panel
-		lea ebx, [esp+0]					# set string argument
+		lea ebx, dword ptr [esp+0]			# set string argument
 		call 0x00031EDC						# call wc_ui_draw_text
 
-		add esp, 10							# return stack space
+		add esp, 12							# return stack space
 
 		pop edx
 		pop ecx
