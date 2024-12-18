@@ -32,7 +32,7 @@
 
 		mov dword ptr [esp+8], esi			# save button press state
 
-		mov eax, [esp+26]					# get return address from stack (relocated value for 0x0002B4A8)
+		mov eax, [esp+28]					# get return address from stack (relocated value for 0x0002B4A8)
 		add eax, 13							# add offset to known relocated value from data segment
 		mov eax, dword ptr [eax]			# load value
 		sub eax, 0x00055438					# adjust by expected value
