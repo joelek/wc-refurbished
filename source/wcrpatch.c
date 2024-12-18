@@ -350,6 +350,34 @@ const slice_t RENDER_ACTION_BUTTON_HOTKEYS[] = {
 	}
 };
 
+// Extends code and data segments.
+const slice_t RENDER_HEALTH_BARS[] = {
+	{
+		11988,
+		2,
+		"\x97\x21",
+		"\x00\x30"
+	},
+	{
+		12012,
+		2,
+		"\x30\x57",
+		"\x00\x60"
+	},
+	{
+		122456,
+		4,
+		"\x9C\x29\x01\x00",
+		"\xE4\x71\x02\x00"
+	},
+	{
+		282688,
+		6,
+		"\x00\x00\x00\x00\x00\x00",
+		"\xE8\xB3\xB7\xFE\xFF\xC3"
+	}
+};
+
 const slice_t BETTER_HOTKEYS[] = {
 	{
 		300282,
@@ -652,6 +680,7 @@ const patch_t PATCHES[] = {
 	{ BALANCE_SPEARMAN, sizeof(BALANCE_SPEARMAN) / sizeof(*BALANCE_SPEARMAN) },
 	{ CONSISTENT_CANCEL_BUTTONS, sizeof(CONSISTENT_CANCEL_BUTTONS) / sizeof(*CONSISTENT_CANCEL_BUTTONS) },
 	{ RENDER_ACTION_BUTTON_HOTKEYS, sizeof(RENDER_ACTION_BUTTON_HOTKEYS) / sizeof(*RENDER_ACTION_BUTTON_HOTKEYS) },
+	{ RENDER_HEALTH_BARS, sizeof(RENDER_HEALTH_BARS) / sizeof(*RENDER_HEALTH_BARS) },
 	{ BETTER_HOTKEYS, sizeof(BETTER_HOTKEYS) / sizeof(*BETTER_HOTKEYS) },
 };
 

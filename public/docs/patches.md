@@ -3,9 +3,16 @@
 ## Code Segment
 
 ```
+
+	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
+
+		call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
+
 	0x0002B4A3: (wc_ui_draw_action_button) [file offset 0x2E2A3]
 
 		call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
+
+	0x0002D9F8: wc_ui_draw_game_window_entities(???)
 
 	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
 
@@ -92,6 +99,12 @@
 		pop ecx
 		pop ebx
 		pop eax
+
+		ret
+
+	0x00042240 wc_refurbished_draw_health_bars() [file offset 0x45040]
+
+		call 0x0002D9F8						# call wc_ui_draw_game_window_entities
 
 		ret
 ```
