@@ -8,7 +8,7 @@
 
 		call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
 
-	0x0002B4A3: (wc_ui_draw_action_button) [file offset 0x2E2A3]
+	0x000286A3: (wc_ui_draw_action_button) [file offset 0x2B4A3]
 
 		call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
 
