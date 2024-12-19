@@ -43,11 +43,11 @@ Delta: +0x2E00
 
 		mov dword ptr [esp+8], esi			# save button press state
 
-		mov eax, [esp+28]					# get return address from stack (relocated value for 0x0002B4A8)
-		add eax, 13							# add offset to known relocated value from data segment
+		mov eax, dword ptr [esp+28]			# get return address from stack (relocated value for 0x0002B4A8)
+		add eax, 13							# adjust offset to known relocated value from data segment
 		mov eax, dword ptr [eax]			# load value
 		sub eax, 0x00055438					# adjust by expected value
-		mov [esp+4], eax					# save relocated data segment offset
+		mov dword ptr [esp+4], eax			# save relocated data segment offset
 
 		mov bl, byte ptr [ecx+0x0C]			# load scan code for hotkey
 		cmp bl, 1							# compare to scan code for escape
