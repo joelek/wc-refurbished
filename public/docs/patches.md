@@ -37,8 +37,8 @@ Delta: +0x2E00
 
 		sub esp, 12							# borrow stack space
 
-		# [esp+0]: hotkey characters
-		# [esp+4]: relocated data segment offset
+		# [esp+0]: relocated data segment offset
+		# [esp+4]: hotkey characters
 		# [esp+8]: button press state
 
 		mov dword ptr [esp+8], esi			# save button press state
@@ -47,7 +47,7 @@ Delta: +0x2E00
 		add eax, 13							# adjust offset to known relocated value from data segment
 		mov eax, dword ptr [eax]			# load value
 		sub eax, 0x00055438					# adjust by expected value
-		mov dword ptr [esp+4], eax			# save relocated data segment offset
+		mov dword ptr [esp+0], eax			# save relocated data segment offset
 
 		mov bl, byte ptr [ecx+0x0C]			# load scan code for hotkey
 		cmp bl, 1							# compare to scan code for escape
@@ -55,26 +55,26 @@ Delta: +0x2E00
 
 		.label_nonesc:
 
-		mov eax, dword ptr [esp+4]			# load relocated data segment offset
+		mov eax, dword ptr [esp+0]			# load relocated data segment offset
 		add eax, 0x00055448					# adjust with offset for wc_io_keyboard_character_from_scan_code
 		mov al, byte ptr [eax+bl]			# translate scan code
-		mov byte ptr [esp+0], al			# write character to buffer
-		mov byte ptr [esp+1], 0				# write null terminator to buffer
+		mov byte ptr [esp+4], al			# write character to buffer
+		mov byte ptr [esp+5], 0				# write null terminator to buffer
 		jmp .label_draw						# jump
 
 		.label_esc:
 
-		mov byte ptr [esp+0], 'E'			# write character to buffer
-		mov byte ptr [esp+1], 'S'			# write character to buffer
-		mov byte ptr [esp+2], 'C'			# write character to buffer
-		mov byte ptr [esp+3], 0				# write null terminator to buffer
+		mov byte ptr [esp+4], 'E'			# write character to buffer
+		mov byte ptr [esp+5], 'S'			# write character to buffer
+		mov byte ptr [esp+6], 'C'			# write character to buffer
+		mov byte ptr [esp+7], 0				# write null terminator to buffer
 
 		.label_draw:
 
 		mov eax, 243						# white color
 		call 0x00032120						# call wc_ui_set_text_colors
 
-		mov ebx, dword ptr [esp+4]			# load relocated data segment offset
+		mov ebx, dword ptr [esp+0]			# load relocated data segment offset
 		add ebx, 0x000514E4					# adjust with offset for wc_ui_button_slots
 		xor eax, eax						# zero eax
 		mov ax, word ptr [ecx+0x00]			# load slot number for button
@@ -92,7 +92,7 @@ Delta: +0x2E00
 		add dx, word ptr [ebx+0x02]			# load min_y from button slot
 		add edx, 3							# add text y offset
 		sub edx, 72							# adjust to action panel
-		lea ebx, dword ptr [esp+0]			# set string argument
+		lea ebx, dword ptr [esp+4]			# set string argument
 		call 0x00031EDC						# call wc_ui_draw_text
 
 		add esp, 12							# return stack space
