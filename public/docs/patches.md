@@ -164,7 +164,15 @@ Delta: +0x2E00
 		shl ecx, 4							# times 16
 		xor eax, eax						# zero eax
 		mov ax, word ptr [esi+0x00]			# load entity x
+
+		cmp eax, ecx						# compare entity x to scroll offset x
+		jl .label_next						# jump if below or equal
+
 		sub eax, ecx						# transform to game window coordinate
+
+		cmp eax, 240						# compare to game window width
+		jge .label_next						# jump if greater than or equal
+
 		add eax, 72							# adjust to game window x
 
 		xor ecx, ecx						# zero ecx
@@ -172,11 +180,21 @@ Delta: +0x2E00
 		shl ecx, 4							# times 16
 		xor edx, edx						# zero edx
 		mov dx, word ptr [esi+0x02]			# load entity y
+
+		cmp edx, ecx						# compare entity y to scroll offset y
+		jbe .label_next						# jump if below or equal
+
 		sub edx, ecx						# transform to game window coordinate
+
+		cmp edx, 176						# compare to game window height
+		jge .label_next						# jump if greater than or equal
+
 		add edx, 12							# adjust to game window y
 
 		lea ebx, dword ptr [esp+8]			# load pointer to target buffet string
 		call 0x00031EDC						# call wc_ui_draw_text
+
+		.label_next:
 
 		add edi, 4							# go to next pointer
 		cmp dword ptr [edi], 0				# check for null
