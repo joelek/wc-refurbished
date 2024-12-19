@@ -2,6 +2,8 @@
 
 ## Code Segment
 
+Delta: +0x2E00
+
 ```
 
 	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
@@ -110,6 +112,8 @@
 ```
 
 ## Data Segment
+
+Delta: -0xA200
 
 ```
 	0x000514E4 wc_ui_button_slots[6*12] [file offset 0x472E4]
