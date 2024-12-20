@@ -151,9 +151,19 @@ Delta: +0x2E00
 
 			mov esi, dword ptr [edi]			# esi is now offset of current entity
 
-		.label_check_player:
+		.label_check_damage:
 
-			nop
+			xor eax, eax						# zero
+			mov al, byte ptr [esi+0x1B]			# load entity id
+			lea ebx, [0x00051978+2*eax]			# load offset for entity hit points
+			add ebx, dword ptr [esp+0]			# adjust by relocated data segment offset
+			xor eax, eax						# zero
+			mov ax, word ptr [ebx]				# load value
+
+			xor ebx, ebx						# zero
+			mov bx, word ptr [esi+0x16]			# load entity health
+			cmp ebx, eax						# compare entity health to entity hit points
+			jge .label_next						# jump if greater than or equal
 
 		.label_check_screen_overlap_x:
 
@@ -238,6 +248,16 @@ Delta: -0xA200
 	0x000514E4: wc_ui_button_slots[6*12] [file offset 0x472E4]
 
 		02 00 74 00 21 00 8A 00 20 00 17 00
+		...
+
+	0x00051978: wc_core_entity_hitpoints[52*2] [file offset 0x47778]
+
+		3C 00
+		...
+
+	0x00051B9C: wc_core_entity_rectangles[52*4] [file offset 0x4799C]
+
+		0F 00 0F 00
 		...
 
 	0x00055448: wc_io_keyboard_character_from_scan_code[256] [file offset 0x4B248]
