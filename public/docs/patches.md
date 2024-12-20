@@ -116,7 +116,7 @@ Delta: +0x2E00
 			push esi
 			push edi
 
-			sub esp, 36							# borrow stack space
+			sub esp, 44							# borrow stack space
 
 			# [esp+0]: relocated data segment offset
 			# [esp+4]: format string
@@ -131,8 +131,12 @@ Delta: +0x2E00
 			# [esp+30]: entity max health (varying)
 			# [esp+32]: entity max x (varying)
 			# [esp+34]: entity max y (varying)
+			# [esp+36]: entity health bar x (varying)
+			# [esp+38]: entity health bar y (varying)
+			# [esp+40]: entity health bar w (varying)
+			# [esp+42]: entity health bar h (varying)
 
-			mov eax, dword ptr [esp+60]			# get return address from stack (relocated value for 0x0001B05C)
+			mov eax, dword ptr [esp+68]			# get return address from stack (relocated value for 0x0001B05C)
 			sub eax, 14							# adjust offset to known relocated value from data segment
 			mov eax, dword ptr [eax]			# load value
 			sub eax, 0x0005A9B0					# adjust by expected value
@@ -206,7 +210,6 @@ Delta: +0x2E00
 			sub eax, ecx						# transform to game window coordinate
 			cmp eax, 240						# compare to game window width
 			jge .label_next						# jump if greater than or equal
-			add eax, 72							# adjust to game window x
 			mov word ptr [esp+0x20], ax			# save value
 
 		.label_check_screen_overlap_y:
@@ -222,8 +225,92 @@ Delta: +0x2E00
 			sub eax, ecx						# transform to game window coordinate
 			cmp eax, 176						# compare to game window height
 			jge .label_next						# jump if greater than or equal
-			add eax, 12							# adjust to game window y
 			mov word ptr [esp+0x22], ax			# save value
+
+		.label_health_bar_rect_x:
+
+			mov word ptr [esp+36], 0			# set health bar x
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x00]			# load entity x
+			add eax, 1							# adjust health bar position x
+			xor ecx, ecx						# zero
+			mov cx, word ptr [esp+16]			# load game window scroll offset x
+			cmp eax, ecx						# compare entity x to game window scroll offset x
+			jl .label_health_bar_rect_y			# jump
+			sub eax, ecx						# transform to game window coordinate
+			mov word ptr [esp+36], ax			# set health bar x
+			cmp eax, 240
+			jge .label_next
+
+		.label_health_bar_rect_y:
+
+			mov word ptr [esp+38], 0			# set health bar y to 0
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x02]			# load entity y
+			add ax, word ptr [esp+26]			# adjust health bar position y
+			sub eax, 2							# adjust health bar position y
+			xor ecx, ecx						# zero
+			mov cx, word ptr [esp+18]			# load game window scroll offset y
+			cmp eax, ecx						# compare entity y to game window scroll offset y
+			jl .label_health_bar_rect_w			# jump
+			sub eax, ecx						# transform to game window coordinate
+			mov word ptr [esp+38], ax			# save value
+			cmp eax, 176
+			jge .label_next
+
+		.label_health_bar_rect_w:
+
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x00]			# load entity x
+			add ax, word ptr [esp+24]			# add entity rect w
+			xor ecx, ecx						# zero
+			mov cx, word ptr [esp+16]			# load game window scroll offset x
+			sub eax, ecx						# transform to game window coordinate
+			cmp eax, 240
+			jl .label_health_bar_rect_w2
+			mov eax, 240
+
+		.label_health_bar_rect_w2:
+
+			sub ax, word ptr [esp+36]			# subtract health bar x
+			mov word ptr [esp+40], ax			# set health bar w
+
+		.label_health_bar_rect_h:
+
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x02]			# load entity y
+			add ax, word ptr [esp+26]			# add entity rect h
+			xor ecx, ecx						# zero
+			mov cx, word ptr [esp+18]			# load game window scroll offset y
+			sub eax, ecx						# transform to game window coordinate
+			cmp eax, 176
+			jl .label_health_bar_rect_h2
+			mov eax, 176
+
+		.label_health_bar_rect_h2:
+
+			sub ax, word ptr [esp+38]			# subtract health bar y
+			mov word ptr [esp+42], ax			# set health bar h
+
+		.label_set_color:
+
+			lea eax, [0x0005AE70]				# load offset for wc_ui_fill_color
+			add eax, dword ptr [esp+0]			# adjust by relocated data segment offset
+			mov byte ptr [eax], 223				# set color
+
+		.label_draw_health_bar:
+
+			xor eax, eax
+			mov ax, word ptr [esp+36]
+			add eax, 72							# adjust to game window
+			xor edx, edx
+			mov dx, word ptr [esp+38]
+			add edx, 12							# adjust to game window
+			xor ebx, ebx
+			mov bx, word ptr [esp+40]
+			xor ecx, ecx
+			mov cx, word ptr [esp+42]
+			call 0x00032780						# call wc_ui_fill_rect
 
 		.label_write_string_buffer:
 
@@ -243,8 +330,10 @@ Delta: +0x2E00
 
 			xor eax, eax						# zero
 			mov ax, word ptr [esp+0x20]			# load x
+			add eax, 72							# adjust to game window
 			xor edx, edx						# zero
 			mov dx, word ptr [esp+0x22]			# load y
+			add edx, 12							# adjust to game window
 			lea ebx, dword ptr [esp+8]			# load pointer to string buffer
 			call 0x00031EDC						# call wc_ui_draw_text
 
@@ -256,7 +345,7 @@ Delta: +0x2E00
 
 		.label_end:
 
-			add esp, 36							# return stack space
+			add esp, 44							# return stack space
 
 			pop edi
 			pop esi
