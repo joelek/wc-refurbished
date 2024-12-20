@@ -7,11 +7,11 @@ Delta: +0x2E00
 ```
 	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
 
-		call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
+			call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
 
 	0x000286A3: (wc_ui_draw_action_button) [file offset 0x2B4A3]
 
-		call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
+			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
 
 	0x0002D9F8: wc_ui_draw_game_window_entities(???)
 
@@ -29,189 +29,201 @@ Delta: +0x2E00
 
 	0x000421A0: wc_refurbished_draw_action_button_hotkey(wc_action_button* ecx, button_press_state esi) [file offset 0x44FA0]
 
-		call 0x00033AF0						# call wc_ui_draw_image
+			call 0x00033AF0						# call wc_ui_draw_image
 
-		push eax
-		push ebx
-		push ecx
-		push edx
+			push eax
+			push ebx
+			push ecx
+			push edx
 
-		sub esp, 12							# borrow stack space
+			sub esp, 12							# borrow stack space
 
-		# [esp+0]: relocated data segment offset
-		# [esp+4]: hotkey characters
-		# [esp+8]: button press state
+			# [esp+0]: relocated data segment offset
+			# [esp+4]: hotkey characters
+			# [esp+8]: button press state
 
-		mov dword ptr [esp+8], esi			# save button press state
+			mov dword ptr [esp+8], esi			# save button press state
 
-		mov eax, dword ptr [esp+28]			# get return address from stack (relocated value for 0x0002B4A8)
-		add eax, 13							# adjust offset to known relocated value from data segment
-		mov eax, dword ptr [eax]			# load value
-		sub eax, 0x00055438					# adjust by expected value
-		mov dword ptr [esp+0], eax			# save relocated data segment offset
+			mov eax, dword ptr [esp+28]			# get return address from stack (relocated value for 0x0002B4A8)
+			add eax, 13							# adjust offset to known relocated value from data segment
+			mov eax, dword ptr [eax]			# load value
+			sub eax, 0x00055438					# adjust by expected value
+			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
-		mov bl, byte ptr [ecx+0x0C]			# load scan code for hotkey
-		cmp bl, 1							# compare to scan code for escape
-		je .label_esc						# jump
+			mov bl, byte ptr [ecx+0x0C]			# load scan code for hotkey
+			cmp bl, 1							# compare to scan code for escape
+			je .label_esc						# jump
 
 		.label_nonesc:
 
-		mov eax, dword ptr [esp+0]			# load relocated data segment offset
-		add eax, 0x00055448					# adjust with offset for wc_io_keyboard_character_from_scan_code
-		mov al, byte ptr [eax+bl]			# translate scan code
-		mov byte ptr [esp+4], al			# write character to buffer
-		mov byte ptr [esp+5], 0				# write null terminator to buffer
-		jmp .label_draw						# jump
+			mov eax, dword ptr [esp+0]			# load relocated data segment offset
+			add eax, 0x00055448					# adjust with offset for wc_io_keyboard_character_from_scan_code
+			mov al, byte ptr [eax+bl]			# translate scan code
+			mov byte ptr [esp+4], al			# write character to buffer
+			mov byte ptr [esp+5], 0				# write null terminator to buffer
+			jmp .label_draw						# jump
 
 		.label_esc:
 
-		mov byte ptr [esp+4], 'E'			# write character to buffer
-		mov byte ptr [esp+5], 'S'			# write character to buffer
-		mov byte ptr [esp+6], 'C'			# write character to buffer
-		mov byte ptr [esp+7], 0				# write null terminator to buffer
+			mov byte ptr [esp+4], 'E'			# write character to buffer
+			mov byte ptr [esp+5], 'S'			# write character to buffer
+			mov byte ptr [esp+6], 'C'			# write character to buffer
+			mov byte ptr [esp+7], 0				# write null terminator to buffer
 
 		.label_draw:
 
-		mov eax, 243						# white color
-		call 0x00032120						# call wc_ui_set_text_colors
+			mov eax, 243						# white color
+			call 0x00032120						# call wc_ui_set_text_colors
 
-		mov ebx, dword ptr [esp+0]			# load relocated data segment offset
-		add ebx, 0x000514E4					# adjust with offset for wc_ui_button_slots
-		xor eax, eax						# zero eax
-		mov ax, word ptr [ecx+0x00]			# load slot number for button
-		mov edx, eax						# make copy of slot number
-		shl edx, 4							# edx is 16 * slot number
-		shl eax, 2							# ebx is 4 * slot number
-		sub edx, eax						# edx is 12 * slot number
-		add ebx, edx						# ebx is now offset of button slot
+			mov ebx, dword ptr [esp+0]			# load relocated data segment offset
+			add ebx, 0x000514E4					# adjust with offset for wc_ui_button_slots
+			xor eax, eax						# zero
+			mov ax, word ptr [ecx+0x00]			# load slot number for button
+			mov edx, eax						# make copy of slot number
+			shl edx, 4							# edx is 16 * slot number
+			shl eax, 2							# ebx is 4 * slot number
+			sub edx, eax						# edx is 12 * slot number
+			add ebx, edx						# ebx is now offset of button slot
 
-		xor eax, eax						# zero eax
-		mov ax, word ptr [ebx+0x00]			# load min_x from button slot
-		add eax, 3							# add text x offset
-		xor edx, edx						# zero edx
-		mov dl, byte ptr [esp+8]			# adjust by button press
-		add dx, word ptr [ebx+0x02]			# load min_y from button slot
-		add edx, 3							# add text y offset
-		sub edx, 72							# adjust to action panel
-		lea ebx, dword ptr [esp+4]			# set string argument
-		call 0x00031EDC						# call wc_ui_draw_text
+			xor eax, eax						# zero
+			mov ax, word ptr [ebx+0x00]			# load min_x from button slot
+			add eax, 3							# add text x offset
+			xor edx, edx						# zero
+			mov dl, byte ptr [esp+8]			# adjust by button press
+			add dx, word ptr [ebx+0x02]			# load min_y from button slot
+			add edx, 3							# add text y offset
+			sub edx, 72							# adjust to action panel
+			lea ebx, dword ptr [esp+4]			# set string argument
+			call 0x00031EDC						# call wc_ui_draw_text
 
-		add esp, 12							# return stack space
+			add esp, 12							# return stack space
 
-		pop edx
-		pop ecx
-		pop ebx
-		pop eax
+			pop edx
+			pop ecx
+			pop ebx
+			pop eax
 
-		ret
+			ret
 
 	0x00042240 wc_refurbished_draw_health_bars() [file offset 0x45040]
 
-		call 0x0002D9F8						# call wc_ui_draw_game_window_entities
+			call 0x0002D9F8						# call wc_ui_draw_game_window_entities
 
-		push eax
-		push ebx
-		push ecx
-		push edx
-		push esi
-		push edi
+			push eax
+			push ebx
+			push ecx
+			push edx
+			push esi
+			push edi
 
-		sub esp, 20							# borrow stack space
+			sub esp, 24							# borrow stack space
 
-		# [esp+0]: relocated data segment offset
-		# [esp+4]: format string
-		# [esp+8]: target buffer string
-		# [esp+16]: relocated value for wc_core_scroll_offset_tiles
+			# [esp+0]: relocated data segment offset
+			# [esp+4]: format string
+			# [esp+8]: string buffer
+			# [esp+16]: game window scroll offset x
+			# [esp+18]: game window scroll offset y
+			# [esp+20]: game window entity x (varying)
+			# [esp+22]: game window entity y (varying)
 
-		mov eax, dword ptr [esp+44]			# get return address from stack (relocated value for 0x0001B05C)
-		sub eax, 14							# adjust offset to known relocated value from data segment
-		mov eax, dword ptr [eax]			# load value
-		sub eax, 0x0005A9B0					# adjust by expected value
-		mov dword ptr [esp+0], eax			# save relocated data segment offset
+			mov eax, dword ptr [esp+48]			# get return address from stack (relocated value for 0x0001B05C)
+			sub eax, 14							# adjust offset to known relocated value from data segment
+			mov eax, dword ptr [eax]			# load value
+			sub eax, 0x0005A9B0					# adjust by expected value
+			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
-		mov ebx, dword ptr [esp+0]			# load relocated data segment offset
-		add ebx, 0x0005A5D0					# adjust with offset for wc_core_pointer_to_all_entities
-		mov edi, ebx	 					# save pointer
-		cmp dword ptr [edi], 0				# check for null
-		jz .label_end						# jump if null
+			mov byte ptr [esp+4], '%'			# write character to buffer
+			mov byte ptr [esp+5], 'd'			# write character to buffer
+			mov byte ptr [esp+6], 0				# write null terminator to buffer
 
-		mov ecx, dword ptr [esp+0]			# load relocated data segment offset
-		add ecx, 0x000500D0					# adjust with offset for wc_core_scroll_offset_tiles
-		mov ecx, dword ptr [ecx]			# load value
-		mov dword ptr [esp+16], ecx			# save relocated value for wc_core_scroll_offset_tiles
+			mov eax, dword ptr [esp+0]			# load relocated data segment offset
+			add eax, 0x000500D0					# adjust with offset for wc_core_scroll_offset_tiles
+			mov eax, dword ptr [eax]			# load value
+			shl eax, 4							# multiply both coordinates by 16
+			mov dword ptr [esp+16], eax			# save value for game window scroll offset x and game window scroll offset y
+
+			mov edi, 0x0005A5D0					# load offset for wc_core_pointer_to_all_entities
+			add edi, dword ptr [esp+0]			# adjust by relocated data segment offset
+			cmp dword ptr [edi], 0				# check for null
+			je .label_end						# jump if null
 
 		.label_for_each_entity:
 
-		mov esi, dword ptr [edi]			# esi is now offset of current entity
+			mov esi, dword ptr [edi]			# esi is now offset of current entity
 
-		xor eax, eax						# zero eax
-		mov al, byte ptr [esi+0x1B]			# load entity id
-		mov byte ptr [esp+4], '%'			# write character to buffer
-		mov byte ptr [esp+5], 'd'			# write character to buffer
-		mov byte ptr [esp+6], 0				# write null terminator to buffer
-		lea ebx, dword ptr [esp+4]			# load pointer to format string
-		lea ecx, dword ptr [esp+8]			# load pointer to target buffet string
-		push eax							# push entity id
-		push ebx							# push format string
-		push ecx							# push target buffer string
-		call 0x00031D02						# call wc_ui_draw_text
-		pop ecx								# restore stack
-		pop ebx								# restore stack
-		pop eax								# restore stack
+		.label_check_player:
 
-		xor ecx, ecx						# zero ecx
-		mov cx, word ptr [esp+16]			# load relocated value for wc_core_scroll_offset_tiles.x
-		shl ecx, 4							# times 16
-		xor eax, eax						# zero eax
-		mov ax, word ptr [esi+0x00]			# load entity x
+			nop
 
-		cmp eax, ecx						# compare entity x to scroll offset x
-		jl .label_next						# jump if below or equal
+		.label_check_screen_overlap_x:
 
-		sub eax, ecx						# transform to game window coordinate
+			xor ecx, ecx						# zero
+			mov cx, word ptr [esp+16]			# load game window scroll offset x
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x00]			# load entity x
+			cmp eax, ecx						# compare entity x to game window scroll offset x
+			jl .label_next						# jump if less
+			sub eax, ecx						# transform to game window coordinate
+			cmp eax, 240						# compare to game window width
+			jge .label_next						# jump if greater than or equal
+			add eax, 72							# adjust to game window x
+			mov word ptr [esp+0x20], ax			# save value
 
-		cmp eax, 240						# compare to game window width
-		jge .label_next						# jump if greater than or equal
+		.label_check_screen_overlap_y:
 
-		add eax, 72							# adjust to game window x
+			xor ecx, ecx						# zero
+			mov cx, word ptr [esp+18]			# load game window scroll offset y
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x02]			# load entity y
+			cmp eax, ecx						# compare entity y to game window scroll offset y
+			jl .label_next						# jump if less
+			sub eax, ecx						# transform to game window coordinate
+			cmp eax, 176						# compare to game window height
+			jge .label_next						# jump if greater than or equal
+			add eax, 12							# adjust to game window y
+			mov word ptr [esp+0x22], ax			# save value
 
-		xor ecx, ecx						# zero ecx
-		mov cx, word ptr [esp+18]			# load relocated value for wc_core_scroll_offset_tiles.y
-		shl ecx, 4							# times 16
-		xor edx, edx						# zero edx
-		mov dx, word ptr [esi+0x02]			# load entity y
+		.label_write_string_buffer:
 
-		cmp edx, ecx						# compare entity y to scroll offset y
-		jbe .label_next						# jump if below or equal
+			xor eax, eax						# zero
+			mov al, byte ptr [esi+0x1B]			# load entity id
+			lea ebx, dword ptr [esp+4]			# load pointer to format string
+			lea ecx, dword ptr [esp+8]			# load pointer to string buffer
+			push eax							# push entity id
+			push ebx							# push format string
+			push ecx							# push string buffer
+			call 0x00031D02						# call c_sprintf
+			pop ecx								# restore stack
+			pop ebx								# restore stack
+			pop eax								# restore stack
 
-		sub edx, ecx						# transform to game window coordinate
+		.label_draw_text:
 
-		cmp edx, 176						# compare to game window height
-		jge .label_next						# jump if greater than or equal
-
-		add edx, 12							# adjust to game window y
-
-		lea ebx, dword ptr [esp+8]			# load pointer to target buffet string
-		call 0x00031EDC						# call wc_ui_draw_text
+			xor eax, eax						# zero
+			mov ax, word ptr [esp+0x20]			# load x
+			xor edx, edx						# zero
+			mov dx, word ptr [esp+0x22]			# load y
+			lea ebx, dword ptr [esp+8]			# load pointer to string buffer
+			call 0x00031EDC						# call wc_ui_draw_text
 
 		.label_next:
 
-		add edi, 4							# go to next pointer
-		cmp dword ptr [edi], 0				# check for null
-		jnz .label_for_each_entity			# jump if not null
+			add edi, 4							# go to next pointer
+			cmp dword ptr [edi], 0				# check for null
+			jne .label_for_each_entity			# jump if not null
 
 		.label_end:
 
-		add esp, 20							# return stack space
+			add esp, 24							# return stack space
 
-		pop edi
-		pop esi
-		pop edx
-		pop ecx
-		pop ebx
-		pop eax
+			pop edi
+			pop esi
+			pop edx
+			pop ecx
+			pop ebx
+			pop eax
 
-		ret
+			ret
 ```
 
 ## Data Segment
