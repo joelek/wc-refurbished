@@ -298,6 +298,45 @@ Delta: +0x2E00
 			add eax, dword ptr [esp+0]			# adjust by relocated data segment offset
 			mov byte ptr [eax], 223				# set color
 
+		.label_adjust_rect_x:
+
+			xor eax, eax
+			mov ax, word ptr [esp+36]
+			xor ecx, ecx						# zero
+			mov cl, byte ptr [esi+0x1B]			# load entity id
+			lea ecx, [0x00051ABC+4*ecx]			# load entity width in grid units
+			add ecx, dword ptr [esp+0]			# adjust by relocated data segment offset
+			mov ecx, dword ptr [ecx]			# load unit sizes (w and h)
+			shl ecx, 4							# multiply both by 16
+			and ecx, 0xFFFF						# keep width
+			dec ecx								# decrease by one
+			xor ebx, ebx						# zero
+			mov bx, word ptr [esp+24]			# load entity rect w
+			sub ebx, ecx						# compute diff
+			shr ebx, 1							# divide by two
+			sub eax, ebx						# adjust rect
+			mov word ptr [esp+36], ax
+
+		.label_adjust_rect_y:
+
+			xor eax, eax
+			mov ax, word ptr [esp+38]
+			xor ecx, ecx						# zero
+			mov cl, byte ptr [esi+0x1B]			# load entity id
+			lea ecx, [0x00051ABC+4*ecx]			# load entity width in grid units
+			add ecx, dword ptr [esp+0]			# adjust by relocated data segment offset
+			mov ecx, dword ptr [ecx]			# load unit sizes (w and h)
+			shl ecx, 4							# multiply both by 16
+			shr ecx, 16							# keep height
+			dec ecx								# decrease by one
+			xor ebx, ebx						# zero
+			mov bx, word ptr [esp+26]			# load entity rect w
+			sub ebx, ecx						# compute diff
+			shr ebx, 1							# divide by two
+			sub eax, ebx						# adjust rect
+			mov word ptr [esp+38], ax
+
+
 		.label_draw_health_bar:
 
 			xor eax, eax
@@ -374,6 +413,11 @@ Delta: -0xA200
 	0x00051978: wc_core_entity_hitpoints[52*2] [file offset 0x47778]
 
 		3C 00
+		...
+
+	0x00051ABC: wc_core_entity_sizes[52*4] [file offset 0x478BC]
+
+		01 00 01 00
 		...
 
 	0x00051B9C: wc_core_entity_rectangles[52*4] [file offset 0x4799C]
