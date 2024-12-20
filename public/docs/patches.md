@@ -116,17 +116,23 @@ Delta: +0x2E00
 			push esi
 			push edi
 
-			sub esp, 24							# borrow stack space
+			sub esp, 36							# borrow stack space
 
 			# [esp+0]: relocated data segment offset
 			# [esp+4]: format string
 			# [esp+8]: string buffer
 			# [esp+16]: game window scroll offset x
 			# [esp+18]: game window scroll offset y
-			# [esp+20]: game window entity x (varying)
-			# [esp+22]: game window entity y (varying)
+			# [esp+20]: entity game window x (varying)
+			# [esp+22]: entity game window y (varying)
+			# [esp+24]: entity rect w (varying)
+			# [esp+26]: entity rect h (varying)
+			# [esp+28]: entity health (varying)
+			# [esp+30]: entity max health (varying)
+			# [esp+32]: entity max x (varying)
+			# [esp+34]: entity max y (varying)
 
-			mov eax, dword ptr [esp+48]			# get return address from stack (relocated value for 0x0001B05C)
+			mov eax, dword ptr [esp+60]			# get return address from stack (relocated value for 0x0001B05C)
 			sub eax, 14							# adjust offset to known relocated value from data segment
 			mov eax, dword ptr [eax]			# load value
 			sub eax, 0x0005A9B0					# adjust by expected value
@@ -157,22 +163,46 @@ Delta: +0x2E00
 			mov al, byte ptr [esi+0x1B]			# load entity id
 			lea ebx, [0x00051978+2*eax]			# load offset for entity hit points
 			add ebx, dword ptr [esp+0]			# adjust by relocated data segment offset
-			xor eax, eax						# zero
-			mov ax, word ptr [ebx]				# load value
-
+			xor ecx, ecx						# zero
+			mov cx, word ptr [ebx]				# load value
 			xor ebx, ebx						# zero
 			mov bx, word ptr [esi+0x16]			# load entity health
-			cmp ebx, eax						# compare entity health to entity hit points
+			cmp ebx, ecx						# compare entity health to entity max health
 			jge .label_next						# jump if greater than or equal
+			mov word ptr [esp+28], bx			# save entity health value
+			mov word ptr [esp+30], cx			# save entity max health value
+
+		.label_load_entity_rect:
+
+			lea edx, [0x00051B9C+4*eax]			# load offset for entity rectangle
+			add edx, dword ptr [esp+0]			# adjust by relocated data segment offset
+			mov edx, dword ptr [edx]			# load value
+			mov dword ptr [esp+24], edx			# save value
+
+		.label_compute_max_x:
+
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x00]			# load entity x
+			add ax, word ptr [esp+24]			# adjust with entity rect w
+			mov word ptr [esp+32], ax			# save entity max x
+
+		.label_compute_max_y:
+
+			xor eax, eax						# zero
+			mov ax, word ptr [esi+0x02]			# load entity y
+			add ax, word ptr [esp+26]			# adjust with entity rect h
+			mov word ptr [esp+34], ax			# save entity max y
 
 		.label_check_screen_overlap_x:
 
+			xor eax, eax						# zero
+			mov ax, word ptr [esp+32]			# load entity max x
 			xor ecx, ecx						# zero
 			mov cx, word ptr [esp+16]			# load game window scroll offset x
+			cmp eax, ecx						# compare entity max x to game window scroll offset x
+			jle .label_next						# jump if less or equal
 			xor eax, eax						# zero
 			mov ax, word ptr [esi+0x00]			# load entity x
-			cmp eax, ecx						# compare entity x to game window scroll offset x
-			jl .label_next						# jump if less
 			sub eax, ecx						# transform to game window coordinate
 			cmp eax, 240						# compare to game window width
 			jge .label_next						# jump if greater than or equal
@@ -181,12 +211,14 @@ Delta: +0x2E00
 
 		.label_check_screen_overlap_y:
 
+			xor eax, eax						# zero
+			mov ax, word ptr [esp+34]			# load entity max y
 			xor ecx, ecx						# zero
 			mov cx, word ptr [esp+18]			# load game window scroll offset y
+			cmp eax, ecx						# compare entity max x to game window scroll offset x
+			jle .label_next						# jump if less or equal
 			xor eax, eax						# zero
 			mov ax, word ptr [esi+0x02]			# load entity y
-			cmp eax, ecx						# compare entity y to game window scroll offset y
-			jl .label_next						# jump if less
 			sub eax, ecx						# transform to game window coordinate
 			cmp eax, 176						# compare to game window height
 			jge .label_next						# jump if greater than or equal
@@ -224,7 +256,7 @@ Delta: +0x2E00
 
 		.label_end:
 
-			add esp, 24							# return stack space
+			add esp, 36							# return stack space
 
 			pop edi
 			pop esi
