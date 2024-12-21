@@ -299,7 +299,6 @@ Delta: +0x2E00
 			mul ecx								# multiply entity health with max percentage
 			xor edx, edx						# clear for division
 			div dword ptr [esp+104]				# divide by entity max health
-			inc eax								# adjust rounding
 
 			lea ebx, [0x0005357C]				# load offset for wc_ui_health_bar_color_table
 			add ebx, dword ptr [esp+0]			# adjust by relocated data segment offset
