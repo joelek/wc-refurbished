@@ -3,7 +3,7 @@
 const fs = require("fs");
 
 const MERGE_PATCH_DISTANCE = 3;
-const MIN_ASCII_STRING_DISTANCE = 3;
+const MIN_ASCII_STRING_LENGTH = 3;
 
 function convertData(buffer, is_text) {
 	if (is_text) {
@@ -47,7 +47,7 @@ if (original.length !== patched.length) {
 let patches = [];
 function addPatch(start, end) {
 	let length = end - start;
-	let is_text = length >= MIN_ASCII_STRING_DISTANCE && isPrintableAsciiBuffer(original.subarray(start, end));
+	let is_text = length >= MIN_ASCII_STRING_LENGTH && isPrintableAsciiBuffer(original.subarray(start, end));
 	if (is_text) {
 		let first_start = patches.length > 0 ? patches[patches.length - 1].end : 0;
 		for (let byte_index = start - 1; byte_index >= first_start; byte_index -= 1) {
