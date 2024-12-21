@@ -23,6 +23,7 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Change the damage of spearmen to match the damage of archers.
 * Change the name of the Orc "Temple" building to "Altar".
 * Change action button hotkeys such that they better match their actions.
+* Add rendering of health bars for damaged units.
 
 ## Installation
 
@@ -56,5 +57,4 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Add rendering of food supply and demand to top bar.
 * Change right mouse button behaviour to contextual dispatch of unit commands.
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage) when selecting a single unit to hotkey F9.
-* Add rendering of health bars to damaged units.
 * Add unit grouping.
