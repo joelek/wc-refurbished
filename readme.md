@@ -4,6 +4,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ![](./public/images/action_button_hotkeys.png)
 
+![](./public/images/entity_health_bars.png)
+
 ## Features
 
 * Remove need of clicking to trigger map scrolling at the screen border.
