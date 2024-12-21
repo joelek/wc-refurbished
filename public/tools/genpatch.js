@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 
-const MERGE_PATCH_DISTANCE = 3;
+const MERGE_PATCH_DISTANCE = 4;
 const MIN_ASCII_STRING_LENGTH = 3;
 
 function convertData(buffer, is_text) {
