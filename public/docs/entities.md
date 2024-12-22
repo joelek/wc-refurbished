@@ -1,5 +1,9 @@
 # Entities
 
+Entities 0 through 31 are units.
+Entities 32 through 50 are buildings.
+Entity 51 is used for killed units.
+
 | Number | Name       |
 | ------ | ---------- |
 | 0      | Footman    |
