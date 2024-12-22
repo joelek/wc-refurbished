@@ -470,6 +470,11 @@ Delta: -0xA200
 		?? ?? ?? ??
 		...
 
+	0x0005A9F0: wc_io_mouse_coordinates [2*2] [virtual file offset 0x507F0]
+
+		?? ??
+		...
+
 	0x0005AE70: wc_ui_fill_color[1] [virtual file_offset 0x50C70]
 
 		??
