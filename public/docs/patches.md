@@ -4,6 +4,8 @@
 
 Delta: +0x2E00
 
+### WarCraft
+
 ```
 	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
 
@@ -38,7 +40,11 @@ Delta: +0x2E00
 	0x000331A0: wc_ui_load_image(resource_pointer* eax, frame_index edx, frame_pointer* ebx) [file offset 0x35FA0]
 
 	0x00033AF0: wc_ui_draw_image(x eax, y edx, frame_pointer* ebx) [file offset 0x368F0]
+```
 
+### WarCraft: Refurbished
+
+```
 	0x000421A0: wc_refurbished_draw_action_button_hotkey(wc_action_button* ecx, button_press_state esi) [file offset 0x44FA0]
 
 			call 0x00033AF0						# call wc_ui_draw_image
@@ -442,6 +448,8 @@ Delta: +0x2E00
 
 Delta: -0xA200
 
+### WarCraft
+
 ```
 	0x000500D0: wc_ui_scroll_offset_tiles[2*2] [file offset 0x45ED0]
 
@@ -510,6 +518,11 @@ Delta: -0xA200
 	0x0005AE70: wc_ui_fill_color[1] [virtual file_offset 0x50C70]
 
 		??
+```
+
+### WarCraft: Refurbished
+
+```
 ```
 
 ## References
