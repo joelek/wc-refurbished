@@ -568,7 +568,7 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
-	0x00042700: wc_refurbished_draw_entity_flags(scroll_offset_x eax, scroll_offset_y ebx, entity* esi) [file offset 0x45500]
+	0x000: wc_refurbished_draw_entity_flags(scroll_offset_x eax, scroll_offset_y ebx, entity* esi) [file offset 0x]
 
 			push eax
 			push ebx
