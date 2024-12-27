@@ -214,19 +214,19 @@ Delta: +0x2E00
 			mov dx, word ptr [ecx+0]			# load entity size w
 			shl edx, 4							# multiply by 16
 			mov dword ptr [esp+116], edx		# save entity size w
-			dec edx								# decrease to get normal box w
 			neg edx								# negate normal box w
 			add edx, dword ptr [esp+108]		# add entity box w
-			shr edx, 1							# divide by two
+			sar edx, 1							# divide by two
+			inc edx								# increase by one to get correct delta
 			mov dword ptr [esp+120], edx		# save entity grid delta x
 			xor edx, edx						# clear
 			mov dx, word ptr [ecx+2]			# load entity size h
 			shl edx, 4							# multiply by 16
 			mov dword ptr [esp+124], edx		# save entity size h
-			dec edx								# decrease to get normal box h
 			neg edx								# negate normal box h
 			add edx, dword ptr [esp+112]		# add entity box h
-			shr edx, 1							# divide by two
+			sar edx, 1							# divide by two
+			inc edx								# increase by one to get correct delta
 			mov dword ptr [esp+128], edx		# save entity grid delta y
 
 			xor ecx, ecx						# clear
