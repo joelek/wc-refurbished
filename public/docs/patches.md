@@ -504,20 +504,38 @@ Delta: +0x2E00
 
 			.label_entity_worker_2:
 
+			mov eax, dword ptr [esp+44]			# load number_of_entities_carrying_goods
+			cmp eax, dword ptr [esp+20]			# compare number_of_entities_carrying_goods to number_of_selected_entities
+			jne .label_entity_worker_3			# jump if not equal
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
 			cmp eax, 0							# check if null
 			je .label_entity_worker_3			# jump if null
 			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
 			jne .label_entity_worker_3			# jump if not equal
-			cmp byte ptr [eax+0x1B], 32			# check if entity_below_cursor.type is 32 (first building)
+			cmp byte ptr [eax+0x1B], 40			# check if entity_below_cursor.type is 40 (human town hall)
 			jl .label_entity_worker_3			# jump if lower
-			cmp byte ptr [eax+0x1B], 49			# check if entity_below_cursor.type is 49 (last building)
+			cmp byte ptr [eax+0x1B], 41			# check if entity_below_cursor.type is 41 (orc town hall)
 			jg .label_entity_worker_3			# jump if greater
-			mov ebx, 0x0E						# set action to repair
+			mov ebx, 0x0B						# set action to return goods
 			jmp .dispatch_action				# jump to dispatch action
 
 			.label_entity_worker_3:
+
+			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			cmp eax, 0							# check if null
+			je .label_entity_worker_4			# jump if null
+			mov eax, dword ptr [eax]			# dereference pointer
+			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
+			jne .label_entity_worker_4			# jump if not equal
+			cmp byte ptr [eax+0x1B], 32			# check if entity_below_cursor.type is 32 (first building)
+			jl .label_entity_worker_4			# jump if lower
+			cmp byte ptr [eax+0x1B], 49			# check if entity_below_cursor.type is 49 (last building)
+			jg .label_entity_worker_4			# jump if greater
+			mov ebx, 0x0E						# set action to repair
+			jmp .dispatch_action				# jump to dispatch action
+
+			.label_entity_worker_4:
 
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
 			cmp eax, 0							# check if null
