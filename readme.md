@@ -62,3 +62,4 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Add unit grouping.
 * Reduce border scroller region.
 * Add hover tooltip.
+* Clear worker carrying flags when issuing harvest command.
