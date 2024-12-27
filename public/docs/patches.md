@@ -390,6 +390,7 @@ Delta: +0x2E00
 			mov dword ptr [esp+24], -1			# initialize common_entity_type
 			mov dword ptr [esp+28], 1			# initialize entities_are_units
 			mov dword ptr [esp+32], 1			# initialize entities_are_human_controlled
+			mov dword ptr [esp+44], 0			# initialize number_of_entities_carrying_goods
 
 		.label_get_terrain_flags:
 
@@ -422,6 +423,8 @@ Delta: +0x2E00
 			mov bl, byte ptr [eax+0x1B]			# load entity.type
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax+0x1E]			# load entity.player
+			xor edx, edx						# clear
+			mov dl, byte ptr [eax+0x49]			# load entity.carry_flags
 
 			.label_loop_0:
 
@@ -450,6 +453,12 @@ Delta: +0x2E00
 
 			.label_loop_4:
 
+			test edx, 0x20						# check if entity.carry_flags has bit 5 (carrying goods) set
+			jz .label_loop_5					# jump if zero
+			inc dword ptr [esp+44]				# increase number_of_entities_carrying_goods
+
+			.label_loop_5:
+
 			inc dword ptr [esp+20]				# increase number_of_selected_entities
 			call 0x00025D80						# call wc_ui_get_next_selected_entity
 			cmp eax, 0							# check if entity is null
@@ -471,6 +480,8 @@ Delta: +0x2E00
 
 			.label_entity_worker_0:
 
+			cmp dword ptr [esp+44], 0			# compare number_of_entities_carrying_goods to 0
+			jne .label_entity_worker_1			# jump if not equal
 			cmp dword ptr [esp+12], 0x80		# compare tile_flags to 0x80 (forest)
 			jne .label_entity_worker_1			# jump if not equal
 			mov ebx, 0x0A						# set action to harvest
@@ -478,6 +489,8 @@ Delta: +0x2E00
 
 			.label_entity_worker_1:
 
+			cmp dword ptr [esp+44], 0			# compare number_of_entities_carrying_goods to 0
+			jne .label_entity_worker_2			# jump if not equal
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
 			cmp eax, 0							# check if null
 			je .label_entity_worker_2			# jump if null
