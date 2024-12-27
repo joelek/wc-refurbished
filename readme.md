@@ -58,3 +58,5 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Change right mouse button behaviour to contextual dispatch of unit commands.
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage) when selecting a single unit to hotkey F9.
 * Add unit grouping.
+* Reduce border scroller region.
+* Add hover tooltip.
