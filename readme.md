@@ -63,5 +63,4 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Reduce border scroller region.
 * Add hover tooltip.
 * Clear worker carrying flags when issuing harvest command.
-* Fix health bar position for daemon.
 * Add return goods to town hall contextual command.
