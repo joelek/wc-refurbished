@@ -9,6 +9,18 @@ Delta: +0x2E00
 
 			call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
 
+	0x0001B11C: wc_ui_center_game_window_on_coordinates(???) [file offset 0x1DF1C]
+
+	0x0001B48C: wc_ui_select_target_click_handler(x [eax+4], y [eax+6]) [file offset 0x1E28C]
+
+	0x0001B5D0: wc_ui_center_game_window_on_entity(entity* eax) [file offset 0x1E3D0]
+
+	0x00025D80: wc_ui_get_next_selected_entity(__writes entity* eax) [file offset 0x28B80]
+
+	0x00025DF4: wc_ui_get_first_selected_entity(__writes entity* eax) [file offset 0x28BF4]
+
+	0x000263D0: wc_selection_update(entity_pointer_count eax, entity_pointers** edx) [file offset 0x291D0]
+
 	0x000286A3: (wc_ui_draw_action_button) [file offset 0x2B4A3]
 
 			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
@@ -465,10 +477,30 @@ Delta: -0xA200
 		00 1B 31 32 33 34 35 36 37 38 39 30 2D 3D 08 09
 		...
 
+	0x000586BC: wc_core_map_tile_flags_pointer[4] [file offset 0x4E4BC]
+
+		00 00 00 00
+
+	0x000586C4: wc_core_map_tile_types_pointer[4] [file offset 0x4E4C4]
+
+		00 00 00 00
+
+	0x0005A230: wc_core_selected_unit_pointers[8*4] [virtual file offset 0x50030]
+
+		?? ?? ?? ??
+
 	0x0005A5D0: wc_core_entity_pointers[200*4] [virtual file offset 0x503D0]
 
 		?? ?? ?? ??
 		...
+
+	0x0005A8FC: wc_ui_entity_at_cursor_pointer[4] [virtual file offset 0x506FC]
+
+		?? ?? ?? ??
+
+	0x0005A904: wc_ui_selected_action_type [2] [virtual file offset 0x50704]
+
+		?? ??
 
 	0x0005A9F0: wc_io_mouse_coordinates [2*2] [virtual file offset 0x507F0]
 
