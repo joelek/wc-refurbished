@@ -24,6 +24,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Change the name of the Orc "Temple" building to "Altar".
 * Change action button hotkeys such that they better match their actions.
 * Add rendering of health bars for damaged units.
+* Change the damage of peasants from 0 to 2.
+* Change the damage of peons from 0 to 2.
 
 ## Installation
 

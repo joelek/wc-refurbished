@@ -663,6 +663,15 @@ const slice_t BETTER_HOTKEYS[] = {
 	}
 };
 
+const slice_t WORKERS_DEAL_DAMAGE[] = {
+	{
+			293726,
+			2,
+			"\x00\x00",
+			"\x02\x02"
+	}
+};
+
 struct patch_t {
 	const slice_t* slices;
 	int slice_count;
@@ -682,6 +691,7 @@ const patch_t PATCHES[] = {
 	{ RENDER_ACTION_BUTTON_HOTKEYS, sizeof(RENDER_ACTION_BUTTON_HOTKEYS) / sizeof(*RENDER_ACTION_BUTTON_HOTKEYS) },
 	{ RENDER_HEALTH_BARS, sizeof(RENDER_HEALTH_BARS) / sizeof(*RENDER_HEALTH_BARS) },
 	{ BETTER_HOTKEYS, sizeof(BETTER_HOTKEYS) / sizeof(*BETTER_HOTKEYS) },
+	{ WORKERS_DEAL_DAMAGE, sizeof(WORKERS_DEAL_DAMAGE) / sizeof(*WORKERS_DEAL_DAMAGE) }
 };
 
 int apply_slice(FILE* handle, const slice_t* slice) {
