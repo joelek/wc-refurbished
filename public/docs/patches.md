@@ -129,7 +129,7 @@ Delta: +0x2E00
 			sub eax, 0x0005A9B0					# adjust by expected value
 			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
-			lea eax, [0x000500D0]				# load offset for wc_core_scroll_offset_tiles
+			lea eax, [0x000500D0]				# load offset for wc_ui_scroll_offset_tiles
 			add eax, dword ptr [esp+0]			# adjust by relocated data segment offset
 			xor ebx, ebx						# clear
 			mov bx, word ptr [eax+0]			# load scroll offset x
@@ -431,7 +431,7 @@ Delta: +0x2E00
 Delta: -0xA200
 
 ```
-	0x000500D0: wc_core_scroll_offset_tiles[2*2] [file offset 0x45ED0]
+	0x000500D0: wc_ui_scroll_offset_tiles[2*2] [file offset 0x45ED0]
 
 		00 00 00 00
 
