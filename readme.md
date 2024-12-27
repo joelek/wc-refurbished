@@ -19,8 +19,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Change hotkey for cancelling upgrades from 0 to ESC.
 * Remove restriction of building next to cobbled road.
 * Remove restriction of building near other buildings.
-* Change the range of spearmen to match the range of archers.
-* Change the damage of spearmen to match the damage of archers.
+* Change the range of spearmen from 4 to 5.
+* Change the damage of spearmen from 5 to 4.
 * Change the name of the Orc "Temple" building to "Altar".
 * Change action button hotkeys such that they better match their actions.
 * Add rendering of health bars for damaged units.
