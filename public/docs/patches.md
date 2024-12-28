@@ -7,6 +7,10 @@ Delta: +0x2E00
 ### WarCraft
 
 ```
+	0x0001A00E: (wc_io_keyboard_input_handler) [file offset 0x1CE0E]
+
+			call 0x00042800						# call wc_refurbished_keyboard_input_handler instead of wc_ui_handle_message_input
+
 	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
 
 			call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
@@ -20,6 +24,8 @@ Delta: +0x2E00
 			call 0x00042560						# call wc_refurbished_dispatch_contextual_command instead of wc_ui_center_game_window_on_coordinates
 
 	0x0001B5D0: wc_ui_center_game_window_on_entity(entity* eax) [file offset 0x1E3D0]
+
+	0x0001B690: call wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x1E490]
 
 	0x00025D80: wc_ui_get_next_selected_entity(__writes entity* eax) [file offset 0x28B80]
 
@@ -592,6 +598,36 @@ Delta: +0x2E00
 			mov word ptr [esp+36+6], bx			# write coordinate y to mouse event buffer
 			lea eax, [esp+36]					# set pointer to mouse event buffer
 			call 0x0001B48C						# call wc_ui_select_target_click_handler
+
+		.label_end:
+
+			add esp, 64							# return stack space
+			popad								# restore registers
+			ret									# return
+
+	0x00042800: wc_refurbished_keyboard_input_handler(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x45600]
+
+			call 0x0001B690						# call wc_ui_handle_message_input
+			test ax, ax							# check if handled
+			jz .label_begin						# jump if zero
+			ret
+
+		.label_begin:
+
+			pushad								# save 8 registers on stack
+			sub esp, 64							# borrow stack space
+
+		.label_initialize:
+
+			mov eax, dword ptr [esp+32+64]		# get return address from stack
+			sub eax, 18							# adjust address to address containing relocated offset in data segment
+			mov eax, dword ptr [eax]			# load relocated offset
+			sub eax, 0x0005152C					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			mov dword ptr [esp+0], eax			# save relocated_data_segment_offset
+
+			xor eax, eax						# clear
+			mov ax, bx							# copy scan_code_with_modifiers
+			mov dword ptr [esp+4], eax			# save scan_code_with_modifiers
 
 		.label_end:
 
