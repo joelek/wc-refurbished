@@ -72,3 +72,4 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Add hover tooltip.
 * Add rendering of unit groups.
 * Add support for version 1.22.
+* Add "WarCraft: Refurbished" text to pause menu.
