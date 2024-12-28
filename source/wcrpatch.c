@@ -728,6 +728,33 @@ const slice_t WORKERS_DEAL_DAMAGE[] = {
 	}
 };
 
+const slice_t REDUCED_BORDER_SCROLLER[] = {
+	{
+		166378,
+		1,
+		"\x08",
+		"\x00"
+	},
+	{
+		166400,
+		4,
+		"\x37\x01\x00\x00",
+		"\x3F\x01\x00\x00"
+	},
+	{
+		166441,
+		1,
+		"\x08",
+		"\x00"
+	},
+	{
+		166463,
+		4,
+		"\xBF\x00\x00\x00",
+		"\xC7\x00\x00\x00"
+	}
+};
+
 struct patch_t {
 	const slice_t* slices;
 	int slice_count;
@@ -749,7 +776,8 @@ const patch_t PATCHES[] = {
 	{ CONTEXTUAL_ACTION_DISPATCH, sizeof(CONTEXTUAL_ACTION_DISPATCH) / sizeof(*CONTEXTUAL_ACTION_DISPATCH) },
 	{ ENTITY_GROUPING, sizeof(ENTITY_GROUPING) / sizeof(*ENTITY_GROUPING) },
 	{ BETTER_HOTKEYS, sizeof(BETTER_HOTKEYS) / sizeof(*BETTER_HOTKEYS) },
-	{ WORKERS_DEAL_DAMAGE, sizeof(WORKERS_DEAL_DAMAGE) / sizeof(*WORKERS_DEAL_DAMAGE) }
+	{ WORKERS_DEAL_DAMAGE, sizeof(WORKERS_DEAL_DAMAGE) / sizeof(*WORKERS_DEAL_DAMAGE) },
+	{ REDUCED_BORDER_SCROLLER, sizeof(REDUCED_BORDER_SCROLLER) / sizeof(*REDUCED_BORDER_SCROLLER) }
 };
 
 int apply_slice(FILE* handle, const slice_t* slice) {
