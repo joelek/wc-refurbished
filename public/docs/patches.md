@@ -666,7 +666,7 @@ Delta: +0x2E00
 				jnz .label_grouping_get_2		# jump if non-zero
 				cmp byte ptr [eax+0x1B], 50		# compare entity.type to 50 (last building type)
 				jg .label_grouping_get_2		# jump if greater
-				cmp word ptr [eax+0x4A], dx		# compare entity.??? to scan_code
+				cmp byte ptr [eax+0x13], dl		# compare entity.??? to scan_code
 				jne .label_grouping_get_2		# jump if not equal
 				mov dword ptr [esp+12+ecx*4], eax	# write pointer
 				inc ecx							# increase entity_pointer_count
@@ -698,9 +698,9 @@ Delta: +0x2E00
 
 				cmp byte ptr [eax+0x1B], 50		# compare entity.type to 50 (last building type)
 				jg .label_grouping_set_2		# jump if greater
-				cmp word ptr [eax+0x4A], dx	# compare entity.??? to scan_code
+				cmp byte ptr [eax+0x13], dl		# compare entity.??? to scan_code
 				jne .label_grouping_set_2		# jump if not equal
-				mov word ptr [eax+0x4A], 0		# clear entity.???
+				mov byte ptr [eax+0x13], 0		# clear entity.???
 
 				.label_grouping_set_2:
 
@@ -718,7 +718,7 @@ Delta: +0x2E00
 
 				cmp byte ptr [eax+0x1B], 50		# compare entity.type to 50 (last building type)
 				jg .label_grouping_set_5		# jump if greater
-				mov word ptr [eax+0x4A], dx		# overwrite entity.??? with scan_code
+				mov byte ptr [eax+0x13], dl		# overwrite entity.??? with scan_code
 
 				.label_grouping_set_5:
 
