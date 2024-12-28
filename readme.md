@@ -27,6 +27,9 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Change the damage of peasants from 0 to 2.
 * Change the damage of peons from 0 to 2.
 * Add contextual dispatch of commands to selected units through right mouse button.
+* Add unit groups.
+    * Create groups by pressing 0-9 while holding left or right control.
+    * Recall groups by pressing 0-9.
 
 ## Installation
 
@@ -59,7 +62,6 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Add center map on unit command to clicking unit portrait.
 * Add rendering of food supply and demand to top bar.
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage) when selecting a single unit to hotkey F9.
-* Add unit grouping.
 * Reduce border scroller region.
 * Add hover tooltip.
 * Add rendering of unit groups.
