@@ -660,7 +660,9 @@ Delta: +0x2E00
 
 				.label_grouping_get_1:
 
-				test word ptr [eax+0x0E], 0x0100	# check if bit 8 (unit inside building) is set
+				test word ptr [eax+0x0E], 0x0100	# check if bit 8 (entity inside building) is set
+				jnz .label_grouping_get_2		# jump if non-zero
+				test word ptr [eax+0x10], 0x0002	# check if bit 1 (entity killed) is set
 				jnz .label_grouping_get_2		# jump if non-zero
 				cmp byte ptr [eax+0x1B], 50		# compare entity.type to 50 (last building type)
 				jg .label_grouping_get_2		# jump if greater
