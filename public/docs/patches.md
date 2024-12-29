@@ -883,7 +883,7 @@ Delta: -0xA200
 
 		?? ?? ?? ??
 
-	0x0005A5D0: wc_core_entity_pointers[200*4] [virtual file offset 0x503D0]
+	0x0005A5D0: wc_core_entity_pointers[201*4] [virtual file offset 0x503D0]
 
 		?? ?? ?? ??
 		...
