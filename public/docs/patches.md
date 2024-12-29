@@ -7,9 +7,15 @@ Delta: +0x2E00
 ### WarCraft
 
 ```
+	0x00010010: call wc_ui_draw_game_window_background(???) [file offset 0x12E10]
+
 	0x0001A00E: (wc_io_keyboard_input_handler) [file offset 0x1CE0E]
 
 			call 0x00042800						# call wc_refurbished_keyboard_input_handler instead of wc_ui_handle_message_input
+
+	0x0001B052: (wc_ui_draw_game_window) [file offset 0x1DE52]
+
+			call 0x00042A00						# call wc_refurbished_draw_entity_info instead of wc_ui_draw_game_window_background
 
 	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
 
@@ -735,6 +741,11 @@ Delta: +0x2E00
 			pop ecx								# restore register
 			pop ebx								# restore register
 			ret									# return
+
+	0x00042A00: wc_refurbished_draw_entity_info() [file offset 0x45800]
+
+			call 0x00010010						# call wc_ui_draw_game_window_background
+			ret
 
 	0x000: wc_refurbished_draw_entity_flags(scroll_offset_x eax, scroll_offset_y ebx, entity* esi) [file offset 0x]
 
