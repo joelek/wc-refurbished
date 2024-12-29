@@ -8,36 +8,57 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ## Features
 
-* Remove need of clicking to trigger map scrolling at the screen border.
-* Change default left mouse button behaviour to drag select.
-* Change grid display toggle hotkey from G to TAB.
-* Remove center map on unit command from hotkey C.
-* Remove mouse navigation command from hotkey N.
-* Add rendering of hotkey information to action buttons.
-* Change hotkey for cancelling construction from 0 to ESC.
-* Change hotkey for cancelling training from 0 to ESC.
-* Change hotkey for cancelling upgrades from 0 to ESC.
-* Remove restriction of building next to cobbled road.
-* Remove restriction of building near other buildings.
-* Change the range of spearmen from 4 to 5.
-* Change the damage of spearmen from 5 to 4.
-* Change the name of the Orc "Temple" building to "Altar".
-* Change action button hotkeys such that they better match their actions.
-* Add rendering of health bars for damaged units.
-* Change the damage of peasants from 0 to 2.
-* Change the damage of peons from 0 to 2.
+### Next version
+
+* Change keyboard and mouse scroll speed such that it matches the select location/target scroll speed.
+* Change border scrolling region from 9 pixels to 1 pixel.
+
+### v0.5.0
+
+* Add unit grouping.
+    * Create groups by selecting any units and pressing `0-9` while holding `left or right control`.
+    * Recall groups by pressing `0-9`.
+
+### v0.4.0
+
 * Add contextual dispatch of commands to selected units.
-    * Dispatch `harvest lumber` commands by selecting only workers and right clicking forest tiles.
-    * Dispatch `harvest gold` commands by selecting only workers and right clicking a gold mine.
-    * Dispatch `return goods to town hall` commands by selecting only workers and right clicking the town hall.
+    * Dispatch `harvest lumber` commands by selecting only workers not carrying goods and right clicking forest tiles.
+    * Dispatch `harvest gold` commands by selecting only workers not carrying goods and right clicking a gold mine.
+    * Dispatch `return goods to town hall` commands by selecting only workers carrying goods and right clicking the town hall.
     * Dispatch `repair` commands by selecting only workers and right clicking a damaged building.
     * Dispatch `attack` commands by selecting any units and right clicking an enemy unit.
     * Dispatch `move` commands by selecting any units and right clicking anywhere on the map.
-* Add unit groups.
-    * Create groups by pressing `0-9` while holding `left or right control`.
-    * Recall groups by pressing `0-9`.
-* Change border scrolling region from 9 pixels to 1 pixel.
-* Change keyboard and mouse scroll speed such that it matches the select location/target scroll speed.
+* Change the damage of peasants from 0 to 2.
+* Change the damage of peons from 0 to 2.
+
+### v0.3.0
+
+* Add rendering of health bars for damaged units.
+
+### v0.2.0
+
+* Change action button hotkeys such that they better match their actions.
+* Change the name of the Orc "Temple" building to "Altar".
+
+### v0.1.1
+
+* Improve drag select logic.
+
+### v0.1.0
+
+* Change the damage of spearmen from 5 to 4.
+* Change the range of spearmen from 4 to 5.
+* Remove restriction of building near other buildings.
+* Remove restriction of building next to cobbled road.
+* Change hotkey for cancelling upgrades from 0 to ESC.
+* Change hotkey for cancelling training from 0 to ESC.
+* Change hotkey for cancelling construction from 0 to ESC.
+* Add rendering of hotkey information to action buttons.
+* Remove mouse navigation command from hotkey N.
+* Remove center map on unit command from hotkey C.
+* Change grid display toggle hotkey from G to TAB.
+* Change default left mouse button behaviour to drag select.
+* Remove need of clicking to trigger map scrolling at the screen border.
 
 ## Installation
 
