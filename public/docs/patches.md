@@ -13,10 +13,6 @@ Delta: +0x2E00
 
 			call 0x00042800						# call wc_refurbished_keyboard_input_handler instead of wc_ui_handle_message_input
 
-	0x0001B052: (wc_ui_draw_game_window) [file offset 0x1DE52]
-
-			call 0x00042A00						# call wc_refurbished_draw_entity_info instead of wc_ui_draw_game_window_background
-
 	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
 
 			call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
@@ -43,7 +39,11 @@ Delta: +0x2E00
 
 			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
 
-	0x0002D9F8: wc_ui_draw_game_window_entities(???)
+	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x307F8]
+
+	0x0002DD2E: (wc_ui_draw_game_window_entities) [file offset 0x30B2E]
+
+		call 0x00042A00							# call wc_refurbished_draw_entity_info instead of wc_ui_draw_particle_or_burning_building
 
 	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
 
@@ -744,8 +744,14 @@ Delta: +0x2E00
 
 	0x00042A00: wc_refurbished_draw_entity_info() [file offset 0x45800]
 
-			call 0x00010010						# call wc_ui_draw_game_window_background
-			ret
+			call 0x0002D834						# call wc_ui_draw_particle_or_burning_building
+			cmp esi, 0							# check if final particle
+			je .label_initialize				# jump if equal
+			ret									# return
+
+		.label_initialize:
+
+			ret									# return
 
 	0x000: wc_refurbished_draw_entity_flags(scroll_offset_x eax, scroll_offset_y ebx, entity* esi) [file offset 0x]
 
