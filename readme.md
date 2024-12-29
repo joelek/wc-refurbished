@@ -18,13 +18,15 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Add unit grouping.
     * Create groups by selecting any units and pressing `0-9` while holding `left or right control`.
     * Recall groups by pressing `0-9`.
+* Add new contextual dispatch of commands to selected units.
+    * Dispatch `return goods to town hall` commands by selecting only workers carrying goods and right clicking the town hall.
+* Improve contextual command dispatch logic.
 
 ### v0.4.0
 
 * Add contextual dispatch of commands to selected units.
     * Dispatch `harvest lumber` commands by selecting only workers not carrying goods and right clicking forest tiles.
     * Dispatch `harvest gold` commands by selecting only workers not carrying goods and right clicking a gold mine.
-    * Dispatch `return goods to town hall` commands by selecting only workers carrying goods and right clicking the town hall.
     * Dispatch `repair` commands by selecting only workers and right clicking a damaged building.
     * Dispatch `attack` commands by selecting any units and right clicking an enemy unit.
     * Dispatch `move` commands by selecting any units and right clicking anywhere on the map.
