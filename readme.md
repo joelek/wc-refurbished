@@ -97,8 +97,8 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 
 * Add center map on unit command to clicking unit portrait.
 * Add rendering of food supply and demand to top bar.
-* Add rendering of unit stats (hit points, range, armor, damage, piercing damage) when selecting a single unit to hotkey F9.
-* Add hover tooltip.
+* Add rendering of unit stats (hit points, range, armor, damage, piercing damage).
+* Add hover tooltip for units.
 * Add rendering of unit groups.
 * Add support for version 1.22.
-* Add "WarCraft: Refurbished" text to pause menu.
+* Add "WarCraft: Refurbished" text to main menu.
