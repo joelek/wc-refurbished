@@ -746,88 +746,160 @@ Delta: +0x2E00
 
 			call 0x0002D834						# call wc_ui_draw_particle_or_burning_building
 			cmp esi, 0							# check if final particle
-			je .label_initialize				# jump if equal
+			je .label_begin						# jump if equal
 			ret									# return
+
+		.label_begin:
+
+			pushad								# save registers on stack
+			sub esp, 64							# borrow stack space
 
 		.label_initialize:
 
-			ret									# return
+			mov eax, dword ptr [esp+64+32]		# get return address from stack
+			add eax, 11							# adjust address to address containing relocated offset in data segment
+			mov eax, dword ptr [eax]			# load relocated offset
+			sub eax, 0x0005A5D0					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			mov dword ptr [esp+0], eax			# save relocated_data_segment_offset
 
-	0x000: wc_refurbished_draw_entity_flags(scroll_offset_x eax, scroll_offset_y ebx, entity* esi) [file offset 0x]
+			mov eax, 0x000500D0					# load offset for wc_ui_scroll_offset_tiles
+			add eax, dword ptr [esp+0]			# adjust by relocated data segment offset
+			xor ebx, ebx						# clear
+			mov bx, word ptr [eax+0]			# load scroll offset x
+			shl ebx, 4							# multiply by 16
+			mov dword ptr [esp+4], ebx			# save scoll offset x
+			xor ebx, ebx						# clear
+			mov bx, word ptr [eax+2]			# load scroll offset y
+			shl ebx, 4							# multiply by 16
+			mov dword ptr [esp+8], ebx			# save scoll offset y
 
-			push eax
-			push ebx
-			push ecx
-			push edx
+		.label_loop:
 
-			sub esp, 28							# borrow stack space
+			mov edi, 0x0005A5D0					# load offset for wc_core_pointer_to_all_entities
+			add edi, dword ptr [esp+0]			# adjust by relocated data segment offset
 
-			# [esp+0]: format string
-			# [esp+4]: string buffer
-			# [esp+20]: scroll offset x
-			# [esp+24]: scroll offset y
+			.label_loop_0:
 
-		.label_initialize:
+			mov esi, dword ptr [edi]			# dereference pointer
+			cmp esi, 0							# check for null
+			je .label_loop_break				# jump if null
+			test word ptr [edi+0x0E], 0x0100	# check if bit 8 (entity inside building) is set
+			jnz .label_loop_continue			# jump if non-zero
+			test word ptr [edi+0x10], 0x0002	# check if bit 1 (entity killed) is set
+			jnz .label_loop_continue			# jump if non-zero
 
-			mov byte ptr [esp+0], '%'			# write character to buffer
-			mov byte ptr [esp+1], 'd'			# write character to buffer
-			mov byte ptr [esp+2], 0				# write null terminator to buffer
-
-			mov dword ptr [esp+20], eax			# save scroll offset x
-			mov dword ptr [esp+24], ebx			# save scroll offset y
-
-		.label_write_string_buffer:
-
-			xor eax, eax						# clear
-			mov al, byte ptr [esi+0x10]			# load entity flags
-
-			lea ebx, dword ptr [esp+0]			# load pointer to format string
-			lea ecx, dword ptr [esp+4]			# load pointer to string buffer
-
-			push eax							# push value
-			push ebx							# push format string
-			push ecx							# push string buffer
-
-			call 0x00031D02						# call c_sprintf
-
-			pop ecx								# restore stack
-			pop ebx								# restore stack
-			pop eax								# restore stack
-
-		.label_draw_text:
+			.label_loop_1:
 
 			xor eax, eax						# clear
-			mov ax, word ptr [esi+0x00]			# load entity x
-			sub eax, dword ptr [esp+20]			# adjust by scroll offset x
-			cmp eax, 0							# check if left of screen
-			jl .label_end						# skip rendering if so
-			cmp eax, 240						# check if right of screen
-			jge .label_end						# skip rendering if so
-			add eax, 72							# adjust to game window
+			mov al, byte ptr [esi+0x1B]			# load entity.type
+			mov ebp, eax						# copy entity.type to ebp
 
+			.label_loop_2:
+
+			push ebp							# save ebp
+			lea ebp, [0x00051B9C+4*ebp]			# load offset for entity box
+			add ebp, dword ptr [esp+4+0]		# adjust by relocated data segment offset
+			xor ebx, ebx						# clear
+			mov bx, word ptr [ebp+0]			# load entity box w
 			xor edx, edx						# clear
-			mov dx, word ptr [esi+0x02]			# load entity y
-			sub edx, dword ptr [esp+24]			# adjust by scroll offset y
-			cmp edx, 0							# check if above screen
-			jl .label_end						# skip rendering if so
-			cmp edx, 176						# check below screen
-			jge .label_end						# skip rendering if so
-			add edx, 12							# adjust to game window
+			mov dx, word ptr [ebp+2]			# load entity box h
+			pop ebp								# restore ebp
 
-			lea ebx, dword ptr [esp+4]			# load pointer to string buffer
+			.label_loop_3:
 
+			push ebp							# save ebp
+			lea ebp, [0x00051ABC+4*ebp]			# load offset for entity size
+			add ebp, dword ptr [esp+4+0]		# adjust by relocated data segment offset
+			xor eax, eax						# clear
+			mov ax, word ptr [ebp+0]			# load entity size w
+			xor ecx, ecx						# clear
+			mov cx, word ptr [ebp+2]			# load entity size h
+			pop ebp								# restore ebp
+
+			.label_loop_4:
+
+			shl eax, 4							# multiply entity size w by 16
+			neg eax								# negate grid aligned box w
+			add eax, ebx						# add entity box w
+			sar eax, 1							# divide by two
+			inc eax								# increase by one to get correct delta x
+			shl ecx, 4							# multiply entity size h by 16
+			neg ecx								# negate grid aligned box h
+			add ecx, edx						# add entity box h
+			sar ecx, 1							# divide by two
+			inc ecx								# increase by one to get correct delta y
+
+			.label_loop_5:
+
+			neg eax								# negate delta x
+			add ax, word ptr [esi+0x00]			# add entity.x to get entity min x
+			and eax, 0xFFFF						# clear upper 16 bits
+			sub eax, dword ptr [esp+4]			# subtract scroll offset x
+			add ebx, eax						# add entity box width to get entity max x
+			neg ecx								# negate delta y
+			add cx, word ptr [esi+0x02]			# add entity.y to get entity min y
+			and ecx, 0xFFFF						# clear upper 16 bits
+			sub ecx, dword ptr [esp+8]			# subtract scroll offset y
+			add edx, ecx						# add entity box height to get entity max y
+
+			.label_loop_6:
+
+			cmp eax, 240						# compare entity min x to 240
+			jge .label_loop_continue			# jump if greater than or equal
+			cmp	ebx, 0							# compare entity max x to 0
+			jl .label_loop_continue				# jump if lower
+			cmp ecx, 176						# compare entity min y to 176
+			jge .label_loop_continue			# jump if greater than or equal
+			cmp	edx, 0							# compare entity max y to 0
+			jl .label_loop_continue				# jump if lower
+
+			.label_loop_7:
+
+			cmp byte ptr [esi+0x13], 2			# compare entity.group to 2 (first group scan code)
+			jl .label_loop_continue				# jump if lower
+			cmp byte ptr [esi+0x13], 11			# compare entity.group to 11 (last group scan code)
+			jg .label_loop_continue				# jump if lower
+
+			.label_loop_8:
+
+			push eax							# save eax
+			xor eax, eax						# clear
+			mov al, byte ptr [esi+0x13]			# load entity.group
+			mov ebp, 0x00055448					# load offset for wc_io_keyboard_character_from_scan_code
+			add ebp, dword ptr [esp+4+0]		# adjust by relocated data segment offset
+			mov al, byte ptr [ebp+eax]			# translate scan code
+			mov byte ptr [esp+4+12], al			# write character to buffer
+			mov byte ptr [esp+4+13], 0			# write null terminator to buffer
+			pop eax								# restore eax
+
+			.label_loop_9:
+
+			push eax							# save register
+			push edx							# save register
+			push ebx							# save register
+			add eax, 1							# add text x offset
+			add eax, 72							# adjust to game window x
+			add ecx, 1							# add text y offset
+			add ecx, 12							# adjust to game window y
+			mov edx, ecx						# set y argument
+			lea ebx, dword ptr [esp+12+12]		# set string argument
 			call 0x00031EDC						# call wc_ui_draw_text
+			pop ebx								# restore register
+			pop edx								# restore register
+			pop eax								# restore register
+
+			.label_loop_continue:
+
+			add edi, 4							# go to next pointer
+			jmp .label_loop_0					# jump
+
+			.label_loop_break:
 
 		.label_end:
 
-			add esp, 28							# return stack space
-
-			pop edx
-			pop ecx
-			pop ebx
-			pop eax
-
-			ret
+			add esp, 64							# return stack space
+			popad								# restore registers
+			ret									# return
 ```
 
 ## Data Segment
