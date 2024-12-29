@@ -783,9 +783,9 @@ Delta: +0x2E00
 			mov esi, dword ptr [edi]			# dereference pointer
 			cmp esi, 0							# check for null
 			je .label_loop_break				# jump if null
-			test word ptr [edi+0x0E], 0x0100	# check if bit 8 (entity inside building) is set
+			test word ptr [esi+0x0E], 0x0100	# check if bit 8 (entity inside building) is set
 			jnz .label_loop_continue			# jump if non-zero
-			test word ptr [edi+0x10], 0x0002	# check if bit 1 (entity killed) is set
+			test word ptr [esi+0x10], 0x0002	# check if bit 1 (entity killed) is set
 			jnz .label_loop_continue			# jump if non-zero
 
 			.label_loop_1:
