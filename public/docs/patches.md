@@ -9,6 +9,10 @@ Delta: +0x2E00
 ```
 	0x00010010: call wc_ui_draw_game_window_background(???) [file offset 0x12E10]
 
+	0x00016920: (wc_load_main_menu_bg_bottom) [file offset 0x19720]
+
+			call 0x00042C00						# call wc_refurbished_inject_main_menu_graphic instead of c_memcpy
+
 	0x0001A00E: (wc_io_keyboard_input_handler) [file offset 0x1CE0E]
 
 			call 0x00042800						# call wc_refurbished_keyboard_input_handler instead of wc_ui_handle_message_input
@@ -44,6 +48,8 @@ Delta: +0x2E00
 	0x0002DD2E: (wc_ui_draw_game_window_entities) [file offset 0x30B2E]
 
 		call 0x00042A00							# call wc_refurbished_draw_entity_info instead of wc_ui_draw_particle_or_burning_building
+
+	0x000318B9: c_memcpy(target* eax, source* edx, size ebx) [file offset 0x346B9]
 
 	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
 
@@ -900,6 +906,119 @@ Delta: +0x2E00
 			add esp, 64							# return stack space
 			popad								# restore registers
 			ret									# return
+
+	0x00042C00: wc_refurbished_inject_main_menu_graphic(target* eax, source* edx, size ebx) [file offset 0x45A00]
+
+			call 0x000318B9						# call c_memcpy()
+
+		.label_begin:
+
+			pushad								# save registers on stack
+			sub esp, 64							# borrow stack space
+
+		.label_initialize:
+
+			mov ecx, dword ptr [esp+64+32]		# get return address from stack
+			sub ecx, 12							# adjust address to address containing relocated offset in data segment
+			mov ecx, dword ptr [ecx]			# load relocated offset
+			sub ecx, 0x00059524					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
+
+			mov dword ptr [esp+4], eax			# save target*
+			mov dword ptr [esp+8], edx			# save source*
+			mov dword ptr [esp+12], ebx			# save size
+
+			call .get_data_pointer				# get data_pointer
+			mov dword ptr [esp+16], eax			# save data_pointer
+
+		.label_copy_data:
+
+			mov eax, 130-4-5					# load start y
+			mov ebx, 320						# load width
+			mul ebx								# multiply y by width
+			add eax, 320-4-64					# add start x to get byte_index
+
+			mov edi, dword ptr [esp+4]			# load target*
+			add edi, eax						# adjust to byte_index
+			mov esi, dword ptr [esp+16]			# load data_pointer
+			mov edx, 128						# initialize bit mask
+
+			.label_copy_data_y:
+
+				xor ebx, ebx					# clear
+
+				.label_copy_data_y_0:
+
+					.label_copy_data_x:
+
+						.label_copy_data_x_0:
+
+							xor ecx, ecx					# clear
+
+						.label_copy_data_x_1:
+
+							test byte ptr [esi], dl
+							jz .label_copy_data_x_end
+							mov byte ptr [edi], 97
+
+						.label_copy_data_x_end:
+
+							shr edx, 1						# shift bit mask
+							cmp edx, 0
+							jg .label_copy_data_x_end_0
+							mov edx, 128
+							inc esi
+
+							.label_copy_data_x_end_0:
+
+							inc edi							# go to next byte
+							inc ecx							# increase x counter
+							cmp ecx, 64						# compare to width of image
+							jl	.label_copy_data_x_1		# jump if less
+
+				.label_copy_data_y_1:
+
+					add edi, 320					# adjust
+					sub edi, 64						# subtract width
+
+				.label_copy_data_y_end:
+
+					inc ebx							# increase y counter
+					cmp ebx, 5						# compare to height of image
+					jl .label_copy_data_y_0			# jump if less
+
+		.label_end:
+
+			add esp, 64							# return stack space
+			popad								# restore registers
+			ret									# return
+
+		.get_data_pointer:
+
+				jmp .get_data_pointer_1
+
+			.get_data_pointer_0:
+
+				jmp .get_data_pointer_2
+
+			.get_data_pointer_1:
+
+				call .get_data_pointer_0
+
+			.get_data_pointer_2:
+
+				pop eax
+				sub eax, dword ptr .get_data_pointer_2
+				add eax, dword ptr .get_data_pointer_3
+				ret
+
+			.get_data_pointer_3:
+
+			.byte 0xCD, 0xAB, 0x32, 0x6A, 0xD8, 0x6C, 0xBA, 0x49
+			.byte 0xA9, 0x2A, 0xAA, 0x8A, 0x94, 0x4A, 0x92, 0xAD
+			.byte 0xCD, 0xAB, 0x32, 0x4E, 0xD4, 0x6A, 0x92, 0xAB
+			.byte 0xA9, 0x2A, 0xAA, 0x2A, 0x94, 0x4A, 0x92, 0xAB
+			.byte 0xAD, 0x3A, 0xB2, 0xCA, 0xD8, 0x6C, 0x92, 0x49
 ```
 
 ## Data Segment
