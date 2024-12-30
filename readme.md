@@ -104,3 +104,4 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage).
 * Add hover tooltip for units.
 * Add support for version 1.22.
+* Fix issue with illegal write on drawing entity group text outside of screen.
