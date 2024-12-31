@@ -1051,7 +1051,7 @@ Delta: +0x2E00
 			mov eax, 0							# load target.y
 			mov ebx, 240						# load width
 			mul ebx								# multiply target.y by width
-			add eax, 130						# add target.x to get target_byte_index
+			add eax, 120						# add target.x to get target_byte_index
 			mov edi, dword ptr [esp+0]			# load target*
 			add edi, eax						# adjust to target_byte_index
 
