@@ -49,6 +49,10 @@ Delta: +0x2E00
 
 			call 0x00042D00						# call wc_refurbished_inject_top_frame_graphic instead of wc_archive_copy_bitmap
 
+	0x0002B9F7: (wc_ui_render_resource_bar) [file offset 0x2E7F7]
+
+			call 0x00042F00						# call wc_refurbished_render_farm_info instead of wc_io_mouse_update_drag_rect
+
 	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x307F8]
 
 	0x0002DD2E: (wc_ui_draw_game_window_entities) [file offset 0x30B2E]
@@ -1150,6 +1154,63 @@ Delta: +0x2E00
 					inc ebx							# increase y counter
 					cmp ebx, 6						# compare to height of image
 					jl .label_move_gold_y_0			# jump if less
+
+		.label_end:
+
+			add esp, 64							# return stack space
+			popad								# restore registers
+			ret									# return
+
+	0x00042F00: wc_refurbished_render_farm_info() [file offset 0x45D00]
+
+			call 0x00034A80						# call wc_io_mouse_update_drag_rect
+
+		.label_begin:
+
+			pushad								# save registers on stack
+			sub esp, 64							# borrow stack space
+
+		.label_initialize:
+
+			mov ecx, dword ptr [esp+64+32]		# get return address from stack
+			sub ecx, 19							# adjust address to address containing relocated offset in data segment
+			mov ecx, dword ptr [ecx]			# load relocated offset
+			sub ecx, 0x00057F50					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
+
+			mov byte ptr [esp+4], '%'
+			mov byte ptr [esp+5], 'd'
+			mov byte ptr [esp+6], '/'
+			mov byte ptr [esp+7], '%'
+			mov byte ptr [esp+8], 'd'
+			mov byte ptr [esp+9], 0
+
+		.label_printf:
+
+			mov ecx, 0x0005A418					# food grown
+			add ecx, dword ptr [esp+0]
+			xor eax, eax
+			mov ax, word ptr [ecx]
+			mov ecx, 0x0005A414					# food used
+			add ecx, dword ptr [esp+0]
+			xor ebx, ebx
+			mov bx, word ptr [ecx]
+			lea ecx, dword ptr [esp+4]
+			lea edx, dword ptr [esp+12]
+
+			push eax
+			push ebx
+			push ecx
+			push edx
+			call 0x00031D02						# call c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N])
+			add esp, 16
+
+		.label_draw_text:
+
+			mov eax, 0
+			mov edx, 2
+			lea ebx, dword ptr [esp+12]
+			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx) [file offset 0x34CDC]
 
 		.label_end:
 
