@@ -33,6 +33,8 @@ Delta: +0x2E00
 
 	0x0001B690: call wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x1E490]
 
+	0x000254C0: wc_archive_copy_bitmap() [file offset 0x282C0]
+
 	0x00025D80: wc_ui_get_next_selected_entity(__writes entity* eax) [file offset 0x28B80]
 
 	0x00025DF4: wc_ui_get_first_selected_entity(__writes entity* eax) [file offset 0x28BF4]
@@ -42,6 +44,10 @@ Delta: +0x2E00
 	0x000286A3: (wc_ui_draw_action_button) [file offset 0x2B4A3]
 
 			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
+
+	0x0002B6C2: (wc_ui_load_resources) [file offset 0x2E4C2]
+
+			call 0x00042D00						# call wc_refurbished_inject_top_frame_graphic instead of wc_archive_copy_bitmap
 
 	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x307F8]
 
@@ -1019,6 +1025,137 @@ Delta: +0x2E00
 			.byte 0xCD, 0xAB, 0x32, 0x4E, 0xD4, 0x6A, 0x92, 0xAB
 			.byte 0xA9, 0x2A, 0xAA, 0x2A, 0x94, 0x4A, 0x92, 0xAB
 			.byte 0xAD, 0x3A, 0xB2, 0xCA, 0xD8, 0x6C, 0x92, 0x49
+
+	0x00042D00: wc_refurbished_inject_top_frame_graphic(target* eax, region* edx) [file offset 0x45B00]
+
+			call 0x000254C0				# call wc_archive_copy_bitmap
+
+		.label_begin:
+
+			pushad								# save registers on stack
+			sub esp, 64							# borrow stack space
+
+		.label_initialize:
+
+			mov dword ptr [esp+0], eax			# save target*
+
+		.label_move_lumber_icon:
+
+			mov eax, 0							# load source.y
+			mov ebx, 240						# load width
+			mul ebx								# multiply source.y by width
+			add eax, 102						# add source.x to get source_byte_index
+			mov esi, dword ptr [esp+0]			# load target*
+			add esi, eax						# adjust to source_byte_index
+
+			mov eax, 0							# load target.y
+			mov ebx, 240						# load width
+			mul ebx								# multiply target.y by width
+			add eax, 130						# add target.x to get target_byte_index
+			mov edi, dword ptr [esp+0]			# load target*
+			add edi, eax						# adjust to target_byte_index
+
+			.label_move_lumber_y:
+
+				xor ebx, ebx					# clear
+
+				.label_move_lumber_y_0:
+
+					.label_move_lumber_x:
+
+						.label_move_lumber_x_0:
+
+							xor ecx, ecx					# clear
+
+						.label_move_lumber_x_1:
+
+							mov al, byte ptr [esi]
+							mov dl, byte ptr [edi]
+							mov byte ptr [esi], dl
+							mov byte ptr [edi], al
+
+						.label_move_lumber_x_end:
+
+							inc esi
+							inc edi							# go to next byte
+							inc ecx							# increase x counter
+							cmp ecx, 9						# compare to width of image
+							jl	.label_move_lumber_x_1		# jump if less
+
+				.label_move_lumber_y_1:
+
+					add esi, 240					# adjust
+					sub esi, 9						# subtract width
+					add edi, 240					# adjust
+					sub edi, 9						# subtract width
+
+				.label_move_lumber_y_end:
+
+					inc ebx							# increase y counter
+					cmp ebx, 9						# compare to height of image
+					jl .label_move_lumber_y_0			# jump if less
+
+		.label_move_gold_icon:
+
+			mov eax, 1							# load source.y
+			mov ebx, 240						# load width
+			mul ebx								# multiply source.y by width
+			add eax, 201						# add source.x to get source_byte_index
+			mov esi, dword ptr [esp+0]			# load target*
+			add esi, eax						# adjust to source_byte_index
+
+			mov eax, 1							# load target.y
+			mov ebx, 240						# load width
+			mul ebx								# multiply target.y by width
+			add eax, 180						# add target.x to get target_byte_index
+			mov edi, dword ptr [esp+0]			# load target*
+			add edi, eax						# adjust to target_byte_index
+
+			.label_move_gold_y:
+
+				xor ebx, ebx					# clear
+
+				.label_move_gold_y_0:
+
+					.label_move_gold_x:
+
+						.label_move_gold_x_0:
+
+							xor ecx, ecx					# clear
+
+						.label_move_gold_x_1:
+
+							mov al, byte ptr [esi]
+							mov dl, byte ptr [edi]
+							mov byte ptr [esi], dl
+							mov byte ptr [edi], al
+
+						.label_move_gold_x_end:
+
+							inc esi
+							inc edi							# go to next byte
+							inc ecx							# increase x counter
+							cmp ecx, 13						# compare to width of image
+							jl	.label_move_gold_x_1		# jump if less
+
+				.label_move_gold_y_1:
+
+					add esi, 240					# adjust
+					sub esi, 13						# subtract width
+					add edi, 240					# adjust
+					sub edi, 13						# subtract width
+
+				.label_move_gold_y_end:
+
+					inc ebx							# increase y counter
+					cmp ebx, 6						# compare to height of image
+					jl .label_move_gold_y_0			# jump if less
+
+		.label_end:
+
+			add esp, 64							# return stack space
+			popad								# restore registers
+			ret									# return
 ```
 
 ## Data Segment
