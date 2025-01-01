@@ -1155,11 +1155,92 @@ Delta: +0x2E00
 					cmp ebx, 6						# compare to height of image
 					jl .label_move_gold_y_0			# jump if less
 
+		.label_draw_food:
+
+			call .get_data_pointer				# get source*
+			mov esi, eax						# save in esi
+
+			mov eax, 0							# load target.y
+			mov ebx, 240						# load width
+			mul ebx								# multiply target.y by width
+			add eax, 20							# add target.x to get target_byte_index
+			mov edi, dword ptr [esp+0]			# load target*
+			add edi, eax						# adjust to target_byte_index
+
+			.label_draw_food_y:
+
+				xor ebx, ebx					# clear
+
+				.label_draw_food_y_0:
+
+					.label_draw_food_x:
+
+						.label_draw_food_x_0:
+
+							xor ecx, ecx					# clear
+
+						.label_draw_food_x_1:
+
+							mov al, byte ptr [esi]
+							cmp al, 0
+							je .label_draw_food_x_end
+							mov byte ptr [edi], al
+
+						.label_draw_food_x_end:
+
+							inc esi
+							inc edi							# go to next byte
+							inc ecx							# increase x counter
+							cmp ecx, 15						# compare to width of image
+							jl	.label_draw_food_x_1		# jump if less
+
+				.label_draw_food_y_1:
+
+					add edi, 240					# adjust
+					sub edi, 15						# subtract width
+
+				.label_draw_food_y_end:
+
+					inc ebx							# increase y counter
+					cmp ebx, 9						# compare to height of image
+					jl .label_draw_food_y_0			# jump if less
+
 		.label_end:
 
 			add esp, 64							# return stack space
 			popad								# restore registers
 			ret									# return
+
+		.get_data_pointer:
+
+				jmp .get_data_pointer_1
+
+			.get_data_pointer_0:
+
+				jmp .get_data_pointer_2
+
+			.get_data_pointer_1:
+
+				call .get_data_pointer_0
+
+			.get_data_pointer_2:
+
+				pop eax
+				sub eax, dword ptr .get_data_pointer_2
+				add eax, dword ptr .get_data_pointer_3
+				ret
+
+			.get_data_pointer_3:
+
+			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC7, 0xC7, 0xC7, 0xC2, 0xC2, 0xC5, 0x00
+			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC7, 0xC6, 0xC6, 0xC2, 0xC1, 0xC1, 0xC7, 0xC5
+			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC7, 0xC6, 0xC7, 0xC7, 0xC2, 0xC1, 0xC1, 0xC1, 0xC5
+			.byte 0xF9, 0xBF, 0x00, 0x00, 0x00, 0xC7, 0xC6, 0xC7, 0xC7, 0xC2, 0xC1, 0xC1, 0xBF, 0xC1, 0xC7
+			.byte 0x00, 0xF9, 0xBF, 0xBF, 0xC7, 0xC6, 0xC7, 0xC7, 0xC7, 0xC2, 0xC1, 0xC1, 0xBF, 0xC1, 0xC7
+			.byte 0xF9, 0xBF, 0x00, 0x00, 0x00, 0xC5, 0xC5, 0xC7, 0xC7, 0xC2, 0xC1, 0xC1, 0xBF, 0xC1, 0xC7
+			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC5, 0xC5, 0xC7, 0xC7, 0xC2, 0xC1, 0xC1, 0xC1, 0xC5
+			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC5, 0xC5, 0xC5, 0xC2, 0xC1, 0xC1, 0xC7, 0xC5
+			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC5, 0xC5, 0xC5, 0xC2, 0xC2, 0xC5, 0x00
 
 	0x00042F00: wc_refurbished_render_farm_info() [file offset 0x45D00]
 
@@ -1187,14 +1268,17 @@ Delta: +0x2E00
 
 		.label_printf:
 
-			mov ecx, 0x0005A418					# food grown
+			mov ecx, 0x00058F22					# food grown
 			add ecx, dword ptr [esp+0]
 			xor eax, eax
 			mov ax, word ptr [ecx]
-			mov ecx, 0x0005A414					# food used
+			mov ecx, 0x00058F68					# food used add
 			add ecx, dword ptr [esp+0]
 			xor ebx, ebx
 			mov bx, word ptr [ecx]
+			mov ecx, 0x00058F0E					# food used sub
+			add ecx, dword ptr [esp+0]
+			sub bx, word ptr [ecx]
 			lea ecx, dword ptr [esp+4]
 			lea edx, dword ptr [esp+12]
 
@@ -1207,10 +1291,10 @@ Delta: +0x2E00
 
 		.label_draw_text:
 
-			mov eax, 0
-			mov edx, 2
-			lea ebx, dword ptr [esp+12]
-			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx) [file offset 0x34CDC]
+			mov eax, 41							# set x argument
+			mov edx, 2							# set y argument
+			lea ebx, dword ptr [esp+12]			# set string* argument
+			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_end:
 
