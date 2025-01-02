@@ -14,6 +14,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+### v0.6.0
+
 * Add rendering of food supply and demand to top bar.
 * Update main menu graphic.
 * Add rendering of unit groups.
