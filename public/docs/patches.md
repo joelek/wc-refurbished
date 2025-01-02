@@ -67,6 +67,10 @@ Delta: +0x2E00
 
 	0x00032120: wc_ui_set_text_colors(color al) [file offset 0x34F20]
 
+	0x000324D4: (wc_core_load_bitmap) [file offset 0x352C0]
+
+			call 0x00042C00						# call wc_refurbished_load_bitmap instead of wc_archive_read
+
 	0x00032780: wc_ui_fill_rect(x eax, y edx, w ebx, h ecx) [file offset 0x35580]
 
 	0x000331A0: wc_ui_load_image(resource_pointer* eax, frame_index edx, frame_pointer* ebx) [file offset 0x35FA0]
@@ -917,9 +921,9 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
-	0x00042C00: wc_refurbished_inject_main_menu_graphic(target* eax, source* edx, size ebx) [file offset 0x45A00]
+	0x00042C00: wc_refurbished_load_bitmap(wc_bitmap_t* ebx, target* eax) [file offset 0x45A00]
 
-			call 0x000318B9						# call c_memcpy()
+			call 0x00032810						# call wc_archive_read
 
 		.label_begin:
 
@@ -929,28 +933,33 @@ Delta: +0x2E00
 		.label_initialize:
 
 			mov ecx, dword ptr [esp+64+32]		# get return address from stack
-			sub ecx, 12							# adjust address to address containing relocated offset in data segment
+			sub ecx, 36							# adjust address to address containing relocated offset in data segment
 			mov ecx, dword ptr [ecx]			# load relocated offset
-			sub ecx, 0x00059524					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			sub ecx, 0x00055438					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
 			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
 
-			mov dword ptr [esp+4], eax			# save target*
-			mov dword ptr [esp+8], edx			# save source*
-			mov dword ptr [esp+12], ebx			# save size
+			mov dword ptr [esp+4], ebx			# save wc_bitmap_t*
+			mov dword ptr [esp+8], eax			# save target*
 
 			call .get_data_pointer				# get data_pointer
-			mov dword ptr [esp+16], eax			# save data_pointer
+			mov dword ptr [esp+12], eax			# save data_pointer
 
 		.label_copy_data:
+
+			mov ebx, dword ptr [esp+4]
+			cmp word ptr [ebx+0x00], 320
+			jne .label_copy_data_end
+			cmp word ptr [ebx+0x02], 130
+			jne .label_copy_data_end
 
 			mov eax, 130-4-5					# load start y
 			mov ebx, 320						# load width
 			mul ebx								# multiply y by width
 			add eax, 320-4-64					# add start x to get byte_index
 
-			mov edi, dword ptr [esp+4]			# load target*
+			mov edi, dword ptr [esp+8]			# load target*
 			add edi, eax						# adjust to byte_index
-			mov esi, dword ptr [esp+16]			# load data_pointer
+			mov esi, dword ptr [esp+12]			# load data_pointer
 			mov edx, 128						# initialize bit mask
 
 			.label_copy_data_y:
@@ -996,39 +1005,42 @@ Delta: +0x2E00
 					inc ebx							# increase y counter
 					cmp ebx, 5						# compare to height of image
 					jl .label_copy_data_y_0			# jump if less
+					jmp .label_end
+
+			.get_data_pointer:
+
+					jmp .get_data_pointer_1
+
+				.get_data_pointer_0:
+
+					jmp .get_data_pointer_2
+
+				.get_data_pointer_1:
+
+					call .get_data_pointer_0
+
+				.get_data_pointer_2:
+
+					pop eax
+					sub eax, dword ptr .get_data_pointer_2
+					add eax, dword ptr .get_data_pointer_3
+					ret
+
+				.get_data_pointer_3:
+
+				.byte 0xCD, 0xAB, 0x32, 0x6A, 0xD8, 0x6C, 0xBA, 0x49
+				.byte 0xA9, 0x2A, 0xAA, 0x8A, 0x94, 0x4A, 0x92, 0xAD
+				.byte 0xCD, 0xAB, 0x32, 0x4E, 0xD4, 0x6A, 0x92, 0xAB
+				.byte 0xA9, 0x2A, 0xAA, 0x2A, 0x94, 0x4A, 0x92, 0xAB
+				.byte 0xAD, 0x3A, 0xB2, 0xCA, 0xD8, 0x6C, 0x92, 0x49
+
+		.label_copy_data_end:
 
 		.label_end:
 
 			add esp, 64							# return stack space
 			popad								# restore registers
 			ret									# return
-
-		.get_data_pointer:
-
-				jmp .get_data_pointer_1
-
-			.get_data_pointer_0:
-
-				jmp .get_data_pointer_2
-
-			.get_data_pointer_1:
-
-				call .get_data_pointer_0
-
-			.get_data_pointer_2:
-
-				pop eax
-				sub eax, dword ptr .get_data_pointer_2
-				add eax, dword ptr .get_data_pointer_3
-				ret
-
-			.get_data_pointer_3:
-
-			.byte 0xCD, 0xAB, 0x32, 0x6A, 0xD8, 0x6C, 0xBA, 0x49
-			.byte 0xA9, 0x2A, 0xAA, 0x8A, 0x94, 0x4A, 0x92, 0xAD
-			.byte 0xCD, 0xAB, 0x32, 0x4E, 0xD4, 0x6A, 0x92, 0xAB
-			.byte 0xA9, 0x2A, 0xAA, 0x2A, 0x94, 0x4A, 0x92, 0xAB
-			.byte 0xAD, 0x3A, 0xB2, 0xCA, 0xD8, 0x6C, 0x92, 0x49
 
 	0x00042D00: wc_refurbished_inject_top_frame_graphic(target* eax, region* edx) [file offset 0x45B00]
 
