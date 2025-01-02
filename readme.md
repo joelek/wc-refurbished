@@ -2,6 +2,8 @@
 
 Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Humans by Blizzard Entertainment.
 
+![](./public/images/main_menu.png)
+
 ![](./public/images/action_button_hotkeys.png)
 
 ![](./public/images/entity_health_bars.png)
