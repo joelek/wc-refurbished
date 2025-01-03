@@ -891,6 +891,85 @@ const slice_t REDUCED_SCROLL_SPEED[] = {
 	}
 };
 
+const slice_t INCREASED_FAR_SIGHT_DARK_VISION_REVEAL[] = {
+	{
+		203007,
+		1,
+		"\x45",
+		"\xC5"
+	},
+	{
+		203037,
+		1,
+		"\x27",
+		"\xA7"
+	}
+};
+
+// Updates relocation table.
+const slice_t INCREASED_WALKING_UNIT_REVEAL[] = {
+	{
+		49438,	// Reloc.
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		49445,	// Reloc.
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		49452,	// Reloc.
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		49473,	// Reloc.
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		49494,	// Reloc.
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		203219,
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		203244,
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		203301,
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		203398,
+		1,
+		"\x48",
+		"\xC8"
+	},
+	{
+		203482,
+		1,
+		"\x48",
+		"\xC8"
+	}
+};
+
 struct patch_t {
 	const slice_t* slices;
 	int slice_count;
@@ -917,7 +996,9 @@ const patch_t PATCHES[] = {
 	{ BETTER_HOTKEYS, sizeof(BETTER_HOTKEYS) / sizeof(*BETTER_HOTKEYS) },
 	{ WORKERS_DEAL_DAMAGE, sizeof(WORKERS_DEAL_DAMAGE) / sizeof(*WORKERS_DEAL_DAMAGE) },
 	{ REDUCED_BORDER_SCROLLER, sizeof(REDUCED_BORDER_SCROLLER) / sizeof(*REDUCED_BORDER_SCROLLER) },
-	{ REDUCED_SCROLL_SPEED, sizeof(REDUCED_SCROLL_SPEED) / sizeof(*REDUCED_SCROLL_SPEED) }
+	{ REDUCED_SCROLL_SPEED, sizeof(REDUCED_SCROLL_SPEED) / sizeof(*REDUCED_SCROLL_SPEED) },
+	{ INCREASED_FAR_SIGHT_DARK_VISION_REVEAL, sizeof(INCREASED_FAR_SIGHT_DARK_VISION_REVEAL) / sizeof(*INCREASED_FAR_SIGHT_DARK_VISION_REVEAL) },
+	{ INCREASED_WALKING_UNIT_REVEAL, sizeof(INCREASED_WALKING_UNIT_REVEAL) / sizeof(*INCREASED_WALKING_UNIT_REVEAL) }
 };
 
 int apply_slice(FILE* handle, const slice_t* slice) {
