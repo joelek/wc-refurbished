@@ -14,10 +14,13 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+* Change the fog of war reveal diameter for moving units from 5 to 7.
+* Change the fog of war reveal diameter for far sight/dark vision spell from 5 to 7.
+
 ### v0.6.0
 
 * Add rendering of food supply and demand to top bar.
-* Update main menu graphic.
+* Change the main menu graphic.
 * Add rendering of unit groups.
 * Change keyboard and mouse scroll speed such that it matches the select location/target scroll speed.
 * Change border scrolling region from 9 pixels to 1 pixel.
@@ -106,6 +109,5 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 
 * Add center map on unit command to clicking unit portrait.
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage).
-* Add hover tooltip for units.
+* Simplify heal spell casting for clerics.
 * Add support for version 1.22.
-* Simplify spell casting.
