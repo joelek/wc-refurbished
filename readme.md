@@ -110,4 +110,5 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 * Add center map on unit command to clicking unit portrait.
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage).
 * Simplify heal spell casting for clerics.
+* Implement backup and restore functionality in wcrpatch.
 * Add support for version 1.22.
