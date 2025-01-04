@@ -1,5 +1,22 @@
 #include <stdio.h>
 
+int copy_file(FILE* source_handle, FILE* target_handle) {
+	unsigned char buffer[512];
+	fseek(source_handle, 0, SEEK_SET);
+	fseek(target_handle, 0, SEEK_SET);
+	while (1) {
+		int bytes_read = fread(buffer, 1, sizeof(buffer), source_handle);
+		if (bytes_read > 0) {
+			if (fwrite(buffer, 1, bytes_read, target_handle) != bytes_read) {
+				return 0;
+			}
+		} else {
+			break;
+		}
+	}
+	return 1;
+}
+
 #ifndef APP_VERSION
 	#define APP_VERSION "?.?.?"
 #endif
@@ -1045,6 +1062,47 @@ int restore_slices(FILE* handle, const slice_t* slices, int slice_count) {
 	return result;
 }
 
+int apply_patches(FILE* handle) {
+	printf("Applying patches...\n");
+	int result = 1;
+	for (int patch_index = 0; patch_index < sizeof(PATCHES) / sizeof(*PATCHES); patch_index += 1) {
+		const patch_t* patch = &PATCHES[patch_index];
+		result &= apply_slices(handle, patch->slices, patch->slice_count);
+	}
+	return result;
+}
+
+int restore_patches(FILE* handle) {
+	printf("Restoring patches...\n");
+	int result = 1;
+	for (int patch_index = 0; patch_index < sizeof(PATCHES) / sizeof(*PATCHES); patch_index += 1) {
+		const patch_t* patch = &PATCHES[patch_index];
+		result &= restore_slices(handle, patch->slices, patch->slice_count);
+	}
+	return result;
+}
+
+int create_backup(FILE* handle, FILE* backup_handle) {
+	if (!restore_patches(handle)) {
+		return 0;
+	}
+	printf("Creating backup...\n");
+	if (!copy_file(handle, backup_handle)) {
+		printf("Backup failed!\n");
+		return 0;
+	}
+	return 1;
+}
+
+int restore_backup(FILE* handle, FILE* backup_handle) {
+	printf("Restoring backup...\n");
+	if (!copy_file(backup_handle, handle)) {
+		printf("Restore failed!\n");
+		return 0;
+	}
+	return 1;
+}
+
 int run(int argc, char** argv) {
 	printf("WarCraft: Refurbished v%s\n", APP_VERSION);
 	FILE* handle = fopen("WAR.EXE", "rb+");
@@ -1060,12 +1118,30 @@ int run(int argc, char** argv) {
 		fclose(handle);
 		return 0;
 	}
-	printf("Applying patches...\n");
-	int result = 1;
-	for (int patch_index = 0; patch_index < sizeof(PATCHES) / sizeof(*PATCHES); patch_index += 1) {
-		const patch_t* patch = &PATCHES[patch_index];
-		result &= apply_slices(handle, patch->slices, patch->slice_count);
+	FILE* backup_handle = fopen("WAR.BAK", "ab+");
+	if (backup_handle == NULL) {
+		printf("Expected to be able to create file \"WAR.BAK\" for reading and writing!\n");
+		fclose(handle);
+		return 0;
 	}
+	fseek(backup_handle, 0, SEEK_END);
+	int backup_file_size = ftell(backup_handle);
+	fseek(backup_handle, 0, SEEK_SET);
+	if (backup_file_size != file_size) {
+		if (!create_backup(handle, backup_handle)) {
+			fclose(handle);
+			fclose(backup_handle);
+			return 0;
+		}
+	} else {
+		if (!restore_backup(handle, backup_handle)) {
+			fclose(handle);
+			fclose(backup_handle);
+			return 0;
+		}
+	}
+	fclose(backup_handle);
+	int result = apply_patches(handle);
 	fclose(handle);
 	return result;
 }
