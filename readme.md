@@ -14,6 +14,7 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+* Add center map on selected unit command to SPACE.
 * Change the fog of war reveal diameter for moving units from 5 to 7.
 * Change the fog of war reveal diameter for far sight/dark vision spell from 5 to 7.
 
@@ -69,7 +70,7 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 * Change hotkey for cancelling construction from 0 to ESC.
 * Add rendering of hotkey information to action buttons.
 * Remove mouse navigation command from hotkey N.
-* Remove center map on unit command from hotkey C.
+* Remove center map on selected unit command from hotkey C.
 * Change grid display toggle hotkey from G to TAB.
 * Change default left mouse button behaviour to drag select.
 * Remove need of clicking to trigger map scrolling at the screen border.
@@ -107,7 +108,6 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 
 ## Roadmap
 
-* Add center map on unit command to clicking unit portrait.
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage).
 * Simplify heal spell casting for clerics.
 * Implement backup and restore functionality in wcrpatch.
