@@ -14,6 +14,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+* Add new contextual dispatch of commands to selected units.
+    * Dispatch `cast heal spell` commands by selecting a single cleric and right clicking a friendly unit.
 * Add center map on selected unit command to SPACE.
 * Change the fog of war reveal diameter for moving units from 5 to 7.
 * Change the fog of war reveal diameter for far sight/dark vision spell from 5 to 7.
