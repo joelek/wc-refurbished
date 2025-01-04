@@ -587,6 +587,30 @@ Delta: +0x2E00
 
 			.label_entity_worker_end:
 
+		.label_entity_cleric:
+
+			cmp dword ptr [esp+24], 12			# compare common_entity_type to 12 (human cleric)
+			jne .label_entity_cleric_end		# jump if not equal
+			cmp dword ptr [esp+20], 1			# compare number of selected entities to 1
+			jne .label_entity_cleric_end		# jump if not equal
+
+			.label_entity_cleric_0:
+
+			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			mov eax, dword ptr [eax]			# dereference pointer
+			cmp eax, 0							# check if null
+			je .label_entity_cleric_1			# jump if null
+			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
+			jne .label_entity_cleric_1			# jump if not equal
+			cmp byte ptr [eax+0x1B], 31			# check if entity_below_cursor.type is 31 (last unit)
+			jg .label_entity_cleric_1			# jump if greater
+			mov ebx, 0x11						# set action to cast heal spell
+			jmp .dispatch_action				# jump to dispatch action
+
+			.label_entity_cleric_1:
+
+			.label_entity_cleric_end:
+
 		.label_entity_mixed:
 
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
