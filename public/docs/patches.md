@@ -571,16 +571,16 @@ Delta: +0x2E00
 
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
 			cmp eax, 0							# check if null
-			je .label_entity_worker_4			# jump if null
+			je .label_entity_worker_5			# jump if null
 			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
-			je .label_entity_worker_4			# jump if equal
+			je .label_entity_worker_5			# jump if equal
 			cmp byte ptr [eax+0x1E], 4			# check if entity_below_cursor.player is player 4 (neutral)
-			je .label_entity_worker_4			# jump if equal
+			je .label_entity_worker_5			# jump if equal
 			mov ebx, 0x04						# set action to attack
 			jmp .dispatch_action				# jump to dispatch action
 
-			.label_entity_worker_4:
+			.label_entity_worker_5:
 
 			mov ebx, 0x03						# set action to move
 			jmp .dispatch_action				# jump to dispatch action
