@@ -524,9 +524,9 @@ Delta: +0x2E00
 			cmp dword ptr [esp+44], 0			# compare number_of_entities_carrying_goods to 0
 			jne .label_entity_worker_2			# jump if not equal
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			mov eax, dword ptr [eax]			# dereference pointer
 			cmp eax, 0							# check if null
 			je .label_entity_worker_2			# jump if null
-			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 4			# check if entity_below_cursor.player is player 4 (neutral)
 			jne .label_entity_worker_2			# jump if not equal
 			cmp byte ptr [eax+0x1B], 50			# check if entity_below_cursor.type is 50 (gold mine)
@@ -540,9 +540,9 @@ Delta: +0x2E00
 			cmp eax, dword ptr [esp+20]			# compare number_of_entities_carrying_goods to number_of_selected_entities
 			jne .label_entity_worker_3			# jump if not equal
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			mov eax, dword ptr [eax]			# dereference pointer
 			cmp eax, 0							# check if null
 			je .label_entity_worker_3			# jump if null
-			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
 			jne .label_entity_worker_3			# jump if not equal
 			cmp byte ptr [eax+0x1B], 40			# check if entity_below_cursor.type is 40 (human town hall)
@@ -555,9 +555,9 @@ Delta: +0x2E00
 			.label_entity_worker_3:
 
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			mov eax, dword ptr [eax]			# dereference pointer
 			cmp eax, 0							# check if null
 			je .label_entity_worker_4			# jump if null
-			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
 			jne .label_entity_worker_4			# jump if not equal
 			cmp byte ptr [eax+0x1B], 32			# check if entity_below_cursor.type is 32 (first building)
@@ -570,9 +570,9 @@ Delta: +0x2E00
 			.label_entity_worker_4:
 
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			mov eax, dword ptr [eax]			# dereference pointer
 			cmp eax, 0							# check if null
 			je .label_entity_worker_5			# jump if null
-			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
 			je .label_entity_worker_5			# jump if equal
 			cmp byte ptr [eax+0x1E], 4			# check if entity_below_cursor.player is player 4 (neutral)
@@ -590,9 +590,9 @@ Delta: +0x2E00
 		.label_entity_mixed:
 
 			mov eax, dword ptr [esp+16]			# load entity_below_cursor*
+			mov eax, dword ptr [eax]			# dereference pointer
 			cmp eax, 0							# check if null
 			je .label_entity_mixed_1			# jump if null
-			mov eax, dword ptr [eax]			# dereference pointer
 			cmp byte ptr [eax+0x1E], 0			# check if entity_below_cursor.player is player 0
 			je .label_entity_mixed_1			# jump if equal
 			cmp byte ptr [eax+0x1E], 4			# check if entity_below_cursor.player is player 4 (neutral)
