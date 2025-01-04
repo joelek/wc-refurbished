@@ -111,5 +111,4 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 ## Roadmap
 
 * Add rendering of unit stats (hit points, range, armor, damage, piercing damage).
-* Implement backup and restore functionality in wcrpatch.
 * Add support for version 1.22.
