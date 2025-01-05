@@ -1344,6 +1344,292 @@ Delta: +0x2E00
 			add esp, 64							# return stack space
 			popad								# restore registers
 			ret									# return
+
+	0x000197E0:
+
+		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay()
+
+	0x000428F0: wc_refurbished_draw_minimap_overlay() [file offset 0x456F0]
+
+		.label_begin:
+
+			pushad								# save registers on stack
+			sub esp, 64							# borrow stack space
+
+		.label_initialize:
+
+			mov ecx, dword ptr [esp+64+32]		# get return address from stack
+			sub ecx, 42							# adjust address to address containing relocated offset in data segment
+			mov ecx, dword ptr [ecx]			# load relocated offset
+			sub ecx, 0x00058EE4					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
+
+			mov ecx, dword ptr [esp+64+32]		# get return address from stack
+			sub ecx, 0x000197E5					# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
+			mov dword ptr [esp+4], ecx			# save relocated_code_segment_offset
+
+		.label_check:
+
+			.todo_check_cursor_position:
+
+			mov eax, 0x0005A400					# load address for wc_ui_action_button_below_cursor*
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			mov eax, dword ptr [eax]			# read value
+			test eax, eax						# compare wc_ui_action_button_below_cursor* to null
+			jz .label_render_normal				# jump if zero
+			mov ebx, 0x0002145C					# load address for wc_action_train_unit()
+			add ebx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
+			cmp dword ptr [eax+0x0F], ebx		# compare wc_ui_action_button_below_cursor.perform()* to wc_action_train_unit()
+			jne .label_render_normal			# jump if not equal
+			xor ebx, ebx						# clear
+			mov bl, byte ptr [eax+0x0E]			# load wc_ui_action_button_below_cursor.argument
+
+		.label_entity_hit_points:
+
+			mov eax, 0x00051978					# load offset for wc_unit_hit_points
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cx, word ptr [eax+ebx*2]		# load value
+			mov dword ptr [esp+8], ecx			# save entity.hit_points
+
+		.label_entity_armor:
+
+			mov eax, 0x00051C8C					# load offset for wc_unit_armor
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax+ebx]			# load value
+			mov dword ptr [esp+12], ecx			# save entity.armor
+
+		.label_entity_base_damage:
+
+			mov eax, 0x00051D7C					# load offset for wc_unit_base_damage
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax+ebx]			# load value
+			mov dword ptr [esp+16], ecx			# save entity.base_damage
+
+		.label_entity_damage:
+
+			mov eax, 0x00051D5C					# load offset for wc_unit_damage
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax+ebx]			# load value
+			mov dword ptr [esp+20], ecx			# save entity.damage
+
+		.label_entity_range:
+
+			mov eax, 0x00051C6C					# load offset for wc_unit_range
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax+ebx]			# load value
+			mov dword ptr [esp+24], ecx			# save entity.range
+
+		.label_entity_armor_upgrades:
+
+			mov eax, 0x00050035					# load offset for wc_upgrade_armor
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax]				# load value
+			shl ecx, 1							# multiply by 2
+			add dword ptr [esp+12], ecx			# add to entity.armor
+
+		.label_base_damage_upgrades:
+
+			cmp bl, 8							# compare entity.type to 8 (human archer)
+			jl .label_base_damage_upgrades_end	# jump if lower
+			cmp bl, 9							# compare entity.type to 9 (orc spearman)
+			jg .label_base_damage_upgrades_end	# jump if greater
+			mov eax, 0x00050008					# load offset for wc_upgrade_base_damage
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax]				# load value
+			shl ecx, 1							# multiply by 2
+			add dword ptr [esp+16], ecx			# add to entity.base_damage
+
+			.label_base_damage_upgrades_end:
+
+		.label_damage_upgrades:
+
+			cmp bl, 4							# compare entity.type to 4 (human catapult)
+			je .label_damage_upgrades_end		# jump if equal
+			cmp bl, 5							# compare entity.type to 5 (orc catapult)
+			je .label_damage_upgrades_end		# jump if equal
+			cmp bl, 8							# compare entity.type to 8 (human archer)
+			je .label_damage_upgrades_end		# jump if equal
+			cmp bl, 9							# compare entity.type to 9 (orc spearman)
+			je .label_damage_upgrades_end		# jump if equal
+			mov eax, 0x0005000D					# load offset for wc_upgrade_damage
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			xor ecx, ecx						# clear
+			mov cl, byte ptr [eax]				# load value
+			shl ecx, 1							# multiply by 2
+			add dword ptr [esp+20], ecx			# add to entity.damage
+
+			.label_damage_upgrades_end:
+
+		.label_set_draw_region:
+
+			mov eax, 0x00055438					# load offset for wc_ui_draw_region_pointer
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			mov ebx, 0x0005314C					# load offset for wc_ui_minimap_region
+			add ebx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			mov dword ptr [eax], ebx			# write wc_ui_draw_region_pointer
+
+		.label_render_background:
+
+			mov eax, 0x0005AE70					# load offset for wc_ui_fill_color
+			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			mov byte ptr [eax], 0				# set color
+			xor eax, eax						# set x argument to 0
+			mov edx, eax						# set y argument to 0
+			xor ebx, ebx						# set w argument to 64
+			add bl, 64							# set w argument to 64
+			mov ecx, ebx						# set h argument to 64
+			call 0x00032780						# call wc_ui_fill_rect(x eax, y edx, w ebx, h ecx)
+
+		.label_render_health:
+
+			xor eax, eax
+			mov al, 0							# health icon
+			call .get_icon_pointer
+			add eax, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
+			xor ebx, ebx
+			add bl, 3+2
+			xor ecx, ecx
+			add cl, 6+2
+			call .draw_icon
+
+			.todo_draw_health_text:
+
+		.label_render_damage:
+
+		.label_render_armor:
+
+		.label_render_range:
+
+			jmp .label_end						# jump
+
+		.label_render_normal:
+
+			call 0x000257B4						# call wc_ui_render_minimap
+
+		.label_end:
+
+			add esp, 64							# return stack space
+			popad								# restore registers
+			ret									# return
+
+		.draw_icon:
+
+			mov esi, eax
+			mov eax, 320
+			mul ecx
+			add eax, ebx
+			add eax, 0x000A0000
+			mov edi, eax
+			call .get_palette_pointer
+
+			.label_draw_icon_y:
+
+				xor ebx, ebx					# clear
+
+				.label_draw_icon_y_0:
+
+					.label_draw_icon_x:
+
+						.label_draw_icon_x_0:
+
+							xor ecx, ecx					# clear
+
+						.label_draw_icon_x_1:
+
+							xor eax, eax					# clear
+							mov al, byte ptr [esi]			# read byte from source
+							test cl, 1						# check if odd x
+							jnz .label_draw_icon_x_2		# jump if odd x
+							shr al, 4						# shift down upper 4 bits for
+
+						.label_draw_icon_x_2:
+
+							and al, 0x0F					# keep lower 4 bits
+							cmp al, 0						# check if transparent black
+							je .label_draw_icon_x_end		# jump if equal
+							mov al, byte ptr [ebp+eax]		# lookup palette index in table
+							mov byte ptr [edi], al			# write byte to target
+
+						.label_draw_icon_x_end:
+
+							test cl, 1						# check if odd x
+							jz .label_draw_icon_x_end_1		# jump if even x
+							inc esi							# go to next source byte
+
+							.label_draw_icon_x_end_1:
+
+							inc edi							# go to next byte
+							inc ecx							# increase x counter
+							cmp ecx, 8						# compare to width of image
+							jl	.label_draw_icon_x_1		# jump if less
+
+				.label_draw_icon_y_1:
+
+					add edi, 320-8					# adjust
+
+				.label_draw_icon_y_end:
+
+					inc ebx							# increase y counter
+					cmp ebx, 7						# compare to height of image
+					jl .label_draw_icon_y_0			# jump if less
+
+			ret
+
+		.get_icon_pointer:
+
+			push ebx							# save register
+			xor ebx, ebx						# clear
+			mov bl, 28							# load bytes_per_icon
+			mul ebx								# multiply icon_index by bytes_per_icon
+			add eax, 0x00042F90					# load offset for icons
+			pop ebx								# restore register
+			ret									# return
+
+		.get_palette_pointer:
+
+				jmp .get_palette_pointer_1
+
+			.get_palette_pointer_0:
+
+				jmp .get_palette_pointer_2
+
+			.get_palette_pointer_1:
+
+				call .get_palette_pointer_0
+
+			.get_palette_pointer_2:
+
+				pop ebp
+				sub ebp, dword ptr .get_palette_pointer_2
+				add ebp, dword ptr .get_palette_pointer_3
+				ret
+
+			.get_palette_pointer_3:
+
+			.byte 0 # transparent black
+			.byte 163 # dark brown
+			.byte 186 # dark gray
+			.byte 162 # brown
+			.byte 179 # dark red
+			.byte 161 # light brown
+			.byte 210 # dark green
+			.byte 181 # red
+			.byte 183 # light red
+			.byte 189 # gray
+			.byte 212 # green
+			.byte 191 # light gray
+			.byte 214 # light green
+			.byte 217 # white
+			.byte 0
+			.byte 0
+
 ```
 
 ## Data Segment
