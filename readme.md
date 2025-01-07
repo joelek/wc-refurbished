@@ -93,7 +93,7 @@ New code is written in assembler using the 80386 [IA-32](https://en.wikipedia.or
 ### Docs
 
 * [entities](./public/docs/entities.md)
-* [executable](./public/docs/executable.md)
+* [executable v1.21](./public/docs/executable_v121.md)
 * [executable v1.22h](./public/docs/executable_v122h.md)
 * [patches](./public/docs/patches.md)
 
