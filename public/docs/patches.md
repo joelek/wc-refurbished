@@ -1345,13 +1345,13 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
-	0x000197E0:
+	0x0001EFE3: [file offset 0x21DE3]
 
 		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay()
 
 	0x000428F0: wc_refurbished_draw_minimap_overlay() [file offset 0x456F0]
 
-			#call 0x000257B4						# call wc_ui_render_minimap
+			call 0x00034950						# call wc_ui_draw_rect_outline
 
 		.label_begin:
 
@@ -1361,30 +1361,24 @@ Delta: +0x2E00
 		.label_initialize:
 
 			mov ecx, dword ptr [esp+64+32]		# get return address from stack
-			sub ecx, 42							# adjust address to address containing relocated offset in data segment
+			sub ecx, 20							# adjust address to address containing relocated offset in data segment
 			mov ecx, dword ptr [ecx]			# load relocated offset
-			sub ecx, 0x00058EE4					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			sub ecx, 0x00059B20					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
 			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
 
 			mov ecx, dword ptr [esp+64+32]		# get return address from stack
-			sub ecx, 0x000197E5					# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
+			sub ecx, 0x0001EFE8					# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
 			mov dword ptr [esp+4], ecx			# save relocated_code_segment_offset
 
 		.label_check:
 
-			.todo_check_cursor_position:
-
-			mov eax, 0x0005A400					# load address for wc_ui_action_button_below_cursor*
+			mov eax, 0x0005A8FC					# load address for for wc_ui_entity_below_cursor*
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov eax, dword ptr [eax]			# read value
-			test eax, eax						# compare wc_ui_action_button_below_cursor* to null
-			jz .label_end				# jump if zero
-			mov ebx, 0x0002145C					# load address for wc_action_train_unit()
-			add ebx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			cmp dword ptr [eax+0x0F], ebx		# compare wc_ui_action_button_below_cursor.perform()* to wc_action_train_unit()
-			jne .label_end			# jump if not equal
+			mov eax, dword ptr [eax]			# read value at address
+			test eax, eax						# compare wc_ui_entity_below_cursor* to null
+			jz .label_end						# jump if zero
 			xor ebx, ebx						# clear
-			mov bl, byte ptr [eax+0x0E]			# load wc_ui_action_button_below_cursor.argument
+			mov bl, byte ptr [eax+0x1B]			# load wc_ui_entity_below_cursor.type
 
 		.label_entity_hit_points:
 
@@ -1469,25 +1463,6 @@ Delta: +0x2E00
 
 			.label_damage_upgrades_end:
 
-		.label_render_background:
-
-			mov edx, 0x00053158					# set source* argument to wc_ui_bitmap_top_left*
-			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov edx, dword ptr [edx]			# load value
-			mov eax, 0x00053150					# set target* argument to wc_ui_minimap_region.pointer
-			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov eax, dword ptr [eax]			# load value
-			mov ebx, 72*72						# set size argument
-			#call 0x000318B9						# call c_memcpy(target* eax, source* edx, size ebx)
-
-		.label_set_draw_region:
-
-			mov eax, 0x00055438					# load offset for wc_ui_target_bitmap_pointer
-			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov ebx, 0x0005A9B0					# load offset for wc_ui_bitmap_framebuffer
-			add ebx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov dword ptr [eax], ebx			# write wc_ui_target_bitmap_pointer
-
 		.label_clear_bg:
 
 			mov eax, 0x0005AE70					# load wc_ui_fill_color
@@ -1542,18 +1517,6 @@ Delta: +0x2E00
 		.label_render_armor:
 
 		.label_render_range:
-
-		.set_framebuffer_dirty_region:
-
-			mov esi, 0x0005AE10					# load address of wc_vga_dirty_region
-			add esi, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov word ptr [esi+0], 0 				# set minx
-			mov word ptr [esi+2], 0 				# set miny
-			mov word ptr [esi+4], 319 				# set maxx
-			mov word ptr [esi+6], 199				# set maxy
-			mov word ptr [esi+8], 320 				# set w
-			mov word ptr [esi+10],200 				# set h
-			#call 0x00033A90						# call wc_vga_copy_to_vram (flickers)
 
 		.label_end:
 
