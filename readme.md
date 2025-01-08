@@ -16,6 +16,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+* Add hover tooltips for units and buildings.
+    * Hover over a unit or building to view its stats in the minimap window.
 * Add new contextual dispatch of commands to selected units.
     * Dispatch `cast heal spell` commands by selecting a single cleric and right clicking a friendly unit.
 * Add center map on selected unit command to SPACE.
