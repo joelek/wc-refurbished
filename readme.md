@@ -10,6 +10,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ![](./public/images/entity_grouping.png)
 
+![](./public/images/hover_tooltips.png)
+
 ## Features
 
 ### Next version
