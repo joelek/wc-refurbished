@@ -7,59 +7,13 @@ Delta: +0x2E00
 ### WarCraft
 
 ```
-	0x00010010: call wc_ui_draw_game_window_background(???) [file offset 0x12E10]
-
-	0x00016920: (wc_load_main_menu_bg_bottom) [file offset 0x19720]
-
-			call 0x00042C00						# call wc_refurbished_inject_main_menu_graphic instead of c_memcpy
-
-	0x0001A00E: (wc_io_keyboard_input_handler) [file offset 0x1CE0E]
-
-			call 0x00042800						# call wc_refurbished_keyboard_input_handler instead of wc_ui_handle_message_input
-
-	0x0001B057: (wc_ui_draw_game_window) [file offset 0x1DE57]
-
-			call 0x00042240						# call wc_refurbished_draw_health_bars instead of wc_ui_draw_game_window_entities
-
-	0x0001B11C: wc_ui_center_game_window_on_coordinates(???) [file offset 0x1DF1C]
-
 	0x0001B48C: wc_ui_select_target_click_handler(x [eax+4], y [eax+6]) [file offset 0x1E28C]
-
-	0x0001B5C5: (wc_io_mouse_handler_default_game_window_right) [file offset 0x1E3C5]
-
-			call 0x00042560						# call wc_refurbished_dispatch_contextual_command instead of wc_ui_center_game_window_on_coordinates
-
-	0x0001B5D0: wc_ui_center_game_window_on_entity(entity* eax) [file offset 0x1E3D0]
-
-	0x0001B690: call wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x1E490]
-
-	0x000254C0: wc_archive_copy_bitmap() [file offset 0x282C0]
 
 	0x00025D80: wc_ui_get_next_selected_entity(__writes entity* eax) [file offset 0x28B80]
 
 	0x00025DF4: wc_ui_get_first_selected_entity(__writes entity* eax) [file offset 0x28BF4]
 
-	0x000263D0: wc_selection_update(entity_pointer_count eax, entity_pointers** edx) [file offset 0x291D0]
-
-	0x000286A3: (wc_ui_draw_action_button) [file offset 0x2B4A3]
-
-			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey instead of wc_ui_draw_image
-
-	0x0002B6C2: (wc_ui_load_resources) [file offset 0x2E4C2]
-
-			call 0x00042D00						# call wc_refurbished_inject_top_frame_graphic instead of wc_archive_copy_bitmap
-
-	0x0002B9F7: (wc_ui_render_resource_bar) [file offset 0x2E7F7]
-
-			call 0x00042F00						# call wc_refurbished_render_farm_info instead of wc_io_mouse_update_drag_rect
-
-	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x307F8]
-
-	0x0002DD2E: (wc_ui_draw_game_window_entities) [file offset 0x30B2E]
-
-		call 0x00042A00							# call wc_refurbished_draw_entity_info instead of wc_ui_draw_particle_or_burning_building
-
-	0x000318B9: c_memcpy(target* eax, source* edx, size ebx) [file offset 0x346B9]
+	0x000263D0: wc_ui_select_entities(entity_pointer_count eax, entity_pointers** edx) [file offset 0x291D0]
 
 	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
 
@@ -67,20 +21,32 @@ Delta: +0x2E00
 
 	0x00032120: wc_ui_set_text_colors(color al) [file offset 0x34F20]
 
-	0x000324D4: (wc_core_load_bitmap) [file offset 0x352C0]
-
-			call 0x00042C00						# call wc_refurbished_load_bitmap instead of wc_archive_read
-
 	0x00032780: wc_ui_fill_rect(x eax, y edx, w ebx, h ecx) [file offset 0x35580]
-
-	0x000331A0: wc_ui_load_image(resource_pointer* eax, frame_index edx, frame_pointer* ebx) [file offset 0x35FA0]
-
-	0x00033AF0: wc_ui_draw_image(x eax, y edx, frame_pointer* ebx) [file offset 0x368F0]
 ```
 
 ### WarCraft: Refurbished
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x000286A3: (inside wc_ui_draw_action_button) [file offset 0x2B4A3]
+
+			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey
+
 	0x000421A0: wc_refurbished_draw_action_button_hotkey(wc_action_button* ecx, button_press_state esi) [file offset 0x44FA0]
 
 			call 0x00033AF0						# call wc_ui_draw_image
@@ -159,6 +125,36 @@ Delta: +0x2E00
 
 			ret
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0001B057: (inside wc_ui_draw_game_window) [file offset 0x1DE57]
+
+			call 0x00042240						# call wc_refurbished_draw_health_bars
+
 	0x00042240 wc_refurbished_draw_health_bars() [file offset 0x45040]
 
 			call 0x0002D9F8						# call wc_ui_draw_game_window_entities
@@ -196,7 +192,7 @@ Delta: +0x2E00
 
 		.label_prepare_loop:
 
-			lea edi, [0x0005A5D0]				# load offset for wc_core_pointer_to_all_entities
+			lea edi, [0x0005A5D0]				# load offset for wc_core_entity_pointers
 			add edi, dword ptr [esp+0]			# adjust by relocated data segment offset
 			cmp dword ptr [edi], 0				# check for null
 			je .label_end						# jump if null
@@ -403,7 +399,36 @@ Delta: +0x2E00
 
 			ret
 
-	0x00042560: wc_refurbished_dispatch_contextual_command(map_tile_x eax, map_tile_y edx) [file offset 0x45360]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0001B5C5: (inside wc_io_mouse_handler_default_game_window_right) [file offset 0x1E3C5]
+
+			call 0x000424C0						# call wc_refurbished_dispatch_contextual_command
+
+	0x000424C0: wc_refurbished_dispatch_contextual_command(map_tile_x eax, map_tile_y edx) [file offset 0x452C0]
 
 			pushad								# save 8 registers on stack
 			sub esp, 64							# borrow stack space
@@ -439,9 +464,9 @@ Delta: +0x2E00
 
 		.label_get_entity_below_cursor:
 
-			mov eax, 0x0005A8FC					# load offset for wc_ui_entity_below_cursor*
+			mov eax, 0x0005A8FC					# load offset for wc_ui_entity_at_cursor_pointer
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov dword ptr [esp+16], eax			# save entity_below_cursor*
+			mov dword ptr [esp+16], eax			# save wc_ui_entity_at_cursor_pointer
 
 		.label_prepare_loop:
 
@@ -637,9 +662,9 @@ Delta: +0x2E00
 
 		.dispatch_action:
 
-			mov eax, 0x0005A904					# load offset for wc_core_action_type
+			mov eax, 0x0005A904					# load offset for wc_ui_selected_action_type
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov word ptr [eax], bx				# set wc_core_action_type
+			mov word ptr [eax], bx				# set wc_ui_selected_action_type
 			mov eax, 0x0005A9F0					# load offset for wc_io_mouse_coordinates
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov bx, word ptr [eax+0x00]			# load coordinate x
@@ -647,7 +672,7 @@ Delta: +0x2E00
 			mov bx, word ptr [eax+0x02]			# load coordinate y
 			mov word ptr [esp+36+6], bx			# write coordinate y to mouse event buffer
 			lea eax, [esp+36]					# set pointer to mouse event buffer
-			call 0x0001B48C						# call wc_ui_select_target_click_handler
+			call 0x0001B48C						# call wc_ui_select_target_click_handler(x [eax+4], y [eax+6])
 
 		.label_end:
 
@@ -655,9 +680,27 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0001A00E: (inside wc_io_keyboard_input_handler) [file offset 0x1CE0E]
+
+			call 0x00042800						# call wc_refurbished_keyboard_input_handler
+
 	0x00042800: wc_refurbished_keyboard_input_handler(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x45600]
 
-			call 0x0001B690						# call wc_ui_handle_message_input
+			call 0x0001B690						# call wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax)
 			test ax, ax							# check if handled
 			jz .label_begin						# jump if zero
 			ret
@@ -786,9 +829,37 @@ Delta: +0x2E00
 			pop ebx								# restore register
 			ret									# return
 
-	0x00042A00: wc_refurbished_draw_entity_info() [file offset 0x45800]
 
-			call 0x0002D834						# call wc_ui_draw_particle_or_burning_building
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0002DD2E: (inside wc_ui_draw_game_window_entities) [file offset 0x30B2E]
+
+		call 0x00042C00							# call wc_refurbished_draw_entity_infos
+
+	0x00042C00: wc_refurbished_draw_entity_infos() [file offset 0x45A00]
+
+			call 0x0002D834						# call wc_ui_draw_directional_sprite
 			cmp esi, 0							# check if final particle
 			je .label_begin						# jump if equal
 			ret									# return
@@ -952,7 +1023,25 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
-	0x00042C00: wc_refurbished_load_bitmap(wc_bitmap_t* ebx, target* eax) [file offset 0x45A00]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x000324D4: (inside wc_archive_load_bitmap) [file offset 0x352D4]
+
+			call 0x00042710						# call wc_refurbished_load_bitmap
+
+	0x00042710: wc_refurbished_load_bitmap(wc_bitmap_t* ebx, target* eax) [file offset 0x45510]
 
 			call 0x00032810						# call wc_archive_read
 
@@ -1073,9 +1162,36 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
-	0x00042D00: wc_refurbished_inject_top_frame_graphic(target* eax, region* edx) [file offset 0x45B00]
 
-			call 0x000254C0				# call wc_archive_copy_bitmap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0002B6C2: (inside wc_ui_load_resources) [file offset 0x2E4C2]
+
+			call 0x00042D60						# call wc_refurbished_inject_top_frame_graphic
+
+	0x00042D60: wc_refurbished_inject_top_frame_graphic(target* eax, region* edx) [file offset 0x45B60]
+
+			call 0x000254C0						# call wc_archive_copy_bitmap
 
 		.label_begin:
 
@@ -1285,9 +1401,31 @@ Delta: +0x2E00
 			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC5, 0xC5, 0xC5, 0xC2, 0xC1, 0xC1, 0xC7, 0xC5
 			.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC5, 0xC5, 0xC5, 0xC2, 0xC2, 0xC5, 0x00
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0002B9F7: (inside wc_ui_render_resource_bar) [file offset 0x2E7F7]
+
+			call 0x00042F00						# call wc_refurbished_render_farm_info
+
 	0x00042F00: wc_refurbished_render_farm_info() [file offset 0x45D00]
 
-			call 0x00034A80						# call wc_io_mouse_update_drag_rect
+			call 0x00034A80						# call wc_vga_update_dirty_region
 
 		.label_begin:
 
@@ -1345,9 +1483,29 @@ Delta: +0x2E00
 			popad								# restore registers
 			ret									# return
 
-	0x0001EFE3: [file offset 0x21DE3]
 
-		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	0x0001EFE3: (inside wc_ui_render_minimap_content) [file offset 0x21DE3]
+
+		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay
 
 	0x000428F0: wc_refurbished_draw_minimap_overlay() [file offset 0x456F0]
 
@@ -1372,10 +1530,10 @@ Delta: +0x2E00
 
 		.label_check:
 
-			mov eax, 0x0005A8FC					# load address for for wc_ui_entity_below_cursor*
+			mov eax, 0x0005A8FC					# load address for for wc_ui_entity_at_cursor_pointer
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov eax, dword ptr [eax]			# read value at address
-			test eax, eax						# compare wc_ui_entity_below_cursor* to null
+			test eax, eax						# compare wc_ui_entity_at_cursor_pointer to null
 			jz .label_end						# jump if zero
 			xor ebx, ebx						# clear
 			mov bl, byte ptr [eax+0x1B]			# load wc_ui_entity_below_cursor.type
@@ -1522,8 +1680,8 @@ Delta: +0x2E00
 
 		.label_render_health_string:
 
-			mov eax, 3+15						# set x argument
-			mov edx, 6+4+10						# set y argument
+			mov eax, 3+3+7+6					# set x argument
+			mov edx, 6+5+10						# set y argument
 			lea ebx, dword ptr [esp+36]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
@@ -1564,8 +1722,8 @@ Delta: +0x2E00
 
 		.label_render_damage_string:
 
-			mov eax, 3+15						# set x argument
-			mov edx, 6+4+20						# set y argument
+			mov eax, 3+3+7+6					# set x argument
+			mov edx, 6+5+20						# set y argument
 			lea ebx, dword ptr [esp+36]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
@@ -1598,8 +1756,8 @@ Delta: +0x2E00
 
 		.label_render_armor_string:
 
-			mov eax, 3+15						# set x argument
-			mov edx, 6+4+30						# set y argument
+			mov eax, 3+3+7+6					# set x argument
+			mov edx, 6+5+30						# set y argument
 			lea ebx, dword ptr [esp+36]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
@@ -1632,8 +1790,8 @@ Delta: +0x2E00
 
 		.label_render_range_string:
 
-			mov eax, 3+15						# set x argument
-			mov edx, 6+4+40						# set y argument
+			mov eax, 3+3+7+6					# set x argument
+			mov edx, 6+5+40						# set y argument
 			lea ebx, dword ptr [esp+36]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
@@ -1747,6 +1905,24 @@ Delta: +0x2E00
 			.byte 191 # light gray
 			.byte 214 # light green
 			.byte 217 # white
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 ## Data Segment
@@ -1758,7 +1934,8 @@ Delta: -0xA200
 ```
 	0x000500D0: wc_ui_scroll_offset_tiles[2*2] [file offset 0x45ED0]
 
-		00 00 00 00
+		00 00
+		00 00
 
 	0x000514E4: wc_ui_button_slots[6*12] [file offset 0x472E4]
 
@@ -1770,20 +1947,41 @@ Delta: -0xA200
 		3C 00
 		...
 
-	0x00051ABC: wc_core_entity_sizes[52*4] [file offset 0x478BC]
+	0x00051ABC: wc_core_entity_size[52*4] [file offset 0x478BC]
 
 		01 00 01 00
 		...
 
-	0x00051B9C: wc_core_entity_boxes[52*4] [file offset 0x4799C]
+	0x00051B9C: wc_core_entity_box[52*4] [file offset 0x4799C]
 
 		0F 00 0F 00
+		...
+
+	0x00051C6C: wc_core_entity_range[32*1]
+
+		01
+		...
+
+	0x00051C8C: wc_core_entity_armor[52*1]
+
+		02
+		...
+
+	0x00051D5C: wc_core_entity_damage[32*1]
+
+		09
+		...
+
+	0x00051D7C: wc_core_entity_base_damage[32*1]
+
+		01
 		...
 
 	0x0005357C: wc_ui_health_bar_color_table[3*2] [file offset 0x4937C]
 
 		4B DF
-		...
+		32 DD
+		00 DE
 
 	0x00055448: wc_io_keyboard_character_from_scan_code[256] [file offset 0x4B248]
 
@@ -1793,14 +1991,6 @@ Delta: -0xA200
 	0x000586BC: wc_core_map_tile_flags_pointer[4] [file offset 0x4E4BC]
 
 		00 00 00 00
-
-	0x000586C4: wc_core_map_tile_types_pointer[4] [file offset 0x4E4C4]
-
-		00 00 00 00
-
-	0x0005A230: wc_core_selected_unit_pointers[8*4] [virtual file offset 0x50030]
-
-		?? ?? ?? ??
 
 	0x0005A5D0: wc_core_entity_pointers[201*4] [virtual file offset 0x503D0]
 
@@ -1818,7 +2008,7 @@ Delta: -0xA200
 	0x0005A9F0: wc_io_mouse_coordinates [2*2] [virtual file offset 0x507F0]
 
 		?? ??
-		...
+		?? ??
 
 	0x0005AE70: wc_ui_fill_color[1] [virtual file_offset 0x50C70]
 
