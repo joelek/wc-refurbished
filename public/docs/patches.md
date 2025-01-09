@@ -1503,13 +1503,18 @@ Delta: +0x2E00
 
 
 
-	0x0001EFE3: (inside wc_ui_render_minimap_content) [file offset 0x21DE3]
+	0x0002B814: (inside wc_ui_draw_status_string_and_resource_cost) [file offset 0x2E614]
 
 		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay
 
 	0x000428F0: wc_refurbished_draw_minimap_overlay() [file offset 0x456F0]
 
-			call 0x00034950						# call wc_ui_draw_rect_outline
+			call 0x00033AF0						# call wc_ui_draw_image
+			cmp ecx, 0							# check ptr for null
+			je .label_begin						# jump if equal
+			cmp byte ptr [ecx], 0				# check if the status text starts with a zero terminator
+			je .label_begin						# jump if equal
+			ret									# return
 
 		.label_begin:
 
@@ -1519,14 +1524,18 @@ Delta: +0x2E00
 		.label_initialize:
 
 			mov ecx, dword ptr [esp+64+32]		# get return address from stack
-			sub ecx, 20							# adjust address to address containing relocated offset in data segment
+			add ecx, 2							# adjust address to address containing relocated offset in data segment
 			mov ecx, dword ptr [ecx]			# load relocated offset
-			sub ecx, 0x00059B20					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+			sub ecx, 0x00055438					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
 			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
 
 			mov ecx, dword ptr [esp+64+32]		# get return address from stack
-			sub ecx, 0x0001EFE8					# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
+			sub ecx, 0x0002B819					# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
 			mov dword ptr [esp+4], ecx			# save relocated_code_segment_offset
+
+			lea ecx, dword ptr [esp+36]			# load address of null_string
+			mov byte ptr [ecx], 0				# write null terminator to null_string
+			mov dword ptr [esp+28], ecx			# set return value to address of null_string
 
 		.label_check:
 
@@ -1584,7 +1593,7 @@ Delta: +0x2E00
 			mov eax, 0x00054E54					# load offset for wc_unit_specs
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov ecx, dword ptr [eax+ebx*8+4]	# load value
-			mov dword ptr [esp+28], ecx			# save entity.hit_points
+			mov dword ptr [esp+28], ecx			# save entity.name
 
 		.label_entity_armor_upgrades:
 
@@ -1629,62 +1638,6 @@ Delta: +0x2E00
 
 			.label_damage_upgrades_end:
 
-		.label_clear_bg:
-
-			mov eax, 0x0005AE70					# load wc_ui_fill_color
-			add eax, dword ptr [esp+0]			# adjust
-			mov byte ptr [eax], 0
-			xor eax, eax
-			mov al, 3
-			xor edx, edx
-			mov dl, 6
-			xor ebx, ebx
-			mov bl, 64
-			xor ecx, ecx
-			mov cl, 64
-			call 0x00032780						# call wc_ui_fill_rect(x eax, y edx, w ebx, h ecx)
-
-		.label_render_name:
-
-			mov eax, 3+3						# set x argument
-			mov edx, 6+3						# set y argument
-			mov ebx, dword ptr [esp+28]			# set string* argument
-			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
-
-		.label_render_health_icon:
-
-			xor eax, eax						# clear
-			mov al, 0							# health icon
-			call .get_icon_pointer				# load address of icon_pointer
-			add eax, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			xor ebx, ebx						# set x argument
-			add bl, 3+3							# set x argument
-			xor ecx, ecx						# set y argument
-			add cl, 6+4+10						# set y argument
-			mov edx, 0x00055438					# load offset for wc_ui_draw_region_pointer
-			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			mov edx, dword ptr [edx]
-			call .draw_icon						# call
-
-		.label_prepare_health_string:
-
-			mov ebx, dword ptr [esp+8]			# load entity.hit_points
-			mov ecx, .get_value_string_pointer	# load address of value_string
-			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+36]			# load target_buffer* argument
-			push ebx							# push argument to stack
-			push ecx							# push argument to stack
-			push edx							# push argument to stack
-			call 0x00031D02						# call c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N])
-			add esp, 12							# restore stack
-
-		.label_render_health_string:
-
-			mov eax, 3+3+7+6					# set x argument
-			mov edx, 6+5+10						# set y argument
-			lea ebx, dword ptr [esp+36]			# set string* argument
-			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
-
 		.label_check_building:
 
 			cmp byte ptr [esp+32], 31			# compare entity.type to 31 (last unit)
@@ -1697,9 +1650,9 @@ Delta: +0x2E00
 			call .get_icon_pointer				# load address of icon_pointer
 			add eax, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
 			xor ebx, ebx						# set x argument
-			add bl, 3+3							# set x argument
+			add bl, 195							# set x argument
 			xor ecx, ecx						# set y argument
-			add cl, 6+4+20						# set y argument
+			add cl, 4						# set y argument
 			mov edx, 0x00055438					# load address for wc_ui_draw_region_pointer
 			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov edx, dword ptr [edx]			# read value
@@ -1712,7 +1665,7 @@ Delta: +0x2E00
 			add eax, ebx						# add base_damage to damage
 			mov ecx, .get_range_string_pointer	# load address of range_string
 			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+36]			# load target_buffer* argument
+			lea edx, dword ptr [esp+40]			# load target_buffer* argument
 			push eax							# push argument to stack
 			push ebx							# push argument to stack
 			push ecx							# push argument to stack
@@ -1722,9 +1675,9 @@ Delta: +0x2E00
 
 		.label_render_damage_string:
 
-			mov eax, 3+3+7+6					# set x argument
-			mov edx, 6+5+20						# set y argument
-			lea ebx, dword ptr [esp+36]			# set string* argument
+			mov eax, 208					# set x argument
+			mov edx, 5						# set y argument
+			lea ebx, dword ptr [esp+40]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_render_armor_icon:
@@ -1734,9 +1687,9 @@ Delta: +0x2E00
 			call .get_icon_pointer				# load address of icon_pointer
 			add eax, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
 			xor ebx, ebx						# set x argument
-			add bl, 3+3							# set x argument
+			add bl, 165							# set x argument
 			xor ecx, ecx						# set y argument
-			add cl, 6+4+30						# set y argument
+			add cl, 4						# set y argument
 			mov edx, 0x00055438					# load offset for wc_ui_draw_region_pointer
 			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov edx, dword ptr [edx]
@@ -1747,7 +1700,7 @@ Delta: +0x2E00
 			mov ebx, dword ptr [esp+12]			# load entity.armor
 			mov ecx, .get_value_string_pointer	# load address of value_string
 			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+36]			# load target_buffer* argument
+			lea edx, dword ptr [esp+40]			# load target_buffer* argument
 			push ebx							# push argument to stack
 			push ecx							# push argument to stack
 			push edx							# push argument to stack
@@ -1756,9 +1709,9 @@ Delta: +0x2E00
 
 		.label_render_armor_string:
 
-			mov eax, 3+3+7+6					# set x argument
-			mov edx, 6+5+30						# set y argument
-			lea ebx, dword ptr [esp+36]			# set string* argument
+			mov eax, 178					# set x argument
+			mov edx, 5						# set y argument
+			lea ebx, dword ptr [esp+40]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_render_range_icon:
@@ -1768,9 +1721,9 @@ Delta: +0x2E00
 			call .get_icon_pointer				# load address of icon_pointer
 			add eax, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
 			xor ebx, ebx						# set x argument
-			add bl, 3+3							# set x argument
+			add bl, 135							# set x argument
 			xor ecx, ecx						# set y argument
-			add cl, 6+4+40						# set y argument
+			add cl, 4						# set y argument
 			mov edx, 0x00055438					# load offset for wc_ui_draw_region_pointer
 			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov edx, dword ptr [edx]
@@ -1781,7 +1734,7 @@ Delta: +0x2E00
 			mov ebx, dword ptr [esp+24]			# load entity.range
 			mov ecx, .get_value_string_pointer	# load address of value_string
 			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+36]			# load target_buffer* argument
+			lea edx, dword ptr [esp+40]			# load target_buffer* argument
 			push ebx							# push argument to stack
 			push ecx							# push argument to stack
 			push edx							# push argument to stack
@@ -1790,15 +1743,16 @@ Delta: +0x2E00
 
 		.label_render_range_string:
 
-			mov eax, 3+3+7+6					# set x argument
-			mov edx, 6+5+40						# set y argument
-			lea ebx, dword ptr [esp+36]			# set string* argument
+			mov eax, 148					# set x argument
+			mov edx, 5						# set y argument
+			lea ebx, dword ptr [esp+40]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_end:
 
 			add esp, 64							# return stack space
 			popad								# restore registers
+			mov ecx, dword ptr [esp+28-32-64]	# overwrite string
 			ret									# return
 
 		.draw_icon:
@@ -1897,13 +1851,10 @@ Delta: +0x2E00
 			.byte 162 # brown
 			.byte 179 # dark red
 			.byte 161 # light brown
-			.byte 210 # dark green
 			.byte 181 # red
 			.byte 183 # light red
 			.byte 189 # gray
-			.byte 212 # green
 			.byte 191 # light gray
-			.byte 214 # light green
 			.byte 217 # white
 
 
