@@ -16,6 +16,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+### v0.7.0
+
 * Add hover tooltips for units and buildings.
     * Hover over a unit or building with the mouse to display its stats in the bottom status bar (when empty).
 * Add new contextual dispatch of commands to selected units.
