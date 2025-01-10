@@ -1908,22 +1908,22 @@ Delta: -0xA200
 		0F 00 0F 00
 		...
 
-	0x00051C6C: wc_core_entity_range[32*1]
+	0x00051C6C: wc_core_entity_range[32*1] [file offset 0x47A6C]
 
 		01
 		...
 
-	0x00051C8C: wc_core_entity_armor[52*1]
+	0x00051C8C: wc_core_entity_armor[52*1] [file offset 0x47A8C]
 
 		02
 		...
 
-	0x00051D5C: wc_core_entity_damage[32*1]
+	0x00051D5C: wc_core_entity_damage[32*1] [file offset 0x47B5C]
 
 		09
 		...
 
-	0x00051D7C: wc_core_entity_base_damage[32*1]
+	0x00051D7C: wc_core_entity_base_damage[32*1] [file offset 0x47B7C]
 
 		01
 		...
