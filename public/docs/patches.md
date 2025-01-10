@@ -1568,7 +1568,7 @@ Delta: +0x2E00
 
 			mov eax, 0x00051D7C					# load offset for wc_unit_base_damage
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			#xor ecx, ecx						# clear
+			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax+ebx]			# load value
 			mov dword ptr [esp+16], ecx			# save entity.base_damage
 
@@ -1576,7 +1576,7 @@ Delta: +0x2E00
 
 			mov eax, 0x00051D5C					# load offset for wc_unit_damage
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			#xor ecx, ecx						# clear
+			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax+ebx]			# load value
 			mov dword ptr [esp+20], ecx			# save entity.damage
 
@@ -1584,7 +1584,7 @@ Delta: +0x2E00
 
 			mov eax, 0x00051C6C					# load offset for wc_unit_range
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
-			#xor ecx, ecx						# clear
+			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax+ebx]			# load value
 			mov dword ptr [esp+24], ecx			# save entity.range
 
