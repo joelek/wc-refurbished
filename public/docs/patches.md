@@ -13,6 +13,9 @@ Delta: +0x2E00
 	0x0001B690: wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x1E490]
 		=> 0x0001B690 (+0x0)
 
+	0x0001EBC8: wc_fow_reveal_7x7(???) [file offset 0x219C8]
+		=> 0x0001EA98 (-0x130)
+
 	0x000254C0: wc_archive_copy_bitmap(???) [file offset 0x282C0]
 		=> 0x00025390 (-0x130)
 
@@ -56,6 +59,43 @@ Delta: +0x2E00
 ### WarCraft: Refurbished
 
 ```
+	0x0002EAFE: (inside wc_fow_update_for_far_sight_dark_vision) [file offset 0x318FE]
+		=> 0x0002E9CE (-0x130)
+
+			jmp 0x0001EBC8						# jump to wc_fow_reveal_7x7
+
+	0x0002EB1C: (inside wc_fow_update_for_far_sight_dark_vision) [file offset 0x3191C]
+		=> 0x0002E9EC (-0x130)
+
+			jmp 0x0001EBC8						# jump to wc_fow_reveal_7x7
+
+	0x0002EBCF (inside wc_fow_update_for_entity) [file offset 0x319CF]
+		=> 0x0002EA9F (-0x130)
+
+			mov [esp+4], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
+
+	0x0002EBE9 (inside wc_fow_update_for_entity) [file offset 0x319E9]
+		=> 0x0002EAB9 (-0x130)
+
+			mov [esp+0], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
+
+	0x0002EC21 (inside wc_fow_update_for_entity) [file offset 0x31A21]
+		=> 0x0002EAF1 (-0x130)
+
+			mov [esp+4], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
+
+	0x0002ECD6 (inside wc_fow_update_for_entity) [file offset 0x31AD6]
+		=> 0x0002EBA6 (-0x130)
+
+			mov [esp+4], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
+
+	0x0002EC83 (inside wc_fow_update_for_entity) [file offset 0x31A83]
+		=> 0x0002EB53 (-0x130)
+
+			mov [esp+0], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
+
+
+
 
 
 
@@ -2143,6 +2183,24 @@ Delta: -0xA200
 ### WarCraft: Refurbished
 
 ```
+	0x00053266: wc_ui_mouse_scroll_speed_table[5*2]
+		=> 0x00053266 (-0x0)
+
+			.byte 0x1E, 0x00
+			.byte 0x14, 0x00
+			.byte 0x0A, 0x00
+			.byte 0x05, 0x00
+			.byte 0x02, 0x00
+
+
+	0x00053270: wc_ui_mouse_scroll_speed_table[5*2]
+		=> 0x00053270 (-0x0)
+
+			.byte 0x1E, 0x00
+			.byte 0x14, 0x00
+			.byte 0x0A, 0x00
+			.byte 0x05, 0x00
+			.byte 0x02, 0x00
 ```
 
 ## References
