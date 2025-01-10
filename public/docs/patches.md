@@ -1546,7 +1546,10 @@ Delta: +0x2E00
 			jz .label_end						# jump if zero
 			xor ebx, ebx						# clear
 			mov bl, byte ptr [eax+0x1B]			# load wc_ui_entity_below_cursor.type
-			mov dword ptr [esp+32], ebx			# save
+			mov dword ptr [esp+32], ebx			# save type
+			xor edx, edx						# clear
+			mov dl, byte ptr [eax+0x1E]			# load wc_ui_entity_below_cursor.player
+			mov dword ptr [esp+40], edx			# save player
 
 		.label_entity_hit_points:
 
@@ -1599,6 +1602,7 @@ Delta: +0x2E00
 
 			mov eax, 0x00050035					# load offset for wc_upgrade_armor
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			add eax, edx						# add player number
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax]				# load value
 			and cl, 0x3F						# clear high bit (upgrade in progress)
@@ -1613,6 +1617,7 @@ Delta: +0x2E00
 			jg .label_base_damage_upgrades_end	# jump if greater
 			mov eax, 0x00050008					# load offset for wc_upgrade_base_damage
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
+			add eax, edx						# add player number
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax]				# load value
 			and cl, 0x3F						# clear high bit (upgrade in progress)
@@ -1632,6 +1637,7 @@ Delta: +0x2E00
 			cmp bl, 9							# compare entity.type to 9 (orc spearman)
 			je .label_damage_upgrades_end		# jump if equal
 			mov eax, 0x0005000D					# load offset for wc_upgrade_damage
+			add eax, edx						# add player number
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax]				# load value
@@ -1668,7 +1674,7 @@ Delta: +0x2E00
 			add eax, ebx						# add base_damage to damage
 			mov ecx, .get_range_string_pointer	# load address of range_string
 			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+40]			# load target_buffer* argument
+			lea edx, dword ptr [esp+44]			# load target_buffer* argument
 			push eax							# push argument to stack
 			push ebx							# push argument to stack
 			push ecx							# push argument to stack
@@ -1680,7 +1686,7 @@ Delta: +0x2E00
 
 			mov eax, 208					# set x argument
 			mov edx, 5						# set y argument
-			lea ebx, dword ptr [esp+40]			# set string* argument
+			lea ebx, dword ptr [esp+44]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_render_armor_icon:
@@ -1703,7 +1709,7 @@ Delta: +0x2E00
 			mov ebx, dword ptr [esp+12]			# load entity.armor
 			mov ecx, .get_value_string_pointer	# load address of value_string
 			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+40]			# load target_buffer* argument
+			lea edx, dword ptr [esp+44]			# load target_buffer* argument
 			push ebx							# push argument to stack
 			push ecx							# push argument to stack
 			push edx							# push argument to stack
@@ -1714,7 +1720,7 @@ Delta: +0x2E00
 
 			mov eax, 178					# set x argument
 			mov edx, 5						# set y argument
-			lea ebx, dword ptr [esp+40]			# set string* argument
+			lea ebx, dword ptr [esp+44]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_render_range_icon:
@@ -1737,7 +1743,7 @@ Delta: +0x2E00
 			mov ebx, dword ptr [esp+24]			# load entity.range
 			mov ecx, .get_value_string_pointer	# load address of value_string
 			add ecx, dword ptr [esp+4]			# adjust by relocated_code_segment_offset
-			lea edx, dword ptr [esp+40]			# load target_buffer* argument
+			lea edx, dword ptr [esp+44]			# load target_buffer* argument
 			push ebx							# push argument to stack
 			push ecx							# push argument to stack
 			push edx							# push argument to stack
@@ -1748,7 +1754,7 @@ Delta: +0x2E00
 
 			mov eax, 148					# set x argument
 			mov edx, 5						# set y argument
-			lea ebx, dword ptr [esp+40]			# set string* argument
+			lea ebx, dword ptr [esp+44]			# set string* argument
 			call 0x00031EDC						# call wc_ui_draw_text(x eax, y edx, string* ebx)
 
 		.label_end:
