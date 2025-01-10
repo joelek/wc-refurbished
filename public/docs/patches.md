@@ -1601,6 +1601,7 @@ Delta: +0x2E00
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax]				# load value
+			and cl, 0x3F						# clear high bit (upgrade in progress)
 			shl ecx, 1							# multiply by 2
 			add dword ptr [esp+12], ecx			# add to entity.armor
 
@@ -1614,6 +1615,7 @@ Delta: +0x2E00
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax]				# load value
+			and cl, 0x3F						# clear high bit (upgrade in progress)
 			shl ecx, 1							# multiply by 2
 			add dword ptr [esp+16], ecx			# add to entity.base_damage
 
@@ -1633,6 +1635,7 @@ Delta: +0x2E00
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			xor ecx, ecx						# clear
 			mov cl, byte ptr [eax]				# load value
+			and cl, 0x3F						# clear high bit (upgrade in progress)
 			shl ecx, 1							# multiply by 2
 			add dword ptr [esp+20], ecx			# add to entity.damage
 
