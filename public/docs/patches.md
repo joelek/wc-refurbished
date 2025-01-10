@@ -125,6 +125,25 @@ Fog of war patch.
 			mov [esp+0], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
 ```
 
+Hotkey patch.
+
+```
+	0x0001A09A: move c hotkey behaviour to space
+		=> 0001A09A
+
+			cmp eax, 0x39
+
+	0x0001A175: move g hotkey behaviour to tab
+		=> 0x0001A175
+
+			cmp	word ptr [0x0005AA32], 0		# needs reloc
+
+	0x00025A4E: remove n hotkey behaviour
+		=> 0x0002591E
+
+			jmp 0x00025A4E+71
+```
+
 Hover scroll patch.
 
 ```
@@ -155,6 +174,30 @@ Hover scroll patch.
 			cmp eax, 199
 ```
 
+Entity balance patch.
+
+```
+	0x00051C75: (inside wc_core_entity_range, sets range for spearman)
+		=> 0x00051C75
+
+			.byte 0x05
+
+	0x00051D5E: (inside wc_core_entity_damage, sets damage for peasant)
+		=> 0x00051D5E
+
+			.byte 0x02
+			.byte 0x02
+
+	0x00051D5F: (inside wc_core_entity_damage, sets damage for peon)
+		=> 0x00051D5F
+
+			.byte 0x02
+
+	0x00051D85: (inside wc_core_base_damage, sets damage for spearman)
+		=> 0x00051D85
+
+			.byte 0x04
+```
 
 
 
@@ -2318,12 +2361,6 @@ Delta: -0xA200
 			.byte 0x0A, 0x00
 			.byte 0x05, 0x00
 			.byte 0x02, 0x00
-
-	0x00051D5E: wc_core_entity_damage+2[2]
-		=> 0x00051D5E (-0x0)
-
-			.byte 0x02
-			.byte 0x02
 
 	0x00057F40: wc_ui_lumber_format_string
 		=> 0x00057DFC
