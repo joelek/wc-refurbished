@@ -10,6 +10,12 @@ Delta: +0x2E00
 	0x0001B48C: wc_ui_select_target_click_handler(x [eax+4], y [eax+6]) [file offset 0x1E28C]
 		=> 0x0001B48C (-0x0)
 
+	0x0001B690: wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x1E490]
+		=> 0x0001B690 (+0x0)
+
+	0x000254C0: wc_archive_copy_bitmap(???) [file offset 0x282C0]
+		=> 0x00025390 (-0x130)
+
 	0x00025D80: wc_ui_get_next_selected_entity(__writes entity* eax) [file offset 0x28B80]
 		=> 0x00025C50 (-0x130)
 
@@ -18,6 +24,12 @@ Delta: +0x2E00
 
 	0x000263D0: wc_ui_select_entities(entity_pointer_count eax, entity_pointers** edx) [file offset 0x291D0]
 		=> 0x000262A0 (-0x130)
+
+	0x0002D834: wc_ui_draw_directional_sprite(???) [file offset 0x30634]
+		=> 0x0002D704 (-0x130)
+
+	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x307F8]
+		=> 0x0002D8C8 (-0x130)
 
 	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
 		=> 0x00031BE2 (-0x120)
@@ -31,22 +43,14 @@ Delta: +0x2E00
 	0x00032780: wc_ui_fill_rect(x eax, y edx, w ebx, h ecx) [file offset 0x35580]
 		=> 0x000326A0 (-0xE0)
 
+	0x00032810: wc_archive_read(???) [file offset 0x35610]
+		=> 0x00032740 (-0xD0)
 
-
-
-
-
-	0x00033AF0: wc_ui_draw_image(???) [file offset 0x]
+	0x00033AF0: wc_ui_draw_image(???) [file offset 0x368F0]
 		=> 0x00033B00 (+0x10)
 
-	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x]
-		=> 0x0002D8C8 (-0x130)
-
-	0x0001B690: wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x]
-		=> 0x0001B690 (+0x0)
-
-	0x0002D834: wc_ui_draw_directional_sprite(???) [file offset 0x]
-		=> 0x0002D704 (-0x130)
+	0x00034A80: wc_vga_update_dirty_region(???) [file offset 0x37880]
+		=> 0x000349F0 (-0x90)
 ```
 
 ### WarCraft: Refurbished
@@ -94,7 +98,6 @@ Delta: +0x2E00
 			add eax, 13							# adjust offset to known relocated value from data segment
 			mov eax, dword ptr [eax]			# load value
 			sub eax, 0x00055438					# adjust by expected value
-				=> 0x0x00055438 (+0x0)
 			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
 			mov bl, byte ptr [ecx+0x0C]			# load scan code for hotkey
@@ -207,7 +210,6 @@ Delta: +0x2E00
 			sub eax, 14							# adjust offset to known relocated value from data segment
 			mov eax, dword ptr [eax]			# load value
 			sub eax, 0x0005A9B0					# adjust by expected value
-				=> 0x0005A870???
 			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
 			lea eax, [0x000500D0]				# load offset for wc_ui_scroll_offset_tiles
@@ -470,8 +472,7 @@ Delta: +0x2E00
 			mov ebx, dword ptr [esp+32+64]		# get return address from stack
 			sub ebx, 13							# adjust address to address containing relocated offset in data segment
 			mov ebx, dword ptr [ebx]			# load relocated offset
-			sub ebx, 0x000500D2					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
-				=> 0x000500D2 (+0x0)
+			sub ebx, 0x000500D0+2					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
 			mov dword ptr [esp+0], ebx			# save relocated_data_segment_offset
 			mov dword ptr [esp+4], eax			# save map_tile_x
 			mov dword ptr [esp+8], edx			# save map_tile_y
@@ -751,7 +752,6 @@ Delta: +0x2E00
 			sub eax, 24							# adjust address to address containing relocated offset in data segment
 			mov eax, dword ptr [eax]			# load relocated offset
 			sub eax, 0x0005152C					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
-				=> 0x0005152C
 			mov dword ptr [esp+0], eax			# save relocated_data_segment_offset
 
 			xor eax, eax						# clear
@@ -910,43 +910,7 @@ Delta: +0x2E00
 			add eax, 11							# adjust address to address containing relocated offset in data segment
 			mov eax, dword ptr [eax]			# load relocated offset
 			sub eax, 0x0005A5D0					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
-				=> 0x0005A490
 			mov dword ptr [esp+0], eax			# save relocated_data_segment_offset
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			mov eax, 0x000500D0					# load offset for wc_ui_scroll_offset_tiles
 			add eax, dword ptr [esp+0]			# adjust by relocated data segment offset
 			xor ebx, ebx						# clear
@@ -1108,6 +1072,7 @@ Delta: +0x2E00
 
 
 	0x000324D4: (inside wc_archive_load_bitmap) [file offset 0x352D4]
+		=> 0x000323F7 (-0xDD)
 
 			call 0x00042710						# call wc_refurbished_load_bitmap
 
@@ -1256,6 +1221,7 @@ Delta: +0x2E00
 
 
 	0x0002B6C2: (inside wc_ui_load_resources) [file offset 0x2E4C2]
+		=> 0x0002B592 (-0x130)
 
 			call 0x00042D60						# call wc_refurbished_inject_top_frame_graphic
 
@@ -1490,6 +1456,7 @@ Delta: +0x2E00
 
 
 	0x0002B9F7: (inside wc_ui_render_resource_bar) [file offset 0x2E7F7]
+		=> 0x0002B8C7 (-0x130)
 
 			call 0x00042F00						# call wc_refurbished_render_farm_info
 
@@ -1519,15 +1486,15 @@ Delta: +0x2E00
 
 		.label_printf:
 
-			mov ecx, 0x00058F22					# food grown
+			mov ecx, 0x00058F22					# load address of wc_food_grown
 			add ecx, dword ptr [esp+0]
 			xor eax, eax
 			mov ax, word ptr [ecx]
-			mov ecx, 0x00058F68					# food used add
+			mov ecx, 0x00058F68					# load address of wc_food_used_add
 			add ecx, dword ptr [esp+0]
 			xor ebx, ebx
 			mov bx, word ptr [ecx]
-			mov ecx, 0x00058F0E					# food used sub
+			mov ecx, 0x00058F0E					# load address of wc_food_used_sub
 			add ecx, dword ptr [esp+0]
 			sub bx, word ptr [ecx]
 			lea ecx, dword ptr [esp+4]
@@ -1574,6 +1541,7 @@ Delta: +0x2E00
 
 
 	0x0002B814: (inside wc_ui_draw_status_string_and_resource_cost) [file offset 0x2E614]
+		=> 0x0002B6E4 (-0x130)
 
 		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay
 
@@ -1600,7 +1568,7 @@ Delta: +0x2E00
 			mov dword ptr [esp+0], ecx			# save relocated_data_segment_offset
 
 			mov ecx, dword ptr [esp+64+32]		# get return address from stack
-			sub ecx, 0x0002B819					# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
+			sub ecx, 0x0002B814+5				# adjust relocated offset by unrelocated value to get relocated_code_segment_offset
 			mov dword ptr [esp+4], ecx			# save relocated_code_segment_offset
 
 			lea ecx, dword ptr [esp+36]			# load address of null_string
@@ -1663,7 +1631,7 @@ Delta: +0x2E00
 
 		.label_entity_name:
 
-			mov eax, 0x00054E54					# load offset for wc_unit_specs
+			mov eax, 0x00054E54					# load offset for wc_ui_entity_panel_specs
 			add eax, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov ecx, dword ptr [eax+ebx*8+4]	# load value
 			mov dword ptr [esp+28], ecx			# save entity.name
@@ -1731,7 +1699,7 @@ Delta: +0x2E00
 			xor ebx, ebx						# set x argument
 			add bl, 195							# set x argument
 			xor ecx, ecx						# set y argument
-			add cl, 4						# set y argument
+			add cl, 4							# set y argument
 			mov edx, 0x00055438					# load address for wc_ui_draw_region_pointer
 			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov edx, dword ptr [edx]			# read value
@@ -1768,7 +1736,7 @@ Delta: +0x2E00
 			xor ebx, ebx						# set x argument
 			add bl, 165							# set x argument
 			xor ecx, ecx						# set y argument
-			add cl, 4						# set y argument
+			add cl, 4							# set y argument
 			mov edx, 0x00055438					# load offset for wc_ui_draw_region_pointer
 			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov edx, dword ptr [edx]
@@ -1802,7 +1770,7 @@ Delta: +0x2E00
 			xor ebx, ebx						# set x argument
 			add bl, 135							# set x argument
 			xor ecx, ecx						# set y argument
-			add cl, 4						# set y argument
+			add cl, 4							# set y argument
 			mov edx, 0x00055438					# load offset for wc_ui_draw_region_pointer
 			add edx, dword ptr [esp+0]			# adjust by relocated_data_segment_offset
 			mov edx, dword ptr [edx]
@@ -1910,7 +1878,7 @@ Delta: +0x2E00
 			xor ebx, ebx						# clear
 			mov bl, 28							# load bytes_per_icon
 			mul ebx								# multiply icon_index by bytes_per_icon
-			add eax, 0x00042F90					# load offset for icons
+			add eax, 0x00042F90					# load address for wc_refurbished_4bit_icon_atlas
 			pop ebx								# restore register
 			ret									# return
 
@@ -1953,6 +1921,47 @@ Delta: +0x2E00
 
 
 
+
+
+
+
+
+
+
+
+	0x00042F90: wc_refurbished_4bit_icon_atlas [file offset 0x45D90]
+
+		.byte 0x04, 0x40, 0x44, 0x00
+		.byte 0x47, 0x66, 0x66, 0x40
+		.byte 0x76, 0x66, 0x66, 0x60
+		.byte 0x46, 0x66, 0x66, 0x40
+		.byte 0x04, 0x66, 0x64, 0x00
+		.byte 0x00, 0x46, 0x40, 0x00
+		.byte 0x00, 0x04, 0x00, 0x00
+
+		.byte 0x00, 0x00, 0x2A, 0x90
+		.byte 0x02, 0x02, 0x98, 0x80
+		.byte 0x08, 0x29, 0x88, 0x20
+		.byte 0x02, 0x88, 0x82, 0x00
+		.byte 0x01, 0x58, 0x20, 0x00
+		.byte 0x15, 0x12, 0x82, 0x00
+		.byte 0x11, 0x00, 0x00, 0x00
+
+		.byte 0x02, 0x99, 0x82, 0x00
+		.byte 0x2A, 0x33, 0x38, 0x20
+		.byte 0x93, 0x53, 0x53, 0x80
+		.byte 0x93, 0x53, 0x53, 0x80
+		.byte 0x83, 0x53, 0x53, 0x80
+		.byte 0x28, 0x33, 0x38, 0x20
+		.byte 0x02, 0x88, 0x82, 0x00
+
+		.byte 0x00, 0x02, 0x99, 0x90
+		.byte 0x00, 0x00, 0x28, 0x90
+		.byte 0x00, 0x02, 0x82, 0x90
+		.byte 0x20, 0x28, 0x20, 0x20
+		.byte 0x92, 0x82, 0x00, 0x00
+		.byte 0x98, 0x20, 0x00, 0x00
+		.byte 0x99, 0x92, 0x00, 0x00
 ```
 
 ## Data Segment
@@ -1962,7 +1971,7 @@ Delta: -0xA200
 ### WarCraft
 
 ```
-	0x00050008: wc_core_base_damage_upgrades_per_player (5*1) [file offset 0x45E08]
+	0x00050008: wc_core_base_damage_upgrades_per_player[5*1] [file offset 0x45E08]
 		=> 0x00050008 (-0x0)
 
 		00
@@ -1971,7 +1980,7 @@ Delta: -0xA200
 		00
 		00
 
-	0x0005000D: wc_core_damage_upgrades_per_player (5*1) [file offset 0x45E0D]
+	0x0005000D: wc_core_damage_upgrades_per_player[5*1] [file offset 0x45E0D]
 		=> 0x0005000D (-0x0)
 
 		00
@@ -1980,7 +1989,7 @@ Delta: -0xA200
 		00
 		00
 
-	0x00050035: wc_core_armor_upgrades_per_player (5*1) [file offset 0x45E35]
+	0x00050035: wc_core_armor_upgrades_per_player[5*1] [file offset 0x45E35]
 		=> 0x00050035 (-0x0)
 
 		00
@@ -2000,6 +2009,11 @@ Delta: -0xA200
 
 		02 00 74 00 21 00 8A 00 20 00 17 00
 		...
+
+	0x0005152C: wc_ui_some_boolean_state[2] [file offset 0x4732C]
+		=> 0x0005152C (-0x0)
+
+		00 00
 
 	0x00051978: wc_core_entity_hitpoints[52*2] [file offset 0x47778]
 		=> 0x00051978 (-0x0)
@@ -2050,16 +2064,48 @@ Delta: -0xA200
 		32 DD
 		00 DE
 
+	0x00054E54: wc_ui_entity_panel_specs[52*8] [file offset 0x4AC54]
+		=> 0x00054E54 (-0x0)
+
+		00 00 00 00 20 4D 00 00 (contains relocated absolute offset)
+		...
+		1A 00 00 00 BE 4D 00 00 (contains relocated absolute offset)
+
+	0x00055438: wc_ui_draw_region_pointer[4] [file offset 0x4B238]
+		=> 0x00055438 (-0x0)
+
+		20 AE 00 00 (contains relocated absolute offset)
+
 	0x00055448: wc_io_keyboard_character_from_scan_code[256] [file offset 0x4B248]
 		=> 0x00055448 (-0x0)
 
 		00 1B 31 32 33 34 35 36 37 38 39 30 2D 3D 08 09
 		...
 
-	0x000586BC: wc_core_map_tile_flags_pointer[4] [file offset 0x4E4BC]
+	0x00057F50: wc_ui_gold_string[10+1] [file offset 0x4DD50]
+		=> 0x00057E0C (-0x144)
+
+		"gold:%6ld "
+
+	0x000586BC: wc_core_map_tile_flags_pointer[4] [virtual file offset 0x4E4BC]
 		=> 0x0005857C (-0x140)
 
 		00 00 00 00
+
+	0x00058F0E: wc_food_used_sub[2] [virtual file offset 0x4ED0E]
+		=> 0x00058DCE (-0x140)
+
+		00 00
+
+	0x00058F22: wc_food_grown[2] [virtual file offset 0x4ED22]
+		=> 0x00058DE2 (-0x140)
+
+		00 00
+
+	0x00058F68: wc_food_used_add[2] [virtual file offset 0x4ED68]
+		=> 0x00058E28 (-0x140)
+
+		00 00
 
 	0x0005A5D0: wc_core_entity_pointers[201*4] [virtual file offset 0x503D0]
 		=> 0x0005A490 (-0x140)
@@ -2072,12 +2118,17 @@ Delta: -0xA200
 
 		?? ?? ?? ??
 
-	0x0005A904: wc_ui_selected_action_type [2] [virtual file offset 0x50704]
+	0x0005A904: wc_ui_selected_action_type[2] [virtual file offset 0x50704]
 		=> 0x0005A7C4 (-0x140)
 
 		?? ??
 
-	0x0005A9F0: wc_io_mouse_coordinates [2*2] [virtual file offset 0x507F0]
+	0x0005A9B0: wc_vga_framebuffer_bitmap[8] [virtual file offset 0x507B0]
+		=> 0x0005A870 (-0x140)
+
+		?? ?? ?? ?? ?? ?? ?? ??
+
+	0x0005A9F0: wc_io_mouse_coordinates[2*2] [virtual file offset 0x507F0]
 		=> 0x0005A8B0 (-0x140)
 
 		?? ??
