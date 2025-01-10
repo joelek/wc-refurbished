@@ -8,20 +8,28 @@ Delta: +0x2E00
 
 ```
 	0x0001B48C: wc_ui_select_target_click_handler(x [eax+4], y [eax+6]) [file offset 0x1E28C]
+		=> 0x0001B48C (-0x0)
 
 	0x00025D80: wc_ui_get_next_selected_entity(__writes entity* eax) [file offset 0x28B80]
+		=> 0x00025C50 (-0x130)
 
 	0x00025DF4: wc_ui_get_first_selected_entity(__writes entity* eax) [file offset 0x28BF4]
+		=> 0x00025CC4 (-0x130)
 
 	0x000263D0: wc_ui_select_entities(entity_pointer_count eax, entity_pointers** edx) [file offset 0x291D0]
+		=> 0x000262A0 (-0x130)
 
 	0x00031D02: c_sprintf(target_buffer* [esp+0], format_string* [esp+4], ...args [esp+8]:[esp+N]) [file offset 0x34B02]
+		=> 0x00031BE2 (-0x120)
 
 	0x00031EDC: wc_ui_draw_text(x eax, y edx, string* ebx) [file offset 0x34CDC]
+		=> 0x00031DCC (-0x110)
 
 	0x00032120: wc_ui_set_text_colors(color al) [file offset 0x34F20]
+		=> 0x00032030 (-0xF0)
 
 	0x00032780: wc_ui_fill_rect(x eax, y edx, w ebx, h ecx) [file offset 0x35580]
+		=> 0x000326A0 (-0xE0)
 ```
 
 ### WarCraft: Refurbished
@@ -1892,85 +1900,129 @@ Delta: -0xA200
 ### WarCraft
 
 ```
+	0x00050008: wc_core_base_damage_upgrades_per_player (5*1) [file offset 0x45E08]
+		=> 0x00050008 (-0x0)
+
+		00
+		00
+		00
+		00
+		00
+
+	0x0005000D: wc_core_damage_upgrades_per_player (5*1) [file offset 0x45E0D]
+		=> 0x0005000D (-0x0)
+
+		00
+		00
+		00
+		00
+		00
+
+	0x00050035: wc_core_armor_upgrades_per_player (5*1) [file offset 0x45E35]
+		=> 0x00050035 (-0x0)
+
+		00
+		00
+		00
+		00
+		00
+
 	0x000500D0: wc_ui_scroll_offset_tiles[2*2] [file offset 0x45ED0]
+		=> 0x00050035 (-0x0)
 
 		00 00
 		00 00
 
 	0x000514E4: wc_ui_button_slots[6*12] [file offset 0x472E4]
+		=> 0x000514E4 (-0x0)
 
 		02 00 74 00 21 00 8A 00 20 00 17 00
 		...
 
 	0x00051978: wc_core_entity_hitpoints[52*2] [file offset 0x47778]
+		=> 0x00051978 (-0x0)
 
 		3C 00
 		...
 
 	0x00051ABC: wc_core_entity_size[52*4] [file offset 0x478BC]
+		=> 0x00051ABC (-0x0)
 
 		01 00 01 00
 		...
 
 	0x00051B9C: wc_core_entity_box[52*4] [file offset 0x4799C]
+		=> 0x00051B9C (-0x0)
 
 		0F 00 0F 00
 		...
 
 	0x00051C6C: wc_core_entity_range[32*1] [file offset 0x47A6C]
+		=> 0x00051C6C (-0x0)
 
 		01
 		...
 
 	0x00051C8C: wc_core_entity_armor[52*1] [file offset 0x47A8C]
+		=> 0x00051C8C (-0x0)
 
 		02
 		...
 
 	0x00051D5C: wc_core_entity_damage[32*1] [file offset 0x47B5C]
+		=> 0x00051D5C (-0x0)
 
 		09
 		...
 
 	0x00051D7C: wc_core_entity_base_damage[32*1] [file offset 0x47B7C]
+		=> 0x00051D7C (-0x0)
 
 		01
 		...
 
 	0x0005357C: wc_ui_health_bar_color_table[3*2] [file offset 0x4937C]
+		=> 0x0005357C (-0x0)
 
 		4B DF
 		32 DD
 		00 DE
 
 	0x00055448: wc_io_keyboard_character_from_scan_code[256] [file offset 0x4B248]
+		=> 0x00055448 (-0x0)
 
 		00 1B 31 32 33 34 35 36 37 38 39 30 2D 3D 08 09
 		...
 
 	0x000586BC: wc_core_map_tile_flags_pointer[4] [file offset 0x4E4BC]
+		=> 0x0005857C (-0x140)
 
 		00 00 00 00
 
 	0x0005A5D0: wc_core_entity_pointers[201*4] [virtual file offset 0x503D0]
+		=> 0x0005A490 (-0x140)
 
 		?? ?? ?? ??
 		...
 
 	0x0005A8FC: wc_ui_entity_at_cursor_pointer[4] [virtual file offset 0x506FC]
+		=> 0x0005A7BC (-0x140)
 
 		?? ?? ?? ??
 
 	0x0005A904: wc_ui_selected_action_type [2] [virtual file offset 0x50704]
+		=> 0x0005A7C4 (-0x140)
 
 		?? ??
 
 	0x0005A9F0: wc_io_mouse_coordinates [2*2] [virtual file offset 0x507F0]
+		=> 0x0005A8B0 (-0x140)
 
 		?? ??
 		?? ??
 
 	0x0005AE70: wc_ui_fill_color[1] [virtual file_offset 0x50C70]
+		=> 0x0005AD30 (-0x140)
 
 		??
 ```
