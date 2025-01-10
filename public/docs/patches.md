@@ -30,6 +30,23 @@ Delta: +0x2E00
 
 	0x00032780: wc_ui_fill_rect(x eax, y edx, w ebx, h ecx) [file offset 0x35580]
 		=> 0x000326A0 (-0xE0)
+
+
+
+
+
+
+	0x00033AF0: wc_ui_draw_image(???) [file offset 0x]
+		=> 0x00033B00 (+0x10)
+
+	0x0002D9F8: wc_ui_draw_game_window_entities(???) [file offset 0x]
+		=> 0x0002D8C8 (-0x130)
+
+	0x0001B690: wc_ui_handle_message_input(scan_code_with_modifiers bx, __writes input_was_handled ax) [file offset 0x]
+		=> 0x0001B690 (+0x0)
+
+	0x0002D834: wc_ui_draw_directional_sprite(???) [file offset 0x]
+		=> 0x0002D704 (-0x130)
 ```
 
 ### WarCraft: Refurbished
@@ -52,6 +69,7 @@ Delta: +0x2E00
 
 
 	0x000286A3: (inside wc_ui_draw_action_button) [file offset 0x2B4A3]
+		=> 0x00028573 (-0x130)
 
 			call 0x000421A0						# call wc_refurbished_draw_action_button_hotkey
 
@@ -76,6 +94,7 @@ Delta: +0x2E00
 			add eax, 13							# adjust offset to known relocated value from data segment
 			mov eax, dword ptr [eax]			# load value
 			sub eax, 0x00055438					# adjust by expected value
+				=> 0x0x00055438 (+0x0)
 			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
 			mov bl, byte ptr [ecx+0x0C]			# load scan code for hotkey
@@ -159,7 +178,10 @@ Delta: +0x2E00
 
 
 
+
+
 	0x0001B057: (inside wc_ui_draw_game_window) [file offset 0x1DE57]
+		=> 0x0001B057 (+0x0)
 
 			call 0x00042240						# call wc_refurbished_draw_health_bars
 
@@ -185,6 +207,7 @@ Delta: +0x2E00
 			sub eax, 14							# adjust offset to known relocated value from data segment
 			mov eax, dword ptr [eax]			# load value
 			sub eax, 0x0005A9B0					# adjust by expected value
+				=> 0x0005A870???
 			mov dword ptr [esp+0], eax			# save relocated data segment offset
 
 			lea eax, [0x000500D0]				# load offset for wc_ui_scroll_offset_tiles
@@ -433,6 +456,7 @@ Delta: +0x2E00
 
 
 	0x0001B5C5: (inside wc_io_mouse_handler_default_game_window_right) [file offset 0x1E3C5]
+		=> 0x0001B5C5 (+0x0)
 
 			call 0x000424C0						# call wc_refurbished_dispatch_contextual_command
 
@@ -447,7 +471,7 @@ Delta: +0x2E00
 			sub ebx, 13							# adjust address to address containing relocated offset in data segment
 			mov ebx, dword ptr [ebx]			# load relocated offset
 			sub ebx, 0x000500D2					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
-
+				=> 0x000500D2 (+0x0)
 			mov dword ptr [esp+0], ebx			# save relocated_data_segment_offset
 			mov dword ptr [esp+4], eax			# save map_tile_x
 			mov dword ptr [esp+8], edx			# save map_tile_y
@@ -703,6 +727,7 @@ Delta: +0x2E00
 
 
 	0x0001A00E: (inside wc_io_keyboard_input_handler) [file offset 0x1CE0E]
+		=> 0x0001A00E (+0x0)
 
 			call 0x00042800						# call wc_refurbished_keyboard_input_handler
 
@@ -726,6 +751,7 @@ Delta: +0x2E00
 			sub eax, 24							# adjust address to address containing relocated offset in data segment
 			mov eax, dword ptr [eax]			# load relocated offset
 			sub eax, 0x0005152C					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+				=> 0x0005152C
 			mov dword ptr [esp+0], eax			# save relocated_data_segment_offset
 
 			xor eax, eax						# clear
@@ -862,6 +888,7 @@ Delta: +0x2E00
 
 
 	0x0002DD2E: (inside wc_ui_draw_game_window_entities) [file offset 0x30B2E]
+		=> 0x0002DBFE (-0x130)
 
 		call 0x00042C00							# call wc_refurbished_draw_entity_infos
 
@@ -883,7 +910,42 @@ Delta: +0x2E00
 			add eax, 11							# adjust address to address containing relocated offset in data segment
 			mov eax, dword ptr [eax]			# load relocated offset
 			sub eax, 0x0005A5D0					# adjust relocated offset by unrelocated value to get relocated_data_segment_offset
+				=> 0x0005A490
 			mov dword ptr [esp+0], eax			# save relocated_data_segment_offset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			mov eax, 0x000500D0					# load offset for wc_ui_scroll_offset_tiles
 			add eax, dword ptr [esp+0]			# adjust by relocated data segment offset
