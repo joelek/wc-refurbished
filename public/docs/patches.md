@@ -58,6 +58,36 @@ Delta: +0x2E00
 
 ### WarCraft: Refurbished
 
+Building placement patch.
+
+```
+	0x0001375F: (inside wc_ui_check_building_placement) remove requirement of building near other buildings
+		=> 0x0001375F
+
+			mov eax, 0
+
+	0x00013784: (inside wc_ui_check_building_placement) remove requirement of building near roads
+		=> 0x00013784
+
+			mov eax, 0
+```
+
+Drag select patch.
+
+```
+	0x0001A2C4: (inside wc_io_event_router) remove requirement of holding left or right control
+		=> 0x0001A2C4
+
+			jmp 0x0001A2C4+12
+
+	0x0001A2DF: (inside wc_io_event_router) set handler
+		=> 0x0001A2DF
+
+			jmp 0x0001A2DF-42
+```
+
+Fog of war patch.
+
 ```
 	0x0002EAFE: (inside wc_fow_update_for_far_sight_dark_vision) [file offset 0x318FE]
 		=> 0x0002E9CE (-0x130)
@@ -69,30 +99,61 @@ Delta: +0x2E00
 
 			jmp 0x0001EBC8						# jump to wc_fow_reveal_7x7
 
-	0x0002EBCF (inside wc_fow_update_for_entity) [file offset 0x319CF]
+	0x0002EBCF: (inside wc_fow_update_for_entity) [file offset 0x319CF]
 		=> 0x0002EA9F (-0x130)
 
 			mov [esp+4], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
 
-	0x0002EBE9 (inside wc_fow_update_for_entity) [file offset 0x319E9]
+	0x0002EBE9: (inside wc_fow_update_for_entity) [file offset 0x319E9]
 		=> 0x0002EAB9 (-0x130)
 
 			mov [esp+0], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
 
-	0x0002EC21 (inside wc_fow_update_for_entity) [file offset 0x31A21]
+	0x0002EC21: (inside wc_fow_update_for_entity) [file offset 0x31A21]
 		=> 0x0002EAF1 (-0x130)
 
 			mov [esp+4], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
 
-	0x0002ECD6 (inside wc_fow_update_for_entity) [file offset 0x31AD6]
+	0x0002ECD6: (inside wc_fow_update_for_entity) [file offset 0x31AD6]
 		=> 0x0002EBA6 (-0x130)
 
 			mov [esp+4], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
 
-	0x0002EC83 (inside wc_fow_update_for_entity) [file offset 0x31A83]
+	0x0002EC83: (inside wc_fow_update_for_entity) [file offset 0x31A83]
 		=> 0x0002EB53 (-0x130)
 
 			mov [esp+0], 0x0001EBC8				# load address of wc_fow_reveal_7x7 (needs reloc)
+```
+
+Hover scroll patch.
+
+```
+	0x00025ACA (inside wc_ui_get_mouse_scroll_speed) remove requirement of clicking
+		=> 0x0002599A
+
+			nop
+			nop
+
+	0x00025BE8: (inside wc_ui_border_scroller) decrease minx
+		=> 0x00025AB8 (-0x130)
+
+			cmp ebx, 0
+
+	0x00025BFF: (inside wc_ui_border_scroller) increase maxx
+		=> 0x00025ACF (-0x130)
+
+			cmp eax, 319
+
+	0x00025C27: (inside wc_ui_border_scroller) decrease miny
+		=> 0x00025AF7 (-0x130)
+
+			cmp ebx, 0
+
+	0x00025C3E: (inside wc_ui_border_scroller) increase maxy
+		=> 0x00025B0E (-0x130)
+
+			cmp eax, 199
+```
 
 
 
@@ -112,6 +173,39 @@ Delta: +0x2E00
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
 	0x000286A3: (inside wc_ui_draw_action_button) [file offset 0x2B4A3]
 		=> 0x00028573 (-0x130)
 
@@ -930,7 +1024,7 @@ Delta: +0x2E00
 	0x0002DD2E: (inside wc_ui_draw_game_window_entities) [file offset 0x30B2E]
 		=> 0x0002DBFE (-0x130)
 
-		call 0x00042C00							# call wc_refurbished_draw_entity_infos
+			call 0x00042C00							# call wc_refurbished_draw_entity_infos
 
 	0x00042C00: wc_refurbished_draw_entity_infos() [file offset 0x45A00]
 
@@ -1493,7 +1587,21 @@ Delta: +0x2E00
 
 
 
+	0x0002B97E: (inside wc_ui_render_resource_bar) remove render skip optimization
+		=> 0x0002B84E
 
+			nop
+			nop
+
+	0x0002B9C4: (inside wc_ui_render_resource_bar) move lumber text
+		=> 0x0002B894
+
+			mov edx, 135
+
+	0x0002B9E3: (inside wc_ui_render_resource_bar) move gold text
+		=> 0x0002B8B3
+
+			mov edx, 199
 
 	0x0002B9F7: (inside wc_ui_render_resource_bar) [file offset 0x2E7F7]
 		=> 0x0002B8C7 (-0x130)
@@ -1580,10 +1688,20 @@ Delta: +0x2E00
 
 
 
+	0x0002B7E9: (inside wc_ui_draw_status_string_and_resource_cost) remove render optimization [file offset 0x2E5E9]
+		=> 0x0002B6B9 (-0x130)
+
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+
 	0x0002B814: (inside wc_ui_draw_status_string_and_resource_cost) [file offset 0x2E614]
 		=> 0x0002B6E4 (-0x130)
 
-		call 0x000428F0							# call wc_refurbished_draw_minimap_overlay
+			call 0x000428F0							# call wc_refurbished_draw_minimap_overlay
 
 	0x000428F0: wc_refurbished_draw_minimap_overlay() [file offset 0x456F0]
 
@@ -2192,7 +2310,6 @@ Delta: -0xA200
 			.byte 0x05, 0x00
 			.byte 0x02, 0x00
 
-
 	0x00053270: wc_ui_mouse_scroll_speed_table[5*2]
 		=> 0x00053270 (-0x0)
 
@@ -2201,6 +2318,22 @@ Delta: -0xA200
 			.byte 0x0A, 0x00
 			.byte 0x05, 0x00
 			.byte 0x02, 0x00
+
+	0x00051D5E: wc_core_entity_damage+2[2]
+		=> 0x00051D5E (-0x0)
+
+			.byte 0x02
+			.byte 0x02
+
+	0x00057F40: wc_ui_lumber_format_string
+		=> 0x00057DFC
+
+			.string "%ld\0\0\0\0\0\0\0\0\0"
+
+	0x00057F50: wc_ui_gold_format_string
+		=> 0x00057E0C
+
+			.string "%ld\0\0\0\0\0\0\0"
 ```
 
 ## References
