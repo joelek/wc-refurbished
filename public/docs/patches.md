@@ -246,312 +246,312 @@ Hotkey patch.
 	0x00053FD0:
 		 => 0x00053FD0
 
-			.string "\x2E"
+			.byte 0x2E
 
 	0x00054048:
 		 => 0x00054048
 
-			.string "\x1E"
+			.byte 0x1E
 
 	0x000540E8:
 		 => 0x000540E8
 
-			.string "\x26"
+			.byte 0x26
 
 	0x00054160:
 		 => 0x00054160
 
-			.string "\x26"
+			.byte 0x26
 
 	0x0005428C:
 		 => 0x0005428C
 
-			.string "\x20"
+			.byte 0x20
 
 	0x000542A0:
 		 => 0x000542A0
 
-			.string "\x20"
+			.byte 0x20
 
 	0x000542B4:
 		 => 0x000542B4
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000542C8:
 		 => 0x000542C8
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000542DC:
 		 => 0x000542DC
 
-			.string "\x20"
+			.byte 0x20
 
 	0x000542F0:
 		 => 0x000542F0
 
-			.string "\x20"
+			.byte 0x20
 
 	0x00054304:
 		 => 0x00054304
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054318:
 		 => 0x00054318
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005432C:
 		 => 0x0005432C
 
-			.string "\x20"
+			.byte 0x20
 
 	0x00054340:
 		 => 0x00054340
 
-			.string "\x20"
+			.byte 0x20
 
 	0x00054354:
 		 => 0x00054354
 
-			.string "\x1E"
+			.byte 0x1E
 
 	0x00054368:
 		 => 0x00054368
 
-			.string "\x1E"
+			.byte 0x1E
 
 	0x0005437C:
 		 => 0x0005437C
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054390:
 		 => 0x00054390
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000543A4:
 		 => 0x000543A4
 
-			.string "\x20"
+			.byte 0x20
 
 	0x000543B8:
 		 => 0x000543B8
 
-			.string "\x20"
+			.byte 0x20
 
 	0x000543CC:
 		 => 0x000543CC
 
-			.string "\x1E"
+			.byte 0x1E
 
 	0x000543E0:
 		 => 0x000543E0
 
-			.string "\x1E"
+			.byte 0x1E
 
 	0x000543F4:
 		 => 0x000543F4
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054408:
 		 => 0x00054408
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054458:
 		 => 0x00054458
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005446C:
 		 => 0x0005446C
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054480:
 		 => 0x00054480
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000544D0:
 		 => 0x000544D0
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000544E4:
 		 => 0x000544E4
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000544F8:
 		 => 0x000544F8
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005450C:
 		 => 0x0005450C
 
-			.string "\x23"
+			.byte 0x23
 
 	0x00054520:
 		 => 0x00054520
 
-			.string "\x23"
+			.byte 0x23
 
 	0x00054534:
 		 => 0x00054534
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054548:
 		 => 0x00054548
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005455C:
 		 => 0x0005455C
 
-			.string "\x11"
+			.byte 0x11
 
 	0x00054570:
 		 => 0x00054570
 
-			.string "\x11"
+			.byte 0x11
 
 	0x00054584:
 		 => 0x00054584
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054598:
 		 => 0x00054598
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000545D4:
 		 => 0x000545D4
 
-			.string "\x2E"
+			.byte 0x2E
 
 	0x000545FC:
 		 => 0x000545FC
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054610:
 		 => 0x00054610
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054624:
 		 => 0x00054624
 
-			.string "\x22"
+			.byte 0x22
 
 	0x0005464C:
 		 => 0x0005464C
 
-			.string "\x2E"
+			.byte 0x2E
 
 	0x00054674:
 		 => 0x00054674
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054688:
 		 => 0x00054688
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005469C:
 		 => 0x0005469C
 
-			.string "\x2E"
+			.byte 0x2E
 
 	0x000546EC:
 		 => 0x000546EC
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054700:
 		 => 0x00054700
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054714:
 		 => 0x00054714
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054728:
 		 => 0x00054728
 
-			.string "\x11"
+			.byte 0x11
 
 	0x00054778:
 		 => 0x00054778
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005478C:
 		 => 0x0005478C
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000547A0:
 		 => 0x000547A0
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000547B4:
 		 => 0x000547B4
 
-			.string "\x2E"
+			.byte 0x2E
 
 	0x00054804:
 		 => 0x00054804
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054818:
 		 => 0x00054818
 
-			.string "\x01"
+			.byte 0x01
 
 	0x0005482C:
 		 => 0x0005482C
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054840:
 		 => 0x00054840
 
-			.string "\x31"
+			.byte 0x31
 
 	0x00054890:
 		 => 0x00054890
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000548A4:
 		 => 0x000548A4
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000548B8:
 		 => 0x000548B8
 
-			.string "\x01"
+			.byte 0x01
 
 	0x000548CC:
 		 => 0x000548CC
 
-			.string "\x01"
+			.byte 0x01
 
 	0x00054D92:
 		=> 0x00054D92
