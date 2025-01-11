@@ -16,6 +16,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 
 ### Next version
 
+* Add support for game version 1.22h.
+
 ### v0.7.0
 
 * Add hover tooltips for units and buildings.
@@ -115,8 +117,6 @@ Thank you for your support!
 Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9CE7F2fE6D`.
 
 ## Roadmap
-
-* Add support for version 1.22h.
 
 ## References
 
