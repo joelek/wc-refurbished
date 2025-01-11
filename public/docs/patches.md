@@ -2614,7 +2614,7 @@ Delta: -0xA200
 		00
 
 	0x000500D0: wc_ui_scroll_offset_tiles[2*2] [file offset 0x45ED0]
-		=> 0x00050035 (-0x0)
+		=> 0x000500D0 (-0x0)
 
 		00 00
 		00 00
