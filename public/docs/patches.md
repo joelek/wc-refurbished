@@ -78,12 +78,12 @@ Drag select patch.
 	0x0001A2C4: (inside wc_io_event_router) remove requirement of holding left or right control
 		=> 0x0001A2C4
 
-			jmp 0x0001A2C4+12
+			.byte 0xEB, 0x0A						# encoding of short jump +12
 
 	0x0001A2DF: (inside wc_io_event_router) set handler
 		=> 0x0001A2DF
 
-			jmp 0x0001A2DF-42
+			.byte 0xEB, 0xD4						# encoding of short jump -42
 ```
 
 Fog of war patch.
