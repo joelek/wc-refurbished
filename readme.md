@@ -118,3 +118,13 @@ Ethereum contributions can be made to address `0xf1B63d95BEfEdAf70B3623B1A4Ba0D9
 ## Roadmap
 
 * Add support for version 1.22h.
+
+## References
+
+* https://stanislavs.org/helppc/int_21-25.html
+* https://wiki.osdev.org/PS/2_Keyboard#Scan_Code_Sets
+* https://open-watcom.github.io/open-watcom-1.9/pguide.html#DOSD4GW__Int31H_Function_Calls
+* https://grandidierite.github.io/dos-interrupts/
+* https://dosgraphicseditor.blogspot.com/p/mouse-events-tutorial.html
+* https://en.wikipedia.org/wiki/INT_13H
+* https://wiki.archlinux.org/title/Open_Watcom
