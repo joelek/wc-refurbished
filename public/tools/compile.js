@@ -162,7 +162,6 @@ for (let executable of executables) {
 				throw new Error(`Expected a valid result from kstool!`);
 			}
 			let bytes_patched = Buffer.from(parts[1].trim().split(/\s+/).map((part) => Number.parseInt(part, 16)));
-			console.log(bytes_patched);
 			let object_index = objects.findIndex((object) => {
 				if (address >= object.relocation_base_address) {
 					if (address - object.relocation_base_address < object.page_map_records * page_size) {
@@ -202,7 +201,6 @@ for (let executable of executables) {
 						throw new Error(`Expected replacement record to belong to an object!`);
 					}
 					replacement = replacement - replacement_object.relocation_base_address;
-					console.log(bytes_restore, bytes_patched, replacement);
 					bytes_patched.writeUint32LE(replacement, occurence);
 					let reloc_restore = record.bytes_at_offset;
 					let reloc_patched = Buffer.alloc(reloc_restore.length);
@@ -218,8 +216,6 @@ for (let executable of executables) {
 						patched_data: convertData(reloc_patched),
 					});
 					reloc_restore.set(reloc_patched);
-					console.log(record)
-					console.log({relocation_offset, relocation_offset_within_object, relocation_page_within_object, relocation_offset_within_page});
 				}
 			}
 			slices.push({
