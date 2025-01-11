@@ -40,7 +40,12 @@ if [ $1 = "release" ]; then
 	)
 fi
 
-SOURCES=()
+SOURCES=(
+	"patch.c"
+	"slice.c"
+	"v121.c"
+	"v122h.c"
+)
 
 TARGETS=(
 	"wcrpatch.c"
@@ -72,7 +77,7 @@ OBJECTS=()
 
 for i in ${SOURCES[@]}; do
 	OBJECTS+=(
-		"build/objects/$i.o"
+		"build${SEP}objects${SEP}$i.o"
 	)
 done
 
