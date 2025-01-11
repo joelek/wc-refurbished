@@ -1170,7 +1170,7 @@ int run(int argc, char** argv) {
 	fseek(backup_handle, 0, SEEK_END);
 	int backup_file_size = ftell(backup_handle);
 	fseek(backup_handle, 0, SEEK_SET);
-	if (backup_file_size != file_size) {
+	if (backup_file_size == 0) {
 		if (!create_backup(handle, backup_handle)) {
 			fclose(handle);
 			fclose(backup_handle);
