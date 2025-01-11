@@ -88,7 +88,7 @@ The LE Header starts at file offset 0x2AA8 (10920).
 |    116 | Imported modules count              | 00000000 | ui32 | 0           |
 |    120 | Imported proc. name table offset    | 85FD0000 | ui32 | 64901       |
 |    124 | Per-page checksum table offset      | 00000000 | ui32 | 0           |
-|    128 | Data page abs offset                | 002A0100 | ui32 | 76288       |
+|    128 | Page data abs offset                | 002A0100 | ui32 | 76288       |
 |    132 | Preload page count                  | 00000000 | ui32 | 0           |
 |    136 | Non-resident names table abs offset | 00000000 | ui32 | 0           |
 |    140 | Non-resident names table length     | 00000000 | ui32 | 0           |
