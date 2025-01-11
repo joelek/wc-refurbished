@@ -1129,9 +1129,6 @@ int restore_patches(FILE* handle) {
 }
 
 int create_backup(FILE* handle, FILE* backup_handle) {
-	if (!restore_patches(handle)) {
-		return 0;
-	}
 	printf("Creating backup...\n");
 	if (!copy_file(handle, backup_handle)) {
 		printf("Backup failed!\n");
