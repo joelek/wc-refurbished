@@ -64,12 +64,12 @@ Building placement patch.
 	0x0001375F: (inside wc_ui_check_building_placement) remove requirement of building near other buildings
 		=> 0x0001375F
 
-			mov eax, 0
+			mov eax, 0							# set return value to ok
 
 	0x00013784: (inside wc_ui_check_building_placement) remove requirement of building near roads
 		=> 0x00013784
 
-			mov eax, 0
+			mov eax, 0							# set return value to ok
 ```
 
 Drag select patch.
@@ -142,6 +142,421 @@ Hotkey patch.
 		=> 0x0002591E
 
 			jmp 0x00025A4E+71
+
+	0x0005359C:
+		=> 0x0005359C
+
+			.string "cancel\0\0\0\0\0\0\0\0\0\0"
+
+	0x000536FA:
+		=> 0x000536FA
+
+			.string "build @1c@2hurch"
+
+	0x0005370B:
+		=> 0x0005370B
+
+			.string "build @1a@2ltar\0"
+
+	0x00053758:
+		=> 0x00053758
+
+			.string "summon scorpions\0\0\0\0"
+
+	0x00053799:
+		=> 0x00053799
+
+			.string "summon spiders\0\0\0\0"
+
+	0x0005382E:
+		=> 0x0005382E
+
+			.string "build @1c@2atapult"
+
+	0x000538A8:
+		=> 0x000538A8
+
+			.string "train @1w@2arlock"
+
+	0x000538BA:
+		=> 0x000538BA
+
+			.string "train @1c@2leric"
+
+	0x000538CB:
+		=> 0x000538CB
+
+			.string "train @1n@2ecrolyte"
+
+	0x000538DF:
+		=> 0x000538DF
+
+			.string "train @1c@2onjurer"
+
+	0x000538F2:
+		=> 0x000538F2
+
+			.string "train @1g@2runt"
+
+	0x00053914:
+		=> 0x00053914
+
+			.string "breed faster @1h@2orses"
+
+	0x0005392C:
+		=> 0x0005392C
+
+			.string "breed faster @1w@2olves"
+
+	0x00053944:
+		=> 0x00053944
+
+			.string "upgrade sword @1d@2amage\0\0"
+
+	0x0005395F:
+		=> 0x0005395F
+
+			.string "upgrade spear @1d@2amage\0\0"
+
+	0x0005397A:
+		=> 0x0005397A
+
+			.string "upgrade axe @1d@2amage\0\0"
+
+	0x00053993:
+		=> 0x00053993
+
+			.string "upgrade arrow @1d@2amage\0\0"
+
+	0x000539AE:
+		=> 0x000539AE
+
+			.string "upgrade shield @1a@2rmor\0\0\0"
+
+	0x000539CA:
+		=> 0x000539CA
+
+			.string "upgrade shield @1a@2rmor\0\0\0"
+
+	0x00053A57:
+		=> 0x00053A57
+
+			.string "research @1r@2aise dead\0\0"
+
+	0x00053FD0:
+		 => 0x00053FD0
+
+			.string "\x2E"
+
+	0x00054048:
+		 => 0x00054048
+
+			.string "\x1E"
+
+	0x000540E8:
+		 => 0x000540E8
+
+			.string "\x26"
+
+	0x00054160:
+		 => 0x00054160
+
+			.string "\x26"
+
+	0x0005428C:
+		 => 0x0005428C
+
+			.string "\x20"
+
+	0x000542A0:
+		 => 0x000542A0
+
+			.string "\x20"
+
+	0x000542B4:
+		 => 0x000542B4
+
+			.string "\x01"
+
+	0x000542C8:
+		 => 0x000542C8
+
+			.string "\x01"
+
+	0x000542DC:
+		 => 0x000542DC
+
+			.string "\x20"
+
+	0x000542F0:
+		 => 0x000542F0
+
+			.string "\x20"
+
+	0x00054304:
+		 => 0x00054304
+
+			.string "\x01"
+
+	0x00054318:
+		 => 0x00054318
+
+			.string "\x01"
+
+	0x0005432C:
+		 => 0x0005432C
+
+			.string "\x20"
+
+	0x00054340:
+		 => 0x00054340
+
+			.string "\x20"
+
+	0x00054354:
+		 => 0x00054354
+
+			.string "\x1E"
+
+	0x00054368:
+		 => 0x00054368
+
+			.string "\x1E"
+
+	0x0005437C:
+		 => 0x0005437C
+
+			.string "\x01"
+
+	0x00054390:
+		 => 0x00054390
+
+			.string "\x01"
+
+	0x000543A4:
+		 => 0x000543A4
+
+			.string "\x20"
+
+	0x000543B8:
+		 => 0x000543B8
+
+			.string "\x20"
+
+	0x000543CC:
+		 => 0x000543CC
+
+			.string "\x1E"
+
+	0x000543E0:
+		 => 0x000543E0
+
+			.string "\x1E"
+
+	0x000543F4:
+		 => 0x000543F4
+
+			.string "\x01"
+
+	0x00054408:
+		 => 0x00054408
+
+			.string "\x01"
+
+	0x00054458:
+		 => 0x00054458
+
+			.string "\x01"
+
+	0x0005446C:
+		 => 0x0005446C
+
+			.string "\x01"
+
+	0x00054480:
+		 => 0x00054480
+
+			.string "\x01"
+
+	0x000544D0:
+		 => 0x000544D0
+
+			.string "\x01"
+
+	0x000544E4:
+		 => 0x000544E4
+
+			.string "\x01"
+
+	0x000544F8:
+		 => 0x000544F8
+
+			.string "\x01"
+
+	0x0005450C:
+		 => 0x0005450C
+
+			.string "\x23"
+
+	0x00054520:
+		 => 0x00054520
+
+			.string "\x23"
+
+	0x00054534:
+		 => 0x00054534
+
+			.string "\x01"
+
+	0x00054548:
+		 => 0x00054548
+
+			.string "\x01"
+
+	0x0005455C:
+		 => 0x0005455C
+
+			.string "\x11"
+
+	0x00054570:
+		 => 0x00054570
+
+			.string "\x11"
+
+	0x00054584:
+		 => 0x00054584
+
+			.string "\x01"
+
+	0x00054598:
+		 => 0x00054598
+
+			.string "\x01"
+
+	0x000545D4:
+		 => 0x000545D4
+
+			.string "\x2E"
+
+	0x000545FC:
+		 => 0x000545FC
+
+			.string "\x01"
+
+	0x00054610:
+		 => 0x00054610
+
+			.string "\x01"
+
+	0x00054624:
+		 => 0x00054624
+
+			.string "\x22"
+
+	0x0005464C:
+		 => 0x0005464C
+
+			.string "\x2E"
+
+	0x00054674:
+		 => 0x00054674
+
+			.string "\x01"
+
+	0x00054688:
+		 => 0x00054688
+
+			.string "\x01"
+
+	0x0005469C:
+		 => 0x0005469C
+
+			.string "\x2E"
+
+	0x000546EC:
+		 => 0x000546EC
+
+			.string "\x01"
+
+	0x00054700:
+		 => 0x00054700
+
+			.string "\x01"
+
+	0x00054714:
+		 => 0x00054714
+
+			.string "\x01"
+
+	0x00054728:
+		 => 0x00054728
+
+			.string "\x11"
+
+	0x00054778:
+		 => 0x00054778
+
+			.string "\x01"
+
+	0x0005478C:
+		 => 0x0005478C
+
+			.string "\x01"
+
+	0x000547A0:
+		 => 0x000547A0
+
+			.string "\x01"
+
+	0x000547B4:
+		 => 0x000547B4
+
+			.string "\x2E"
+
+	0x00054804:
+		 => 0x00054804
+
+			.string "\x01"
+
+	0x00054818:
+		 => 0x00054818
+
+			.string "\x01"
+
+	0x0005482C:
+		 => 0x0005482C
+
+			.string "\x01"
+
+	0x00054840:
+		 => 0x00054840
+
+			.string "\x31"
+
+	0x00054890:
+		 => 0x00054890
+
+			.string "\x01"
+
+	0x000548A4:
+		 => 0x000548A4
+
+			.string "\x01"
+
+	0x000548B8:
+		 => 0x000548B8
+
+			.string "\x01"
+
+	0x000548CC:
+		 => 0x000548CC
+
+			.string "\x01"
+
+	0x00054D92:
+		=> 0x00054D92
+
+			.string "Altar\0"
 ```
 
 Hover scroll patch.
@@ -185,7 +600,6 @@ Entity balance patch.
 	0x00051D5E: (inside wc_core_entity_damage, sets damage for peasant)
 		=> 0x00051D5E
 
-			.byte 0x02
 			.byte 0x02
 
 	0x00051D5F: (inside wc_core_entity_damage, sets damage for peon)
