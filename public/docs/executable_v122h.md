@@ -45,7 +45,7 @@ The MZ Header starts at file offset 0x0 (0).
 
 | Offset | Description                         | Bytes    | Type | Value       |
 | ------ | ----------------------------------- | -------- | ---- | ----------- |
-|     60 | New header offset                   | 102E     | ui32 | 10920       |
+|     60 | New header offset                   | 102E0000 | ui32 | 10920       |
 
 ## LE Header
 
