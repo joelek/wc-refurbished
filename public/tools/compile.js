@@ -31,13 +31,13 @@ function listOccurrences(haystack, needle) {
 
 let executables = [
 	{
-		description: "v1.21",
+		description: "V1_21",
 		source: "./private/v121/WAR121.EXE",
 		target: "./private/v121/WAR.EXE",
 		address_index: 0
 	},
 	{
-		description: "v1.22h",
+		description: "V1_22H",
 		source: "./private/v122h/WAR122H.EXE",
 		target: "./private/v122h/WAR.EXE",
 		address_index: 1
@@ -227,13 +227,15 @@ for (let executable of executables) {
 			bytes_restore.set(bytes_patched);
 		}
 	}
+	console.log(`const slice_t ${executable.description}[] = {`);
 	console.log(slices.map((slice) => [
-		`{`,
-		`\t${slice.offset}`,
-		`\t${slice.length}`,
-		`\t"${slice.restore_data}"`,
-		`\t"${slice.patched_data}"`,
-		`}`
+		`\t{`,
+		`\t\t${slice.offset},`,
+		`\t\t${slice.length},`,
+		`\t\t"${slice.restore_data}",`,
+		`\t\t"${slice.patched_data}"`,
+		`\t}`
 	].join("\n")).join(",\n"));
+	console.log(`};`);
 	fs.writeFileSync(executable.target, buffer);
 }
