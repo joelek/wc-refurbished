@@ -25,6 +25,9 @@ int copy_file(FILE* source_handle, FILE* target_handle) {
 	#define APP_VERSION "?.?.?"
 #endif
 
+const int V121_EXPECTED_SIZE = 320639;
+const int V122H_EXPECTED_SIZE = 319291;
+
 int apply_slice(FILE* handle, const slice_t* slice) {
 	fseek(handle, slice->offset, SEEK_SET);
 	if (fwrite(slice->patched_data, slice->length, 1, handle) != 1) {
@@ -132,12 +135,12 @@ int run(int argc, char** argv) {
 	fseek(handle, 0, SEEK_SET);
 	if (file_size == V121_EXPECTED_SIZE) {
 		printf("Detected WarCraft: Orcs & Humans v1.21\n");
-		int result = apply_patches(handle, &V1_21_PATCH, 1);
+		int result = apply_patches(handle, &V121_PATCH, 1);
 		fclose(handle);
 		return result;
 	} else if (file_size == V122H_EXPECTED_SIZE) {
-		printf("Detected WarCraft: Orcs & Humans v1.22H\n");
-		int result = apply_patches(handle, &V1_22H_PATCH, 1);
+		printf("Detected WarCraft: Orcs & Humans v1.22h\n");
+		int result = apply_patches(handle, &V122H_PATCH, 1);
 		fclose(handle);
 		return result;
 	} else {

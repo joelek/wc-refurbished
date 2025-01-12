@@ -31,13 +31,13 @@ function listOccurrences(haystack, needle) {
 
 let executables = [
 	{
-		description: "V1_21",
+		description: "V121",
 		source: "./private/v121/WAR121.EXE",
 		target: "./private/v121/WAR.EXE",
 		address_index: 0
 	},
 	{
-		description: "V1_22H",
+		description: "V122H",
 		source: "./private/v122h/WAR122H.EXE",
 		target: "./private/v122h/WAR.EXE",
 		address_index: 1

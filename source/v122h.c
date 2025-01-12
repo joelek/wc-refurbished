@@ -1,6 +1,6 @@
 #include "v122h.h"
 
-const slice_t V1_22H[] = {
+const slice_t V122H[] = {
 	{
 		175987,
 		5,
@@ -837,7 +837,7 @@ const slice_t V1_22H[] = {
 	}
 };
 
-extern const patch_t V1_22H_PATCH = {
-	V1_22H,
-	sizeof(V1_22H) / sizeof(*V1_22H)
+extern const patch_t V122H_PATCH = {
+	V122H,
+	sizeof(V122H) / sizeof(*V122H)
 };

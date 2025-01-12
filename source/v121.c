@@ -1,6 +1,6 @@
 #include "v121.h"
 
-const slice_t V1_21[] = {
+const slice_t V121[] = {
 	{
 		177315,
 		5,
@@ -837,7 +837,7 @@ const slice_t V1_21[] = {
 	}
 };
 
-extern const patch_t V1_21_PATCH = {
-	V1_21,
-	sizeof(V1_21) / sizeof(*V1_21)
+extern const patch_t V121_PATCH = {
+	V121,
+	sizeof(V121) / sizeof(*V121)
 };

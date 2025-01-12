@@ -3,8 +3,6 @@
 
 #include "patch.h"
 
-extern const int V121_EXPECTED_SIZE = 320639;
-
-extern const patch_t V1_21_PATCH;
+extern const patch_t V121_PATCH;
 
 #endif
