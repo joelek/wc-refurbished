@@ -1,6 +1,6 @@
 # WarCraft: Refurbished
 
-Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Humans by Blizzard Entertainment.
+Unofficial patch for the MS-DOS version of the game WarCraft: Orcs & Humans by Blizzard Entertainment.
 
 ![](./public/images/main_menu.png)
 
@@ -15,6 +15,8 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 ## Features
 
 ### Next version
+
+### v0.8.0
 
 * Add support for game version 1.22h.
 
@@ -88,7 +90,7 @@ Unofficial patch for the v1.21 MS-DOS version of the game WarCraft: Orcs & Human
 ## Installation
 
 * Download the latest release package from https://github.com/joelek/wc-refurbished/tags and unpack it.
-* Copy the executable `wcrpatch.exe` from the `dist` folder to the installation folder for WarCraft: Orcs & Humans version 1.21.
+* Copy the executable `wcrpatch.exe` from the `dist` folder to the installation folder for WarCraft: Orcs & Humans version 1.21 or version 1.22h.
 * Run the executable `wcrpatch.exe` in MS-DOS or DOSBox.
 * Launch the game as normal through `WAR.EXE`.
 
