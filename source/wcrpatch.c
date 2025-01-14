@@ -144,7 +144,7 @@ int run(int argc, char** argv) {
 		fclose(handle);
 		return result;
 	} else {
-		printf("Expected to find a supported version of WarCraft: Orcs & Humans!");
+		printf("Expected to find a supported version of WarCraft: Orcs & Humans!\n");
 		fclose(handle);
 		return 0;
 	}
