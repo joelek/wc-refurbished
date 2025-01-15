@@ -87,10 +87,15 @@ Unofficial patch for the MS-DOS version of the game WarCraft: Orcs & Humans by B
 * Change default left mouse button behaviour to drag select.
 * Remove need of clicking to trigger map scrolling at the screen border.
 
+## Supported versions
+
+* Retail MS-DOS version 1.21
+* Retail MS-DOS version 1.22h
+
 ## Installation
 
 * Download the latest release package from https://github.com/joelek/wc-refurbished/tags and unpack it.
-* Copy the executable `wcrpatch.exe` from the `dist` folder to the installation folder for WarCraft: Orcs & Humans version 1.21 or version 1.22h.
+* Copy the executable `wcrpatch.exe` from the `dist` folder to the installation folder for WarCraft: Orcs & Humans.
 * Run the executable `wcrpatch.exe` in MS-DOS or DOSBox.
 * Launch the game as normal through `WAR.EXE`.
 
