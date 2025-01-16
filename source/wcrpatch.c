@@ -139,6 +139,38 @@ int restore_backup(FILE* handle, FILE* backup_handle) {
 	return 1;
 }
 
+int apply_all_patches(FILE* handle, const group_t* group) {
+	int result = 1;
+	for (int patch_index = 0; patch_index < group->patch_count; patch_index += 1) {
+		const patch_t* patch = group->patches[patch_index];
+		result &= apply_patch(handle, patch);
+	}
+	return result;
+}
+
+int apply_patches_selectively(FILE* handle, const group_t* group) {
+	int result = 1;
+	for (int patch_index = 0; patch_index < group->patch_count; patch_index += 1) {
+		const patch_t* patch = group->patches[patch_index];
+		printf("Apply \"%s\"? (Y/N)\n", patch->name);
+		while (1) {
+			int option = getch();
+			if (option == ASCII_ESCAPE) {
+				return result;
+			}
+			if (option == 'y') {
+				result &= apply_patch(handle, patch);
+				break;
+			}
+			if (option == 'n') {
+				result &= restore_patch(handle, patch);
+				break;
+			}
+		}
+	}
+	return result;
+}
+
 int run_with_group(FILE* handle, const group_t* group) {
 	int result = 1;
 	printf("Apply all patches? (Y/N)\n");
@@ -148,34 +180,11 @@ int run_with_group(FILE* handle, const group_t* group) {
 			break;
 		}
 		if (option == 'y') {
-			for (int patch_index = 0; patch_index < group->patch_count; patch_index += 1) {
-				const patch_t* patch = group->patches[patch_index];
-				result &= apply_patch(handle, patch);
-			}
+			result &= apply_all_patches(handle, group);
 			break;
 		}
 		if (option == 'n') {
-			for (int patch_index = 0; patch_index < group->patch_count; patch_index += 1) {
-				const patch_t* patch = group->patches[patch_index];
-				printf("Apply \"%s\"? (Y/N)\n", patch->name);
-				while (1) {
-					int option = getch();
-					if (option == ASCII_ESCAPE) {
-						break;
-					}
-					if (option == 'y') {
-						result &= apply_patch(handle, patch);
-						break;
-					}
-					if (option == 'n') {
-						result &= restore_patch(handle, patch);
-						break;
-					}
-				}
-				if (option == ASCII_ESCAPE) {
-					break;
-				}
-			}
+			result &= apply_patches_selectively(handle, group);
 			break;
 		}
 	}
