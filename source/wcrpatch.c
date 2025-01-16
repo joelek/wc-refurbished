@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "group.h"
 #include "patch.h"
 #include "slice.h"
@@ -28,6 +29,34 @@ int copy_file(FILE* source_handle, FILE* target_handle) {
 
 const int V121_EXPECTED_SIZE = 320639;
 const int V122H_EXPECTED_SIZE = 319291;
+
+int is_slice_applied(FILE* handle, const slice_t* slice, int* is_applied) {
+	unsigned char buffer[512];
+	fseek(handle, slice->offset, SEEK_SET);
+	int offset = 0;
+	while (offset < slice->length) {
+		int bytes_left = slice->length - offset;
+		int bytes_expected = bytes_left < sizeof(buffer) ? bytes_left : sizeof(buffer);
+		int bytes_read = fread(buffer, 1, bytes_expected, handle);
+		if (bytes_read != bytes_expected) {
+			return 0;
+		}
+		if (memcmp(buffer, slice->patched_data + offset, bytes_read) != 0) {
+			*is_applied = 0;
+			return 1;
+		}
+		offset += bytes_read;
+	}
+	return 1;
+}
+
+int is_patch_applied(FILE* handle, const patch_t* patch, int* is_applied) {
+	int result = 1;
+	for (int slice_index = 0; slice_index < patch->slice_count; slice_index += 1) {
+		result &= is_slice_applied(handle, &patch->slices[slice_index], is_applied);
+	}
+	return result;
+}
 
 int apply_slice(FILE* handle, const slice_t* slice) {
 	fseek(handle, slice->offset, SEEK_SET);
