@@ -108,14 +108,12 @@ int restore_slices(FILE* handle, const slice_t* slices, int slice_count) {
 }
 
 int apply_patch(FILE* handle, const patch_t* patch) {
-	printf("Applying \"%s\"...\n", patch->name);
 	int result = 1;
 	result &= apply_slices(handle, patch->slices, patch->slice_count);
 	return result;
 }
 
 int restore_patch(FILE* handle, const patch_t* patch) {
-	printf("Restoring \"%s\"...\n", patch->name);
 	int result = 1;
 	result &= restore_slices(handle, patch->slices, patch->slice_count);
 	return result;
