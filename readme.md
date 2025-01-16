@@ -16,6 +16,8 @@ Unofficial patch for the MS-DOS version of the game WarCraft: Orcs & Humans by B
 
 ### Next version
 
+* Add patch customization options.
+
 ### v0.8.0
 
 * Add support for game version 1.22h.
