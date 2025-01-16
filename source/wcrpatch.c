@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "group.h"
 #include "patch.h"
 #include "slice.h"
 #include "v121.h"
@@ -62,22 +63,34 @@ int restore_slices(FILE* handle, const slice_t* slices, int slice_count) {
 	return result;
 }
 
-int apply_patches(FILE* handle, const patch_t* patches, int patch_count) {
-	printf("Applying patches...\n");
+int apply_patch(FILE* handle, const patch_t* patch) {
+	printf("Applying \"%s\"...\n", patch->name);
 	int result = 1;
-	for (int patch_index = 0; patch_index < patch_count; patch_index += 1) {
-		const patch_t* patch = &patches[patch_index];
-		result &= apply_slices(handle, patch->slices, patch->slice_count);
+	result &= apply_slices(handle, patch->slices, patch->slice_count);
+	return result;
+}
+
+int restore_patch(FILE* handle, const patch_t* patch) {
+	printf("Restoring \"%s\"...\n", patch->name);
+	int result = 1;
+	result &= restore_slices(handle, patch->slices, patch->slice_count);
+	return result;
+}
+
+int apply_group(FILE* handle, const group_t* group) {
+	int result = 1;
+	for (int patch_index = 0; patch_index < group->patch_count; patch_index += 1) {
+		const patch_t* patch = group->patches[patch_index];
+		result &= apply_patch(handle, patch);
 	}
 	return result;
 }
 
-int restore_patches(FILE* handle, const patch_t* patches, int patch_count) {
-	printf("Restoring patches...\n");
+int restore_group(FILE* handle, const group_t* group) {
 	int result = 1;
-	for (int patch_index = 0; patch_index < patch_count; patch_index += 1) {
-		const patch_t* patch = &patches[patch_index];
-		result &= restore_slices(handle, patch->slices, patch->slice_count);
+	for (int patch_index = 0; patch_index < group->patch_count; patch_index += 1) {
+		const patch_t* patch = group->patches[patch_index];
+		result &= restore_patch(handle, patch);
 	}
 	return result;
 }
@@ -135,12 +148,12 @@ int run(int argc, char** argv) {
 	fseek(handle, 0, SEEK_SET);
 	if (file_size == V121_EXPECTED_SIZE) {
 		printf("Detected WarCraft: Orcs & Humans v1.21\n");
-		int result = apply_patches(handle, &V121_PATCH, 1);
+		int result = apply_group(handle, &V121_GROUP);
 		fclose(handle);
 		return result;
 	} else if (file_size == V122H_EXPECTED_SIZE) {
 		printf("Detected WarCraft: Orcs & Humans v1.22h\n");
-		int result = apply_patches(handle, &V122H_PATCH, 1);
+		int result = apply_group(handle, &V122H_GROUP);
 		fclose(handle);
 		return result;
 	} else {

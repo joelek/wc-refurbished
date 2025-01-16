@@ -1,8 +1,8 @@
 #ifndef WCRPATCH_V122H_H
 #define WCRPATCH_V122H_H
 
-#include "patch.h"
+#include "group.h"
 
-extern const patch_t V122H_PATCH;
+extern const group_t V122H_GROUP;
 
 #endif

@@ -1,4 +1,5 @@
 module.exports = {
+	name: "ENTITY_GROUP_RENDERING_PATCH",
 	slices: [
 		{
 			description: "Caller.",

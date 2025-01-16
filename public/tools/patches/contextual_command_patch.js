@@ -1,4 +1,5 @@
 module.exports = {
+	name: "CONTEXTUAL_COMMAND_PATCH",
 	slices: [
 		{
 			description: "Caller.",

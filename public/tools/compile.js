@@ -31,15 +31,19 @@ function listOccurrences(haystack, needle) {
 
 let executables = [
 	{
-		description: "V121",
+		name: "V121",
 		source: "./private/v121/WAR121.EXE",
 		target: "./private/v121/WAR.EXE",
+		c: "v121.c",
+		h: "v121.h",
 		address_index: 0
 	},
 	{
-		description: "V122H",
+		name: "V122H",
 		source: "./private/v122h/WAR122H.EXE",
 		target: "./private/v122h/WAR.EXE",
+		c: "v122h.c",
+		h: "v122h.h",
 		address_index: 1
 	}
 ];
@@ -138,8 +142,9 @@ for (let executable of executables) {
 	for (let entry of extra_references) {
 		references[entry.addresses[0]] = entry.addresses[executable.address_index];
 	}
-	let slices = [];
+	let wcr_patches = [];
 	for (let patch of patches) {
+		let slices = [];
 		for (let slice of patch.slices) {
 			let address = slice.addresses[executable.address_index];
 			let assembly = slice.assembly.replaceAll(/(0x[0-9A-F]{8})/gi, (match) => {
@@ -226,16 +231,44 @@ for (let executable of executables) {
 			});
 			bytes_restore.set(bytes_patched);
 		}
+		wcr_patches.push({
+			name: patch.name,
+			slices: slices,
+		});
 	}
-	console.log(`const slice_t ${executable.description}[] = {`);
-	console.log(slices.map((slice) => [
-		`\t{`,
-		`\t\t${slice.offset},`,
-		`\t\t${slice.length},`,
-		`\t\t"${slice.restore_data}",`,
-		`\t\t"${slice.patched_data}"`,
-		`\t}`
-	].join("\n")).join(",\n"));
-	console.log(`};`);
+	let lines = [];
+	lines.push(`#include "${executable.h}"`);
+	lines.push(``);
+	for (let wcr_patch of wcr_patches) {
+		lines.push(`const slice_t ${executable.name}_${wcr_patch.name}_SLICES[] = {`);
+		lines.push(wcr_patch.slices.map((slice) => [
+			`\t{`,
+			`\t\t${slice.offset},`,
+			`\t\t${slice.length},`,
+			`\t\t"${slice.restore_data}",`,
+			`\t\t"${slice.patched_data}"`,
+			`\t}`
+		].join("\r\n")).join(",\r\n"));
+		lines.push(`};`);
+		lines.push(``);
+		lines.push(`const patch_t ${executable.name}_${wcr_patch.name}_PATCH = {`);
+		lines.push(`\t"${executable.name}_${wcr_patch.name}",`);
+		lines.push(`\t${executable.name}_${wcr_patch.name}_SLICES,`);
+		lines.push(`\tsizeof(${executable.name}_${wcr_patch.name}_SLICES) / sizeof(*${executable.name}_${wcr_patch.name}_SLICES)`);
+		lines.push(`};`);
+		lines.push(``);
+	}
+	lines.push(`const patch_t* ${executable.name}_PATCHES[] = {`);
+	lines.push(wcr_patches.map((wcr_patch) => [
+		`\t&${executable.name}_${wcr_patch.name}_PATCH`
+	].join("\r\n")).join(",\r\n"));
+	lines.push(`};`);
+	lines.push(``);
+	lines.push(`const group_t ${executable.name}_GROUP = {`);
+	lines.push(`\t${executable.name}_PATCHES,`);
+	lines.push(`\tsizeof(${executable.name}_PATCHES) / sizeof(*${executable.name}_PATCHES)`);
+	lines.push(`};`);
+	lines.push(``);
+	fs.writeFileSync(`./source/${executable.c}`, lines.join("\r\n"));
 	fs.writeFileSync(executable.target, buffer);
 }

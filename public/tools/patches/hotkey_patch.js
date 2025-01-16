@@ -1,4 +1,5 @@
 module.exports = {
+	name: "HOTKEY_PATCH",
 	slices: [
 		{
 			description: "Move C hotkey behaviour to SPACE.",

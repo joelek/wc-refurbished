@@ -1,4 +1,5 @@
 module.exports = {
+	name: "HEALTH_BAR_PATCH",
 	slices: [
 		{
 			description: "Caller.",

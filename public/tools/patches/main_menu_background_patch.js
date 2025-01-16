@@ -1,4 +1,5 @@
 module.exports = {
+	name: "MAIN_MENU_BACKGROUND_PATCH",
 	slices: [
 		{
 			description: "Caller.",

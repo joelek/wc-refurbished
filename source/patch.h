@@ -4,6 +4,7 @@
 #include "slice.h"
 
 struct patch_t {
+	const char* name;
 	const slice_t* slices;
 	int slice_count;
 };

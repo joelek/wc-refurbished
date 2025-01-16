@@ -1,4 +1,5 @@
 module.exports = {
+	name: "ACTION_BUTTON_HOTKEY_PATCH",
 	slices: [
 		{
 			description: "Caller.",

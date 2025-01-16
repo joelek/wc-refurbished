@@ -1,4 +1,5 @@
 module.exports = {
+	name: "FOG_OF_WAR_PATCH",
 	slices: [
 		{
 			description: "Increase far sigh/dark vision reveal diameter to 7x7.",

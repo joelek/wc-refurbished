@@ -1,4 +1,5 @@
 module.exports = {
+	name: "BUILDING_PLACEMENT_PATCH",
 	slices: [
 		{
 			description: "Remove requirement of building near other buildings.",

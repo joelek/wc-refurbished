@@ -1,4 +1,5 @@
 module.exports = {
+	name: "RESOURCE_BAR_PATCH",
 	slices: [
 		{
 			description: "Caller.",

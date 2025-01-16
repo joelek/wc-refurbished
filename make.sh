@@ -41,6 +41,7 @@ if [ $1 = "release" ]; then
 fi
 
 SOURCES=(
+	"group.c"
 	"patch.c"
 	"slice.c"
 	"v121.c"

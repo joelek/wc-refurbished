@@ -1,4 +1,5 @@
 module.exports = {
+	name: "HOVER_SCROLL_PATCH",
 	slices: [
 		{
 			description: "Remove requirement of clicking to trigger border scroller.",

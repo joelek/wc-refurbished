@@ -1,4 +1,5 @@
 module.exports = {
+	name: "DRAG_SELECT_PATCH",
 	slices: [
 		{
 			description: "Remove requirement of holding left or right control.",

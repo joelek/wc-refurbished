@@ -1,4 +1,5 @@
 module.exports = {
+	name: "HOVER_STATUS_PATCH",
 	slices: [
 		{
 			description: "Caller.",

@@ -1,4 +1,5 @@
 module.exports = {
+	name: "ENTITY_BALANCE_PATCH",
 	slices: [
 		{
 			description: "Set range for spearman.",
