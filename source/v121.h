@@ -3,6 +3,8 @@
 
 #include "group.h"
 
+extern const int V121_EXPECTED_SIZE;
+
 extern const group_t V121_GROUP;
 
 #endif

@@ -1,5 +1,7 @@
 #include "v121.h"
 
+const int V121_EXPECTED_SIZE = 320639;
+
 const slice_t V121_ACTION_BUTTON_HOTKEY_PATCH_SLICES[] = {
 	{
 		177315,

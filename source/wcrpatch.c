@@ -30,9 +30,6 @@ int copy_file(FILE* source_handle, FILE* target_handle) {
 
 const ASCII_ESCAPE = 0x1B;
 
-const int V121_EXPECTED_SIZE = 320639;
-const int V122H_EXPECTED_SIZE = 319291;
-
 int is_slice_applied(FILE* handle, const slice_t* slice, int* is_active) {
 	unsigned char buffer[512];
 	fseek(handle, slice->offset, SEEK_SET);

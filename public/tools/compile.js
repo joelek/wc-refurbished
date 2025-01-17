@@ -239,6 +239,8 @@ for (let executable of executables) {
 	let lines = [];
 	lines.push(`#include "${executable.h}"`);
 	lines.push(``);
+	lines.push(`const int ${executable.name}_EXPECTED_SIZE = ${buffer.length};`);
+	lines.push(``);
 	for (let wcr_patch of wcr_patches) {
 		lines.push(`const slice_t ${executable.name}_${wcr_patch.name}_SLICES[] = {`);
 		lines.push(wcr_patch.slices.map((slice) => [
