@@ -105,42 +105,32 @@ module.exports = {
 							inc ebx							# increase y counter
 							cmp ebx, 5						# compare to height of image
 							jl .label_copy_data_y_0			# jump if less
-							jmp .label_end
 
-					.get_data_pointer:
-
-							jmp .get_data_pointer_1
-
-						.get_data_pointer_0:
-
-							jmp .get_data_pointer_2
-
-						.get_data_pointer_1:
-
-							call .get_data_pointer_0
-
-						.get_data_pointer_2:
-
-							pop eax
-							sub eax, dword ptr .get_data_pointer_2
-							add eax, dword ptr .get_data_pointer_3
-							ret
-
-						.get_data_pointer_3:
-
-						.byte 0xCD, 0xAB, 0x32, 0x6A, 0xD8, 0x6C, 0xBA, 0x49
-						.byte 0xA9, 0x2A, 0xAA, 0x8A, 0x94, 0x4A, 0x92, 0xAD
-						.byte 0xCD, 0xAB, 0x32, 0x4E, 0xD4, 0x6A, 0x92, 0xAB
-						.byte 0xA9, 0x2A, 0xAA, 0x2A, 0x94, 0x4A, 0x92, 0xAB
-						.byte 0xAD, 0x3A, 0xB2, 0xCA, 0xD8, 0x6C, 0x92, 0x49
-
-				.label_copy_data_end:
+					.label_copy_data_end:
 
 				.label_end:
 
 					add esp, 64							# return stack space
 					popad								# restore registers
 					ret									# return
+
+				.get_data_pointer:
+
+						call .get_data_pointer_0
+
+					.get_data_pointer_0:
+
+						pop eax
+						add eax, .get_data_pointer_1 - .get_data_pointer_0
+						ret
+
+					.get_data_pointer_1:
+
+					.byte 0xCD, 0xAB, 0x32, 0x6A, 0xD8, 0x6C, 0xBA, 0x49
+					.byte 0xA9, 0x2A, 0xAA, 0x8A, 0x94, 0x4A, 0x92, 0xAD
+					.byte 0xCD, 0xAB, 0x32, 0x4E, 0xD4, 0x6A, 0x92, 0xAB
+					.byte 0xA9, 0x2A, 0xAA, 0x2A, 0x94, 0x4A, 0x92, 0xAB
+					.byte 0xAD, 0x3A, 0xB2, 0xCA, 0xD8, 0x6C, 0x92, 0x49
 			`,
 			relocations: []
 		}
