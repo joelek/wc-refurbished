@@ -64,9 +64,9 @@ SEP=\\
 EXT=.exe
 
 for i in ${SOURCES[@]} ${TARGETS[@]}; do
-	echo "[compiling: source/$i]"
+	echo "[compiling: source/wcrpatch/$i]"
 	mkdir -p $(dirname "build/objects/$i.o")
-	$COMPILER ${COMPILER_OPTIONS[@]} -c source${SEP}$i -o build/objects/$i.o
+	$COMPILER ${COMPILER_OPTIONS[@]} -c source${SEP}wcrpatch${SEP}$i -o build/objects/$i.o
 	RETURN_CODE=$?
 	if [ $RETURN_CODE -gt 0 ]; then
 		echo "[failure]"
@@ -86,7 +86,7 @@ echo "[linking]"
 echo "[linker: $LINKER ${LINKER_OPTIONS[@]}]"
 
 for i in ${TARGETS[@]}; do
-	echo "[linking: source/$i]"
+	echo "[linking: source/wcrpatch/$i]"
 	mkdir -p $(dirname "build/targets/$i")
 	$LINKER ${LINKER_OPTIONS[@]} ${OBJECTS[@]} build${SEP}objects${SEP}$i.o -o build/targets/${i%.*}$EXT
 	RETURN_CODE=$?

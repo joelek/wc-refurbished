@@ -271,6 +271,6 @@ for (let executable of executables) {
 	lines.push(`\tsizeof(${executable.name}_PATCHES) / sizeof(*${executable.name}_PATCHES)`);
 	lines.push(`};`);
 	lines.push(``);
-	fs.writeFileSync(`./source/${executable.c}`, lines.join("\r\n"));
+	fs.writeFileSync(`./source/wcrpatch/${executable.c}`, lines.join("\r\n"));
 	fs.writeFileSync(executable.target, buffer);
 }
