@@ -94,7 +94,7 @@ Unofficial patch for the MS-DOS version of the game WarCraft: Orcs & Humans by B
 ## Supported versions
 
 * Retail MS-DOS version 1.21
-* Retail MS-DOS version 1.22h
+* Retail MS-DOS version 1.22h (GOG)
 
 ## Installation
 
