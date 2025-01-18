@@ -156,13 +156,13 @@ module.exports = {
 					push edx							# save register
 					push ebx							# save register
 					add eax, 1							# add text x offset
-					add eax, 72							# adjust to game window x
 					cmp eax, 0							# compare x to 0
 					jl .label_loop_10					# jump if lower
 					add ecx, 1							# add text y offset
-					add ecx, 12							# adjust to game window y
 					cmp ecx, 0							# compare y to 0
 					jl .label_loop_10					# jump if lower
+					add eax, 72							# adjust to game window x
+					add ecx, 12							# adjust to game window y
 					mov edx, ecx						# set y argument
 					lea ebx, dword ptr [esp+12+12]		# set string argument
 					call 0x00031EDC						# call wc_ui_draw_text
