@@ -38,7 +38,7 @@ module.exports = {
 			relocations: []
 		},
 		{
-			description: "Ses damage for spearman.",
+			description: "Set damage for spearman.",
 			addresses: [
 				0x00051D85,
 				0x00051D85

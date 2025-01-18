@@ -2,7 +2,7 @@ module.exports = {
 	name: "FOG_OF_WAR_PATCH",
 	slices: [
 		{
-			description: "Increase far sigh/dark vision reveal diameter to 7x7.",
+			description: "Increase far sight/dark vision reveal diameter to 7x7.",
 			addresses: [
 				0x0002EAFE,
 				0x0002E9CE
@@ -14,7 +14,7 @@ module.exports = {
 			relocations: []
 		},
 		{
-			description: "Increase far sigh/dark vision reveal diameter to 7x7.",
+			description: "Increase far sight/dark vision reveal diameter to 7x7.",
 			addresses: [
 				0x0002EB1C,
 				0x0002E9EC
