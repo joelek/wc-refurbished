@@ -16,6 +16,9 @@ Unofficial patch for the MS-DOS version of the game WarCraft: Orcs & Humans by B
 
 ### Next version
 
+* Change the portrait of "Wounded" units.
+* Improve entity group rendering logic.
+
 ### v0.9.0
 
 * Add patch customization options.
