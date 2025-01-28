@@ -1,4 +1,5 @@
 const action_button_hotkey_patch = require("./patches/action_button_hotkey_patch.js");
+const bugfix_patch = require("./patches/bugfix_patch.js");
 const building_placement_patch = require("./patches/building_placement_patch.js");
 const contextual_command_patch = require("./patches/contextual_command_patch.js");
 const drag_select_patch = require("./patches/drag_select_patch.js");
@@ -15,6 +16,7 @@ const resource_bar_patch = require("./patches/resource_bar_patch.js");
 
 module.exports =  [
 	action_button_hotkey_patch,
+	bugfix_patch,
 	building_placement_patch,
 	contextual_command_patch,
 	drag_select_patch,
