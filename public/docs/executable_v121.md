@@ -24,7 +24,7 @@ virtual offset start: 0x00010000
 virtual offset end: 0x00042197
 length: 0x32197 (205207)
 paged length: 0x33000 (51*4096=208896)
-extra bytes in last segment: 3689
+extra bytes in last page: 3689
 ```
 
 ### Data Segment
@@ -36,7 +36,7 @@ virtual offset start: 0x00050000
 virtual offset end: 0x00065730
 length: 0x15730 (87856)
 paged length: 0x16000 (22*4096=90112)
-extra bytes in last segment: 2256 (uninitialized!)
+extra bytes in last page: 2256 (uninitialized!)
 ```
 
 ## MZ Header
